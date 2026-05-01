@@ -86,43 +86,14 @@
     color: var(--muted);
     font: 12px/1.45 var(--mono);
   }
-  .version-switcher {
-    position: fixed;
-    right: 18px;
-    bottom: 18px;
-    z-index: 9999;
-    display: inline-flex;
-    align-items: center;
-    min-height: 42px;
-    padding: 0 14px;
-    border: 1px solid rgba(17,17,17,.18);
-    border-radius: 999px;
-    background: rgba(255,255,255,.92);
-    color: #111;
-    box-shadow: 0 12px 36px rgba(0,0,0,.16);
-    font: 700 13px var(--sans);
-    text-decoration: none;
-    backdrop-filter: blur(12px);
-  }
-  .version-switcher span {
-    color: #777;
-    font-weight: 600;
-    margin-right: 8px;
-  }
   @media (max-width: 560px) {
     .panel { padding: 24px; }
     .row { flex-direction: column; }
     h1 { font-size: 30px; }
-    .version-switcher {
-      right: 12px;
-      bottom: 12px;
-      max-width: calc(100vw - 24px);
-    }
   }
 </style>
 </head>
 <body>
-<a class="version-switcher" href="../v1.1/" aria-label="Open version v1.1"><span>Current</span>v1.1</a>
 <main class="lock">
   <section class="panel">
     <div class="eyebrow">Protected build</div>
@@ -151,33 +122,69 @@
   var input = document.getElementById('password');
   var button = document.getElementById('unlockBtn');
   var error = document.getElementById('error');
+  var passwordStorageKey = 'wallchain-home-structure-password';
 
-  function addVersionSwitcher(targetDocument) {
-    if (!targetDocument.body || targetDocument.getElementById('versionSwitcherV11')) return;
-    var link = targetDocument.createElement('a');
-    link.id = 'versionSwitcherV11';
-    link.href = '../v1.1/';
-    link.setAttribute('aria-label', 'Open version v1.1');
-    link.innerHTML = '<span style="color:#777;font-weight:600;margin-right:8px;">Current</span>v1.1';
-    link.style.cssText = [
-      'position:fixed',
-      'right:18px',
-      'bottom:18px',
-      'z-index:9999',
-      'display:inline-flex',
-      'align-items:center',
-      'min-height:42px',
-      'padding:0 14px',
-      'border:1px solid rgba(17,17,17,.18)',
-      'border-radius:999px',
-      'background:rgba(255,255,255,.92)',
-      'color:#111',
-      'box-shadow:0 12px 36px rgba(0,0,0,.16)',
-      'font:700 13px -apple-system,BlinkMacSystemFont,\"Inter\",\"Helvetica Neue\",Helvetica,Arial,sans-serif',
-      'text-decoration:none',
-      'backdrop-filter:blur(12px)'
-    ].join(';');
-    targetDocument.body.appendChild(link);
+  function installVersionControls(targetDocument) {
+    if (!targetDocument.body) return;
+    targetDocument.title = 'Web-site home structure v1';
+
+    if (!targetDocument.getElementById('versionControlStyles')) {
+      var style = targetDocument.createElement('style');
+      style.id = 'versionControlStyles';
+      style.textContent = [
+        '.version-control{display:inline-flex;align-items:center;gap:4px;margin-left:8px;padding:4px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(17,17,17,.42);backdrop-filter:blur(12px)}',
+        '.version-control a{display:inline-flex;align-items:center;justify-content:center;min-height:30px;padding:0 11px;border-radius:999px;color:rgba(255,255,255,.72);font:700 12px -apple-system,BlinkMacSystemFont,"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;text-decoration:none;white-space:nowrap}',
+        '.version-control a[aria-current="page"]{background:#f7d133;color:#111}',
+        '.version-control--light{margin-left:10px;border-color:rgba(17,17,17,.12);background:rgba(255,255,255,.86);box-shadow:0 8px 24px rgba(0,0,0,.10)}',
+        '.version-control--light a{color:rgba(17,17,17,.58)}',
+        '.version-control--light a[aria-current="page"]{background:#111;color:#f7d133}'
+      ].join('');
+      targetDocument.head.appendChild(style);
+    }
+
+    function pathFor(version) {
+      var hash = targetDocument.location.hash || '';
+      if (hash === '#wireframe') return '../' + version + '/index.html#wireframe';
+      return '../' + version + '/index.html' + hash;
+    }
+
+    function makeControl(variant) {
+      var control = targetDocument.createElement('nav');
+      control.className = 'version-control' + (variant === 'light' ? ' version-control--light' : '');
+      control.setAttribute('aria-label', 'Version switcher');
+      [
+        ['v1', pathFor('v1')],
+        ['v1.1', pathFor('v1.1')]
+      ].forEach(function (item) {
+        var link = targetDocument.createElement('a');
+        link.href = item[1];
+        link.textContent = item[0];
+        if (item[0] === 'v1') link.setAttribute('aria-current', 'page');
+        control.appendChild(link);
+      });
+      return control;
+    }
+
+    var toolbar = targetDocument.querySelector('[aria-label="Slide controls"]');
+    if (toolbar && !toolbar.querySelector('.version-control')) {
+      toolbar.appendChild(makeControl('dark'));
+    }
+
+    var previewSize = targetDocument.querySelector('[aria-label="Preview size"]');
+    if (previewSize && !previewSize.parentElement.querySelector('.version-control')) {
+      previewSize.insertAdjacentElement('afterend', makeControl('light'));
+    }
+  }
+
+  function openWireframeIfRequested(targetDocument) {
+    if (targetDocument.location.hash !== '#wireframe') return;
+    var buttons = targetDocument.querySelectorAll('button');
+    for (var i = 0; i < buttons.length; i++) {
+      if (buttons[i].textContent.trim() === 'Wireframe') {
+        buttons[i].click();
+        break;
+      }
+    }
   }
 
   function bytesFromBase64(value) {
@@ -212,10 +219,14 @@
     button.textContent = 'Unlocking...';
     try {
       var html = await unlock(input.value);
+      sessionStorage.setItem(passwordStorageKey, input.value);
       document.open();
       document.write(html);
       document.close();
-      addVersionSwitcher(document);
+      installVersionControls(document);
+      openWireframeIfRequested(document);
+      new MutationObserver(function () { installVersionControls(document); })
+        .observe(document.body, { childList: true, subtree: true });
     } catch (err) {
       error.textContent = 'Wrong password. Please try again.';
       button.disabled = false;
@@ -223,6 +234,12 @@
       input.select();
     }
   });
+
+  var savedPassword = sessionStorage.getItem(passwordStorageKey);
+  if (savedPassword) {
+    input.value = savedPassword;
+    form.requestSubmit();
+  }
 })();
 </script>
 </body>
