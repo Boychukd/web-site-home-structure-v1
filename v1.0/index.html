@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Web-site home structure v1</title>
+<title>Web-site home structure v1.0</title>
 <style>
   :root {
     --paper: #fff;
@@ -97,7 +97,7 @@
 <main class="lock">
   <section class="panel">
     <div class="eyebrow">Protected build</div>
-    <h1>Web-site home <span class="accent">structure v1</span></h1>
+    <h1>Web-site home <span class="accent">structure v1.0</span></h1>
     <p>Enter the password to unlock the presentation and wireframe preview.</p>
     <form id="unlockForm">
       <label for="password">Password</label>
@@ -126,7 +126,7 @@
 
   function installVersionControls(targetDocument) {
     if (!targetDocument.body) return;
-    targetDocument.title = 'Web-site home structure v1';
+    targetDocument.title = 'Web-site home structure v1.0';
 
     if (!targetDocument.getElementById('versionControlStyles')) {
       var style = targetDocument.createElement('style');
@@ -153,13 +153,14 @@
       control.className = 'version-control' + (variant === 'light' ? ' version-control--light' : '');
       control.setAttribute('aria-label', 'Version switcher');
       [
-        ['v1', pathFor('v1')],
-        ['v1.1', pathFor('v1.1')]
+        ['v1.0', pathFor('v1.0')],
+        ['v1.1', pathFor('v1.1')],
+        ['v1.2', pathFor('v1.2')]
       ].forEach(function (item) {
         var link = targetDocument.createElement('a');
         link.href = item[1];
         link.textContent = item[0];
-        if (item[0] === 'v1') link.setAttribute('aria-current', 'page');
+        if (item[0] === 'v1.0') link.setAttribute('aria-current', 'page');
         control.appendChild(link);
       });
       return control;

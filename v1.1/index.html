@@ -153,8 +153,9 @@
       control.className = 'version-control' + (variant === 'light' ? ' version-control--light' : '');
       control.setAttribute('aria-label', 'Version switcher');
       [
-        ['v1', pathFor('v1')],
-        ['v1.1', pathFor('v1.1')]
+        ['v1.0', pathFor('v1.0')],
+        ['v1.1', pathFor('v1.1')],
+        ['v1.2', pathFor('v1.2')]
       ].forEach(function (item) {
         var link = targetDocument.createElement('a');
         link.href = item[1];
