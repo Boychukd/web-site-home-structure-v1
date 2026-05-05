@@ -98,7 +98,7 @@
   <section class="panel">
     <div class="eyebrow">Protected build</div>
     <h1>Web-site home <span class="accent">structure</span></h1>
-    <p>Enter the password once to unlock v1.0, v1.1 and v1.2 in this browser session.</p>
+    <p>Enter the password once to unlock v1.0, v1.1, v1.2 and v1.3 in this browser session.</p>
     <form id="unlockForm">
       <label for="password">Password</label>
       <div class="row">
@@ -157,7 +157,7 @@
     try {
       var html = await unlock(input.value);
       sessionStorage.setItem(passwordStorageKey, input.value);
-      window.location.replace('./v1.2/#wireframe');
+      window.location.replace('./v1.3/#wireframe');
     } catch (err) {
       error.textContent = 'Wrong password. Please try again.';
       button.disabled = false;
@@ -169,7 +169,7 @@
   var savedPassword = sessionStorage.getItem(passwordStorageKey);
   if (savedPassword) {
     input.value = savedPassword;
-    window.location.replace('./v1.2/#wireframe');
+    window.location.replace('./v1.3/#wireframe');
   }
 })();
 </script>
