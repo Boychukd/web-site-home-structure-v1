@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Web-site home structure access</title>
+  <title>Web-site home structure v1.4</title>
 <style>
   :root {
     --paper: #fff;
@@ -97,8 +97,8 @@
 <main class="lock">
   <section class="panel">
     <div class="eyebrow">Protected build</div>
-    <h1>Web-site home <span class="accent">structure</span></h1>
-    <p>Enter the password once to unlock v1.0, v1.1, v1.2, v1.3 and v1.4 in this browser session.</p>
+    <h1>Web-site home <span class="accent">structure v1.4</span></h1>
+    <p>Enter the password to unlock the presentation and wireframe preview.</p>
     <form id="unlockForm">
       <label for="password">Password</label>
       <div class="row">
@@ -123,6 +123,793 @@
   var button = document.getElementById('unlockBtn');
   var error = document.getElementById('error');
   var passwordStorageKey = 'wallchain-home-structure-password';
+
+  function installVersionControls(targetDocument) {
+    if (!targetDocument.body) return;
+    targetDocument.title = 'Web-site home structure v1.4';
+
+    if (!targetDocument.getElementById('versionControlStyles')) {
+      var style = targetDocument.createElement('style');
+      style.id = 'versionControlStyles';
+      style.textContent = [
+        '.version-control{display:inline-flex;align-items:center;gap:4px;margin-left:8px;padding:4px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(17,17,17,.42);backdrop-filter:blur(12px)}',
+        '.version-control a{display:inline-flex;align-items:center;justify-content:center;min-height:30px;padding:0 11px;border-radius:999px;color:rgba(255,255,255,.72);font:700 12px -apple-system,BlinkMacSystemFont,"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;text-decoration:none;white-space:nowrap}',
+        '.version-control a[aria-current="page"]{background:#f7d133;color:#111}',
+        '.version-control--light{margin-left:10px;border-color:rgba(17,17,17,.12);background:rgba(255,255,255,.86);box-shadow:0 8px 24px rgba(0,0,0,.10)}',
+        '.version-control--light a{color:rgba(17,17,17,.58)}',
+        '.version-control--light a[aria-current="page"]{background:#111;color:#f7d133}'
+      ].join('');
+      targetDocument.head.appendChild(style);
+    }
+
+    function pathFor(version) {
+      var hash = targetDocument.location.hash || '#wireframe';
+      if (hash === '#wireframe') return '../' + version + '/index.html#wireframe';
+      return '../' + version + '/index.html' + hash;
+    }
+
+    function makeControl(variant) {
+      var control = targetDocument.createElement('nav');
+      control.className = 'version-control' + (variant === 'light' ? ' version-control--light' : '');
+      control.setAttribute('aria-label', 'Version switcher');
+      [
+        ['v1.0', pathFor('v1.0')],
+        ['v1.1', pathFor('v1.1')],
+        ['v1.2', pathFor('v1.2')],
+        ['v1.3', pathFor('v1.3')],
+        ['v1.4', pathFor('v1.4')]
+      ].forEach(function (item) {
+        var link = targetDocument.createElement('a');
+        link.href = item[1];
+        link.textContent = item[0];
+        if (item[0] === 'v1.4') link.setAttribute('aria-current', 'page');
+        control.appendChild(link);
+      });
+      return control;
+    }
+
+    var toolbar = targetDocument.querySelector('[aria-label="Slide controls"]');
+    if (toolbar && !toolbar.querySelector('.version-control')) {
+      toolbar.appendChild(makeControl('dark'));
+    }
+
+    var previewSize = targetDocument.querySelector('[aria-label="Preview size"]');
+    if (previewSize && !previewSize.parentElement.querySelector('.version-control')) {
+      previewSize.insertAdjacentElement('afterend', makeControl('light'));
+    }
+  }
+
+  function openWireframeFirst(targetDocument) {
+    if (targetDocument.location.hash !== '#wireframe') {
+      targetDocument.location.hash = 'wireframe';
+    }
+    var buttons = targetDocument.querySelectorAll('button');
+    for (var i = 0; i < buttons.length; i++) {
+      if (buttons[i].textContent.trim() === 'Wireframe') {
+        buttons[i].click();
+        break;
+      }
+    }
+  }
+
+  function trimV11ToFirstScreen(targetDocument) {
+    if (!targetDocument.body || targetDocument.body.dataset.v11FirstScreenOnly === 'true') return;
+    if (targetDocument.location.hash !== '#wireframe') return;
+    targetDocument.body.dataset.v11FirstScreenOnly = 'true';
+    targetDocument.title = 'Web-site home structure v1.4';
+
+    if (!targetDocument.getElementById('v11FirstScreenStyles')) {
+      var style = targetDocument.createElement('style');
+      style.id = 'v11FirstScreenStyles';
+      style.textContent = [
+        ':root{color-scheme:light;background:#fff;color:#111}',
+        '*{box-sizing:border-box}',
+        'body{margin:0;min-height:100vh;background:#fff;color:#111;font-family:Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}',
+        '.v11-shell{min-height:100vh;padding-bottom:64px}',
+        '.v11-toolbar{height:54px;border-bottom:1px solid #ddd;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 32px;gap:20px}',
+        '.v11-back{justify-self:start;display:inline-flex;align-items:center;min-height:34px;padding:0 16px;border:1px solid #111;border-radius:4px;background:#fff;color:#111;font-size:14px;font-weight:700;text-decoration:none}',
+        '.v11-toolbar__label{justify-self:center;font:500 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.26em;text-transform:uppercase;color:#777}',
+        '.v11-toolbar__right{justify-self:end;display:flex;align-items:center;gap:14px}',
+        '.v11-size{display:inline-flex;align-items:center;border:1px solid #d8d8d8;border-radius:3px;overflow:hidden;background:#fff}',
+        '.v11-size button{min-height:27px;border:0;border-right:1px solid #d8d8d8;background:#fff;color:#777;font:800 11px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.08em;text-transform:uppercase;padding:0 12px;cursor:pointer}',
+        '.v11-size button:last-child{border-right:0}',
+        '.v11-size button[aria-pressed="true"]{background:#111;color:#f7d133}',
+        '.v11-frame{width:min(100%,1180px);margin:0 auto;transition:max-width .2s ease}',
+        '.v11-frame[data-size="mobile"]{max-width:390px}',
+        '.v11-frame[data-size="desktop"]{max-width:1180px}',
+        '.v11-nav{height:72px;border-bottom:1px solid #e4e4e4;display:flex;align-items:center;gap:32px}',
+        '.v11-logo{font-size:20px;font-weight:900;letter-spacing:0}',
+        '.v11-links{display:flex;gap:32px;flex-wrap:wrap;margin-left:auto;font-size:14px;font-weight:800;color:#444}',
+        '.v11-links a{color:inherit;text-decoration:none}',
+        '.v11-nav__cta{display:flex;align-items:center;gap:10px;margin-left:18px}',
+        '.v11-nav__cta .v11-action{min-height:38px;padding:0 14px;font-size:14px}',
+        '.v11-demo{border:1px solid #111;background:#111;color:#f7d133;border-radius:4px;padding:12px 18px;font-size:16px;font-weight:900;text-decoration:none;white-space:nowrap}',
+        '.v11-hero{padding:66px 0 76px;display:grid;justify-items:center;text-align:center}',
+        '.v11-copy{display:grid;justify-items:center}',
+        '.v11-copy h1{margin:0 0 18px;font-size:clamp(44px,4.2vw,56px);line-height:1.06;letter-spacing:-.02em;font-weight:950}',
+        '.v11-highlight{background:#f7d133;padding:0 .12em}',
+        '.v11-copy p{margin:0 auto;max-width:780px;font-size:20px;line-height:1.45;color:#444}',
+        '.v11-actions{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0 14px;justify-content:center}',
+        '.v11-action{display:inline-flex;align-items:center;justify-content:center;min-height:44px;border-radius:4px;padding:0 20px;font-size:16px;font-weight:900;text-decoration:none;border:1px solid #111}',
+        '.v11-action--primary{background:#111;color:#f7d133}',
+        '.v11-action--secondary{background:#fff;color:#111}',
+        '.v11-stats{font:500 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.08em;color:#777}',
+        '.v11-proof{margin-top:34px;display:grid;gap:12px;justify-items:center;color:#777;font:500 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.12em;text-transform:uppercase}',
+        '.v11-logos{width:min(100%,760px);display:grid;grid-template-columns:repeat(6,1fr);gap:12px;letter-spacing:0;text-transform:none;font-family:Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}',
+        '.v11-logo-pill{border:1px solid #d0d0d0;border-radius:4px;min-height:46px;display:grid;place-items:center;color:#444;font:800 16px Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}',
+        '.v11-insight{padding:0 0 18px}',
+        '.v11-insight h2{margin:0 0 34px;font-size:clamp(40px,4vw,54px);line-height:1.06;letter-spacing:-.02em;font-weight:950}',
+        '.v11-insight__top{display:grid;grid-template-columns:390px 1fr;gap:48px;align-items:center;margin-bottom:34px}',
+        '.v11-audience{position:relative;height:390px}',
+        '.v11-audience__ring{position:absolute;border:1.5px solid #111;border-radius:50%;background:transparent}',
+        '.v11-audience__ring--outer{width:351px;height:351px;left:0;top:0}',
+        '.v11-audience__ring--inner{width:88px;height:88px;left:132px;top:220px;background:#f7d133}',
+        '.v11-metrics{display:grid;gap:28px}',
+        '.v11-metric__label{margin:0 0 6px;font-size:16px;line-height:1.25;font-weight:650;color:#111}',
+        '.v11-metric__value{margin:0;font-size:22px;line-height:1.15;font-weight:950;color:#111}',
+        '.v11-metric__note{display:block;margin-top:4px;color:#666;font-size:14px;font-weight:700}',
+        '.v11-metric__arrow{margin:-8px 0;color:#111;font-size:30px;line-height:1;font-weight:950}',
+        '.v11-metric--highlight .v11-metric__value{display:inline-block;background:#f7d133;padding:2px 7px}',
+        '.v11-signal{display:grid;grid-template-columns:170px 1fr;gap:26px;align-items:start;border:1px solid #d0d0d0;border-radius:4px;background:#fafafa;padding:24px}',
+        '.v11-signal__title{font-size:25px;line-height:1.08;font-weight:950}',
+        '.v11-signal__rows{display:grid;gap:20px}',
+        '.v11-signal__row{display:grid;grid-template-columns:390px 34px 1fr;gap:14px;align-items:end;font-size:18px;line-height:1.2;color:#111}',
+        '.v11-signal__row-title{grid-column:1 / -1;font-size:18px;font-weight:650;margin-bottom:-8px}',
+        '.v11-signal__brand{display:inline-flex;align-items:center;min-width:0}',
+        '.v11-pm-logo{display:inline-grid;place-items:center;width:30px;height:30px;background:#3157ff;overflow:hidden;flex:0 0 auto}',
+        '.v11-pm-logo svg{width:30px;height:30px;display:block}',
+        '.v11-kalshi{display:inline-grid;place-items:center;height:30px;padding:0 5px;background:#09d58b;color:#111;font-size:10px;font-weight:950}',
+        '.v11-brand-text{margin-left:10px;font-size:18px;font-weight:650;white-space:nowrap}',
+        '.v11-signal__arrow,.v11-signal__outcome{font-size:18px;font-weight:650;white-space:nowrap}',
+        '.v11-signal__outcome{align-self:end}',
+        '.v11-status{display:inline-flex;align-items:center;gap:8px}',
+        '.v11-status__icon{display:inline-grid;place-items:center;width:auto;height:auto;font-size:18px;font-weight:950;line-height:1}',
+        '.v11-status--bad{color:#a71515}',
+        '.v11-status--bad .v11-status__icon{color:#b01212}',
+        '.v11-status--good{color:#126f38}',
+        '.v11-status--good .v11-status__icon{color:#14783a}',
+        '.v11-mapped{grid-column:2;margin:4px 0 0;color:#666;font:600 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:10px}',
+        '.v11-trust-icon{display:inline-grid;place-items:center;color:#111;flex:0 0 auto;font:900 15px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}',
+        '.v11-calculator{padding:74px 0 0}',
+        '.v11-calculator h2{margin:0 0 12px;font-size:clamp(38px,4vw,54px);line-height:1.06;letter-spacing:-.02em;font-weight:950}',
+        '.v11-calculator__subtitle{margin:0 0 28px;max-width:780px;font-size:20px;line-height:1.45;color:#444}',
+        '.v11-tool{display:grid;grid-template-columns:25% 37.5% 37.5%;border:1px solid #d0d0d0;border-radius:4px;background:#fff;overflow:visible}',
+        '.v11-panel{padding:22px;border-right:1px solid #d0d0d0}',
+        '.v11-panel:last-child{border-right:0}',
+        '.v11-panel--muted{background:#fafafa;color:#555}',
+        '.v11-panel--select{background:#fffdf2}',
+        '.v11-panel h3{margin:0;font-size:22px;line-height:1.1;font-weight:950}',
+        '.v11-panel__sub{margin:6px 0 18px;color:#777;font:600 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.12em;text-transform:uppercase}',
+        '.v11-control{display:grid;gap:8px;margin-bottom:18px}',
+        '.v11-control label{display:flex;justify-content:space-between;gap:12px;font-size:14px;font-weight:900;color:#111}',
+        '.v11-label-copy{display:inline-flex;align-items:center;gap:8px;position:relative}',
+        '.v11-help-icon{position:relative;display:inline-grid;place-items:center;width:18px;height:18px;border:1px solid #bdbdbd;border-radius:999px;color:#666;font:700 11px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;line-height:1;cursor:help}',
+        '.v11-help-icon::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);z-index:5;width:220px;transform:translateX(-50%);padding:9px 10px;border:1px solid #111;border-radius:4px;background:#fff;color:#111;box-shadow:none;font:700 11px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;line-height:1.35;letter-spacing:0;text-transform:none;white-space:normal;opacity:0;pointer-events:none;transition:opacity .12s ease}',
+        '.v11-help-icon::before{content:"";position:absolute;left:50%;bottom:calc(100% + 3px);z-index:6;width:8px;height:8px;border-right:1px solid #111;border-bottom:1px solid #111;background:#fff;transform:translateX(-50%) rotate(45deg);opacity:0;pointer-events:none;transition:opacity .12s ease}',
+        '.v11-help-icon:hover::after,.v11-help-icon:hover::before,.v11-help-icon:focus-visible::after,.v11-help-icon:focus-visible::before{opacity:1}',
+        '.v11-control input[type="range"]{width:100%;accent-color:#f7d133}',
+        '.v11-control select{height:38px;border:1px solid #bbb;border-radius:4px;background:#fff;padding:0 10px;font-weight:800}',
+        '.v11-toggle{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:900}',
+        '.v11-metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}',
+        '.v11-mini-metric{border:1px solid #d0d0d0;border-radius:4px;background:#fff;padding:12px}',
+        '.v11-mini-metric span{display:block;color:#777;font:600 11px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.08em;text-transform:uppercase}',
+        '.v11-mini-metric strong{display:block;margin-top:6px;font-size:24px;line-height:1;font-weight:950}',
+        '.v11-mini-metric--primary{grid-column:1 / -1}',
+        '.v11-panel--select .v11-mini-metric{border-color:#c9aa25;background:#fff8cf}',
+        '.v11-panel--select .v11-mini-metric--primary strong{font-size:34px}',
+        '.v11-unavailable{display:grid;gap:8px;margin:0 0 20px;padding:0;list-style:none;color:#666;font:800 13px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}',
+        '.v11-unavailable li{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e2e2e2;padding-bottom:8px}',
+        '.v11-unavailable li span{letter-spacing:.12em;text-transform:uppercase;color:#777}',
+        '.v11-unavailable li b{display:inline-flex;align-items:center;gap:6px;padding:3px 8px;border-radius:4px;background:#f1f1f1;color:#555;letter-spacing:.1em;text-transform:uppercase}',
+        '.v11-unavailable li b::before{content:"×";display:inline-grid;place-items:center;width:15px;height:15px;border:1px solid #999;border-radius:999px;color:#555;font-size:11px;line-height:1}',
+        '.v11-available li b{background:#fff8cf;color:#111}',
+        '.v11-available li b::before{content:"✓";border-color:#c9aa25;color:#126f38}',
+        '.v11-frequency-card{margin:0 0 18px;border:1px solid #d0d0d0;border-radius:4px;background:#fff;padding:12px}',
+        '.v11-panel--select .v11-frequency-card{border-color:#c9aa25;background:#fffdf2}',
+        '.v11-frequency-title{margin:0;display:flex;align-items:center;gap:7px;color:#111;font-size:14px;line-height:1.2;font-weight:950}',
+        '.v11-frequency-subtitle{margin:4px 0 12px;color:#777;font:700 11px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.1em;text-transform:uppercase}',
+        '.v11-frequency-chart{height:104px;display:grid;grid-template-columns:repeat(10,1fr);gap:5px;align-items:end;padding:0 0 2px;border-bottom:1px solid #d8d8d8}',
+        '.v11-frequency-slot{min-width:0;display:grid;grid-template-rows:1fr auto;gap:6px;align-items:end;height:100%}',
+        '.v11-frequency-stick{width:100%;min-height:8px;border:1px solid #cfcfcf;border-bottom:0;background:#ddd;transition:height .22s ease,background .22s ease,border-color .22s ease}',
+        '.v11-frequency-label{text-align:center;color:#777;font:800 9px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:-.01em}',
+        '.v11-frequency-note{margin:8px 0 0;color:#666;font:700 11px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;line-height:1.35}',
+        '.v11-frequency-stick--standard{background:#cfcfcf;border-color:#bdbdbd}',
+        '.v11-frequency-stick--under{background:#d8e7ff;border-color:#86aee8}',
+        '.v11-frequency-stick--peak{background:#f7d133;border-color:#c9aa25}',
+        '.v11-frequency-stick--over{background:#f3d6d1;border-color:#c98f87}',
+        '.v11-standard-toggle{display:none}',
+        '.v11-frame[data-size="mobile"] .v11-tool{grid-template-columns:1fr}',
+        '.v11-frame[data-size="mobile"] .v11-panel{border-right:0;border-bottom:1px solid #d0d0d0}',
+        '.v11-frame[data-size="mobile"] .v11-panel--select{order:2}',
+        '.v11-frame[data-size="mobile"] .v11-standard-toggle{order:3;display:flex;align-items:center;justify-content:space-between;width:100%;min-height:52px;padding:0 18px;border:0;border-bottom:1px solid #d0d0d0;background:#fafafa;color:#111;font:900 14px Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;text-align:left;cursor:pointer}',
+        '.v11-frame[data-size="mobile"] .v11-standard-panel{order:4;max-height:0;overflow:hidden;padding-top:0!important;padding-bottom:0!important;border-bottom:0!important;transition:max-height .24s ease,padding .24s ease}',
+        '.v11-frame[data-size="mobile"] .v11-standard-panel.is-open{max-height:1600px;padding-top:22px!important;padding-bottom:22px!important;border-bottom:1px solid #d0d0d0!important}',
+        '.v11-frame[data-size="mobile"] .v11-metric-grid{grid-template-columns:1fr}',
+        '.v11-frame[data-size="mobile"] .v11-mini-metric--primary{grid-column:auto}',
+        '.v11-frame[data-size="mobile"] .v11-calculator__micro{margin-left:0}',
+        '.v11-select-extra{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}',
+        '.v11-chip{border:1px solid #d0d0d0;border-radius:4px;background:#fff;padding:10px;font-size:13px;font-weight:900}',
+        '.v11-chip span{display:block;margin-top:4px;color:#777;font:600 11px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;text-transform:uppercase;letter-spacing:.08em}',
+        '.v11-freq-frame{display:grid;gap:4px;margin-top:2px;padding-top:8px}',
+        '.v11-freq-label{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;color:#444;font:700 11px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.14em;text-transform:uppercase}',
+        '.v11-freq-label span:nth-child(2){text-align:center}',
+        '.v11-freq-label span:last-child{text-align:right}',
+        '.v11-avatars-title{margin:16px 0 10px;font-size:14px;font-weight:950}',
+        '.v11-avatars{display:grid;grid-template-columns:repeat(6,34px);gap:12px}',
+        '.v11-avatar{width:34px;height:34px;border-radius:999px;border:3px solid #fff;box-shadow:0 0 0 1px #d9d9d9;display:grid;place-items:center;color:#fff;font:900 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.03em}',
+        '.v11-avatar--generic{background:#d9d9d9!important;color:transparent!important;box-shadow:0 0 0 1px #cfcfcf}',
+        '.v11-avatar--more{background:#f7d133 !important;color:#111;box-shadow:0 0 0 1px #c9aa25}',
+        '.v11-calculator__cta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:18px}',
+        '.v11-calculator__cta .v11-action{min-height:44px}',
+        '.v11-proof-band{padding:78px 0 92px}',
+        '.v11-proof-band__inner{border-top:1px solid #d0d0d0;padding-top:28px}',
+        '.v11-proof-band__eyebrow{margin:0 0 18px;color:#666;font:700 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.14em;text-transform:uppercase}',
+        '.v11-proof-band__stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}',
+        '.v11-proof-band__stat{min-width:0}',
+        '.v11-proof-band__value{margin:0 0 8px;color:#111;font-size:clamp(40px,4vw,64px);line-height:1;font-weight:950;letter-spacing:-.04em}',
+        '.v11-proof-band__caption{margin:0;color:#444;font-size:16px;line-height:1.35;font-weight:650}',
+        '.v11-proof-band__cta{display:inline-flex;margin-top:24px;color:#111;font-size:16px;font-weight:800;text-decoration:none}',
+        '.v11-proof-band__cta:hover{text-decoration:underline}',
+        '.v11-calculator__micro{margin-left:auto;color:#777;font:600 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.08em}',
+        '.v11-note{margin-top:12px;padding:12px 14px;border:1px solid #d0d0d0;border-radius:4px;background:#fafafa;font:600 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.08em;color:#666;line-height:1.45}',
+        '.v11-network{padding:76px 0 0}',
+        '.v11-network h2{margin:0 0 12px;font-size:clamp(38px,4vw,54px);line-height:1.06;font-weight:950}',
+        '.v11-network__trust{margin:0 0 24px;color:#666;font:700 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.1em;text-transform:uppercase}',
+        '.v11-network__subtitle{margin:0 0 24px;max-width:620px;color:#444;font-size:20px;line-height:1.45;font-weight:650}',
+        '.v11-niche-row{display:flex;gap:8px;align-items:center;overflow-x:auto;padding:0 0 14px;margin:0 0 18px;border-bottom:1px solid #d0d0d0}',
+        '.v11-niche-row button,.v11-niche-row span{white-space:nowrap;border:1px solid #d0d0d0;border-radius:4px;background:#fff;color:#555;padding:9px 11px;font:800 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.06em;text-transform:uppercase}',
+        '.v11-niche-row button{cursor:pointer}',
+        '.v11-niche-row button[aria-pressed="true"]{border-color:#c9aa25;background:#fff8cf;color:#111}',
+        '.v11-niche-row span{color:#aaa;background:#fafafa}',
+        '.v11-network-demo{position:relative;display:grid;justify-items:center;padding:18px 0 6px;min-height:260px}',
+        '.v11-network-card{position:relative;z-index:2;width:min(100%,430px);border:1px solid #d0d0d0;border-radius:4px;background:#fff;padding:24px;text-align:center}',
+        '.v11-network-card--ghost{position:absolute;z-index:1;top:42px;opacity:.28;pointer-events:none}',
+        '.v11-network-card--ghost:first-child{transform:translateX(-250px) rotate(-2deg)}',
+        '.v11-network-card--ghost:nth-child(2){transform:translateX(250px) rotate(2deg)}',
+        '.v11-network-card--ghost:nth-child(3){top:78px;transform:translateX(0) scale(.92)}',
+        '.v11-demo-avatar{width:62px;height:62px;margin:0 auto 14px;border-radius:999px;border:1px solid #111;background:#f7d133;display:grid;place-items:center;color:#111;font:950 18px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}',
+        '.v11-demo-handle{margin:0 0 6px;font-size:22px;font-weight:950;color:#111}',
+        '.v11-demo-followers{margin:0 0 20px;color:#666;font:700 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.08em;text-transform:uppercase}',
+        '.v11-demo-label{margin:0 0 8px;color:#777;font:700 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.1em;text-transform:uppercase}',
+        '.v11-demo-value{display:inline-block;margin:0 0 12px;font-size:44px;line-height:1;font-weight:950;color:#111;transition:background .12s ease}',
+        '.v11-demo-value.is-changing{background:#f7d133}',
+        '.v11-demo-niche{margin:0;color:#444;font-size:16px;font-weight:800}',
+        '.v11-demo-sample{display:block;margin-top:8px;color:#666;font:700 11px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.12em;text-transform:uppercase}',
+        '.v11-creator-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #d0d0d0;border-left:1px solid #d0d0d0}',
+        '.v11-creator-card{min-height:130px;padding:14px;border-right:1px solid #d0d0d0;border-bottom:1px solid #d0d0d0;background:#fff}',
+        '.v11-creator-card__top{display:flex;align-items:center;gap:10px;margin-bottom:12px}',
+        '.v11-creator-avatar{width:38px;height:38px;border-radius:999px;border:3px solid #fff;box-shadow:0 0 0 1px #d9d9d9;display:grid;place-items:center;color:#fff;font:900 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}',
+        '.v11-creator-handle{font-size:15px;font-weight:950;color:#111;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
+        '.v11-creator-followers{margin:0 0 8px;color:#777;font:700 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.04em;text-transform:uppercase}',
+        '.v11-creator-niche{display:inline-block;margin:0;color:#111;background:#fff8cf;border:1px solid #c9aa25;border-radius:4px;padding:5px 7px;font:900 13px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.04em}',
+        '.v11-creator-niche.is-changing{background:#f7d133}',
+        '.v11-network__footer{display:flex;align-items:center;gap:14px;justify-content:space-between;margin-top:18px;padding-top:18px;border-top:1px solid #d0d0d0}',
+        '.v11-network__footer p{margin:0;color:#444;font-size:16px;font-weight:650}',
+        '.v11-close{padding:76px 0 96px}',
+        '.v11-close__box{border-top:1px solid #d0d0d0;padding-top:28px;display:grid;grid-template-columns:1fr;gap:20px;justify-items:center;text-align:center}',
+        '.v11-close h2{margin:0 0 12px;font-size:clamp(38px,4vw,54px);line-height:1.06;font-weight:950;max-width:780px}',
+        '.v11-close p{margin:0 auto;color:#444;font-size:20px;line-height:1.45;max-width:620px}',
+        '.v11-close__meta{margin:0 0 16px;color:#666;font:700 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.1em;text-transform:uppercase}',
+        '.v11-close__actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}',
+        '.v11-close__actions .v11-action{min-height:48px}',
+        '.v11-close__doors{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;width:100%;max-width:900px}',
+        '.v11-close__door{border:1px solid #d0d0d0;border-radius:4px;background:#fff;padding:20px;text-align:left}',
+        '.v11-close__door p{margin:0 0 12px;font-size:16px;line-height:1.45;color:#444;max-width:none}',
+        '.v11-close__door strong{display:block;margin-bottom:8px;color:#111;font-size:14px;line-height:1.3;font-weight:800;text-transform:uppercase;letter-spacing:.08em}',
+        '.v11-close__door .v11-action{width:100%}',
+        '.v11-about{margin-top:28px;padding:88px 0 104px;background:#f7f7f5;border-top:1px solid #e3e3e0}',
+        '.v11-about__inner{width:min(100%,600px);margin:0 auto;text-align:center}',
+        '.v11-about__eyebrow{margin:0 0 18px;color:#666;font:700 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.14em;text-transform:uppercase}',
+        '.v11-about__lead{margin:0 0 18px;font-size:30px;line-height:1.18;font-weight:950;color:#111}',
+        '.v11-about__copy{margin:0 auto;color:#444;font-size:18px;line-height:1.55;max-width:560px}',
+        '.v11-about__links{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin-top:34px}',
+        '.v11-about__links a{color:#111;font-size:16px;font-weight:800;text-decoration:none}',
+        '.v11-about__links a:hover{text-decoration:underline}',
+        '.v11-faq{padding:0 0 92px;background:#f7f7f5;border-top:1px solid #e3e3e0}',
+        '.v11-faq__inner{width:min(100%,700px);margin:0 auto;padding-top:88px}',
+        '.v11-faq__eyebrow{margin:0 0 18px;color:#666;font:700 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.14em;text-transform:uppercase}',
+        '.v11-faq h2{margin:0 0 28px;font-size:clamp(32px,4vw,46px);line-height:1.08;font-weight:950;color:#111}',
+        '.v11-faq__list{display:grid;gap:10px}',
+        '.v11-faq__item{border:1px solid #d0d0d0;border-radius:4px;background:#fff;overflow:hidden}',
+        '.v11-faq__q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 20px;border:0;background:transparent;color:#111;font:800 16px/1.35 Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;text-align:left;cursor:pointer}',
+        '.v11-faq__q span:last-child{transition:transform .18s ease}',
+        '.v11-faq__item[aria-expanded="true"] .v11-faq__q span:last-child{transform:rotate(180deg)}',
+        '.v11-faq__a{max-height:0;overflow:hidden;transition:max-height .22s ease}',
+        '.v11-faq__a-inner{padding:0 20px 18px;color:#444;font-size:16px;line-height:1.55;max-width:620px}',
+        '@media (max-width:980px){.v11-insight__top{grid-template-columns:1fr;gap:22px}.v11-audience{width:390px;max-width:100%;margin:0 auto}.v11-signal{grid-template-columns:1fr}.v11-signal__row{grid-template-columns:110px 1fr 24px;align-items:center}.v11-signal__outcome{grid-column:2 / -1}.v11-mapped{grid-column:1;margin-left:0;text-align:left}.v11-tool{grid-template-columns:1fr}.v11-panel{border-right:0;border-bottom:1px solid #d0d0d0}.v11-panel:last-child{border-bottom:0}.v11-panel--select{order:2}.v11-panel--muted{order:3}}',
+        '@media (max-width:760px){.v11-standard-toggle{order:3;display:flex;align-items:center;justify-content:space-between;width:100%;min-height:52px;padding:0 18px;border:0;border-bottom:1px solid #d0d0d0;background:#fafafa;color:#111;font:900 14px Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;text-align:left;cursor:pointer}.v11-standard-panel{order:4;max-height:0;overflow:hidden;padding-top:0!important;padding-bottom:0!important;border-bottom:0!important;transition:max-height .24s ease,padding .24s ease}.v11-standard-panel.is-open{max-height:1600px;padding-top:22px!important;padding-bottom:22px!important;border-bottom:1px solid #d0d0d0!important}}',
+        '@media (max-width:760px){.v11-toolbar{height:auto;grid-template-columns:1fr;padding:10px 14px}.v11-toolbar__label,.v11-toolbar__right,.v11-back{justify-self:start}.v11-frame{padding:0 14px}.v11-nav{height:auto;padding:18px 0;align-items:flex-start;gap:14px}.v11-links{order:3;width:100%;margin-left:0}.v11-nav__cta{order:2;margin-left:0}.v11-demo{margin-left:auto}.v11-hero{padding:42px 0 52px}.v11-copy h1{font-size:42px}.v11-logos{grid-template-columns:repeat(2,1fr)}.v11-insight{padding:0 0 10px}.v11-insight h2{font-size:36px;margin-bottom:28px}.v11-audience{height:320px}.v11-audience__ring--outer{width:288px;height:288px}.v11-audience__ring--inner{width:72px;height:72px;left:108px;top:196px}.v11-signal{padding:18px}.v11-signal__title{font-size:28px}.v11-signal__row{grid-template-columns:1fr;gap:8px}.v11-signal__row-title{grid-column:auto;margin:0}.v11-signal__arrow{display:none}.v11-brand-text,.v11-signal__arrow,.v11-signal__outcome{font-size:18px}.v11-mapped{font-size:11px;line-height:1.45;margin-top:8px}.v11-proof-band{padding:56px 0 72px}.v11-proof-band__stats{grid-template-columns:1fr;gap:14px}.v11-proof-band__value{font-size:44px}.v11-metric-grid,.v11-select-extra{grid-template-columns:1fr}.v11-mini-metric--primary{grid-column:auto}.v11-avatars{grid-template-columns:repeat(6,30px)}.v11-avatar{width:30px;height:30px}.v11-niche-row{margin-left:-14px;margin-right:-14px;padding-left:14px;padding-right:14px}.v11-network-card--ghost{display:none}.v11-network-demo{min-height:auto}.v11-creator-grid{grid-template-columns:repeat(2,1fr)}.v11-creator-card{min-height:122px;padding:12px}.v11-network__footer{align-items:flex-start;flex-direction:column}.v11-network h2{font-size:36px}.v11-close{padding:56px 0 72px}.v11-close__box{grid-template-columns:1fr;gap:16px}.v11-close__actions{justify-content:center}.v11-close__doors{grid-template-columns:1fr}.v11-about{margin-top:18px;padding:64px 0 76px}.v11-about__lead{font-size:24px}.v11-about__copy{font-size:16px}.v11-about__links{flex-direction:column;gap:14px}.v11-faq{padding-bottom:72px}.v11-faq__inner{padding-top:64px}.v11-faq h2{font-size:30px}.v11-faq__q{padding:16px 18px;font-size:15px}.v11-faq__a-inner{padding:0 18px 16px;font-size:15px}}'
+      ].join('');
+      targetDocument.head.appendChild(style);
+    }
+
+    targetDocument.body.innerHTML = [
+      '<main class="v11-shell" aria-label="Wallchain landing wireframe v1.4">',
+      '  <div class="v11-toolbar">',
+      '    <a class="v11-back" href="#1">← Back to presentation</a>',
+      '    <div class="v11-toolbar__label">Wireframe preview</div>',
+      '    <div class="v11-toolbar__right">',
+      '      <div class="v11-size" aria-label="Preview size">',
+      '        <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>',
+      '        <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>',
+      '      </div>',
+      '    </div>',
+      '  </div>',
+      '  <section class="v11-frame" data-size="desktop" id="hero">',
+      '    <nav class="v11-nav" aria-label="Primary">',
+      '      <div class="v11-logo">Wallchain</div>',
+      '      <div class="v11-links" aria-label="Landing navigation">',
+      '        <a href="#niche-followers">niche followers</a><a href="#plan-campaign">Plan Campaign</a><a href="#creator-network">Creator Network</a>',
+      '      </div>',
+      '      <div class="v11-nav__cta">',
+      '        <a class="v11-action v11-action--primary" href="#plan-campaign">Analyze my campaign</a>',
+      '        <a class="v11-action v11-action--secondary" href="#call">Book a call</a>',
+      '      </div>',
+      '    </nav>',
+      '    <div class="v11-hero">',
+      '      <div class="v11-copy">',
+      '        <h1>Get <span class="v11-highlight">3-6x more reach</span> for half the cost.</h1>',
+      '        <p>Most KOL campaigns pay multiple creators to reach the same users. We map 3.3M accounts on Crypto Twitter and fix that.</p>',
+      '        <div class="v11-actions">',
+      '          <a class="v11-action v11-action--primary" href="#plan-campaign">Analyze my campaign</a>',
+      '          <a class="v11-action v11-action--secondary" href="#call">Book a call</a>',
+      '        </div>',
+      '        <div class="v11-stats">60+ niches · 150K KOLs scored · Real-niche reach modeled</div>',
+      '      </div>',
+      '      <div class="v11-proof">',
+      '        <div>Trusted by</div>',
+      '        <div class="v11-logos" aria-label="Trusted by logos">',
+      '          <span class="v11-logo-pill">Solana</span>',
+      '          <span class="v11-logo-pill">Kraken</span>',
+      '          <span class="v11-logo-pill">MEXC</span>',
+      '          <span class="v11-logo-pill">Avantis</span>',
+      '          <span class="v11-logo-pill">Apechain</span>',
+      '          <span class="v11-logo-pill">Limitless</span>',
+      '        </div>',
+      '        <div>Backed by Alliance DAO · Built by engineers from Google, Meta, Y Combinator</div>',
+      '      </div>',
+      '    </div>',
+      '  </section>',
+      '  <section class="v11-frame" data-size="desktop" id="niche-followers">',
+      '    <div class="v11-insight">',
+      '      <h2>Most creators are irrelevant to your campaign</h2>',
+      '      <div class="v11-insight__top">',
+      '        <div class="v11-audience" aria-label="Audience relevance diagram">',
+      '          <div class="v11-audience__ring v11-audience__ring--outer"></div>',
+      '          <div class="v11-audience__ring v11-audience__ring--inner"></div>',
+      '        </div>',
+      '        <div class="v11-metrics">',
+      '          <div class="v11-metric">',
+      '            <p class="v11-metric__label">That is what others see</p>',
+      '            <p class="v11-metric__value">120K total followers</p>',
+      '          </div>',
+      '          <div class="v11-metric__arrow">↓</div>',
+      '          <div class="v11-metric v11-metric--highlight">',
+      '            <p class="v11-metric__label">Relevant to your campaign</p>',
+      '            <p class="v11-metric__value">584 niche followers</p>',
+      '            <span class="v11-metric__note">Not the same thing as total followers.</span>',
+      '          </div>',
+      '        </div>',
+      '      </div>',
+      '      <div class="v11-signal">',
+      '        <div class="v11-signal__title">How we know who is actually in your niche:</div>',
+      '        <div class="v11-signal__rows">',
+      '          <div class="v11-signal__row">',
+      '            <div class="v11-signal__row-title">User A follows:</div>',
+      '            <div class="v11-signal__brand"><span class="v11-pm-logo" aria-hidden="true"><svg viewBox="0 0 100 100" focusable="false"><path d="M23 29 L74 17 Q80 16 80 22 V78 Q80 84 74 83 L23 71 Q19 70 19 65 V35 Q19 31 23 29 Z M30 36 V48 L70 38 V25 Z M30 53 V64 L70 74 V61 Z M31 51 L70 58 V42 Z" fill="#fff"/></svg></span><span class="v11-brand-text">Polymarket</span></div>',
+      '            <div class="v11-signal__arrow">&gt;</div>',
+      '            <div class="v11-signal__outcome"><span class="v11-status v11-status--bad"><span class="v11-status__icon">×</span> Random crypto user</span></div>',
+      '          </div>',
+      '          <div class="v11-signal__row">',
+      '            <div class="v11-signal__row-title">User B follows:</div>',
+      '            <div class="v11-signal__brand"><span class="v11-pm-logo" aria-hidden="true"><svg viewBox="0 0 100 100" focusable="false"><path d="M23 29 L74 17 Q80 16 80 22 V78 Q80 84 74 83 L23 71 Q19 70 19 65 V35 Q19 31 23 29 Z M30 36 V48 L70 38 V25 Z M30 53 V64 L70 74 V61 Z M31 51 L70 58 V42 Z" fill="#fff"/></svg></span><span class="v11-kalshi">Kalshi</span><span class="v11-brand-text">Polymarket + Kalshi</span></div>',
+      '            <div class="v11-signal__arrow">&gt;</div>',
+      '            <div class="v11-signal__outcome"><span class="v11-status v11-status--good"><span class="v11-status__icon">✓</span> Real prediction markets buyer.</span></div>',
+      '          </div>',
+      '        </div>',
+      '        <p class="v11-mapped"><span class="v11-trust-icon">#</span><span>We mapped 3.3M Crypto Twitter accounts so you don&apos;t have to.</span></p>',
+      '      </div>',
+      '    </div>',
+      '  </section>',
+      '  <section class="v11-frame v11-calculator" data-size="desktop" id="plan-campaign">',
+      '    <h2>Plan your campaign with real audience data</h2>',
+      '    <p class="v11-calculator__subtitle">Move the controls. See what changes — and what standard planning cannot control.</p>',
+      '    <div class="v11-tool" data-calculator>',
+      '      <aside class="v11-panel v11-panel--controls">',
+      '        <h3>Campaign inputs</h3>',
+      '        <p class="v11-panel__sub">Play with controls below</p>',
+      '        <div class="v11-control"><label>Target niche</label><select data-niche><option>Prediction Markets</option><option>Trading</option><option>DeFi</option><option>Stablecoins</option><option>AI</option><option>NFTs</option></select></div>',
+      '        <div class="v11-control"><label><span class="v11-label-copy">Budget <span class="v11-help-icon" tabindex="0" data-tip="We work with campaigns starting from $5K.">?</span></span><strong data-budget-label>$5K</strong></label><input data-budget type="range" min="5" max="50" value="5" step="1"></div>',
+      '        <div class="v11-control"><label><span class="v11-label-copy">Audience overlap <span class="v11-help-icon" tabindex="0" data-tip="Maximum allowed % of shared followers between any two creators in the selected lineup.">?</span></span><strong data-overlap-label>20%</strong></label><input data-overlap type="range" min="0" max="50" value="20" step="1"></div>',
+      '        <div class="v11-control"><label><span class="v11-label-copy">Audience frequency <span class="v11-help-icon" tabindex="0" data-tip="How many times a unique niche user should see the campaign across all placements.">?</span></span><strong data-frequency-label>5×</strong></label><input data-frequency type="range" min="1" max="8" value="5" step="1"><div class="v11-freq-frame"><div class="v11-freq-label"><span>Max Reach</span><span>Balanced</span><span>Max Frequency</span></div></div></div>',
+      '        <div class="v11-note">Inside the optimizer there are 20+ unique parameters for selecting the best influencer lineup.</div>',
+      '      </aside>',
+      '      <button class="v11-standard-toggle" type="button" data-standard-toggle aria-expanded="false">Compare to standard approach ↓</button>',
+      '      <section class="v11-panel v11-panel--muted v11-standard-panel" data-standard-panel>',
+      '        <h3>Standard approach</h3>',
+      '        <div class="v11-metric-grid">',
+      '          <div class="v11-mini-metric"><span>Creators</span><strong data-agency-creators>12</strong></div>',
+      '          <div class="v11-mini-metric"><span>Posts</span><strong data-agency-posts>48</strong></div>',
+      '          <div class="v11-mini-metric v11-mini-metric--primary"><span>Estimated relevant audience <span class="v11-help-icon" tabindex="0" data-tip="Based on average niche concentration (~7%). Not measured directly.">?</span></span><strong data-agency-relevant>~17K</strong></div>',
+      '          <div class="v11-mini-metric"><span>CPM</span><strong data-agency-cpm>$24.67</strong></div>',
+      '        </div>',
+      '        <ul class="v11-unavailable"><li><span>Frequency control</span><b>not controlled</b></li><li><span>Overlap</span><b>not measured</b></li></ul>',
+      '        <div class="v11-frequency-card">',
+      '          <p class="v11-frequency-title">Uncontrolled frequency <span class="v11-help-icon" tabindex="0" data-tip="Frequency exists in every campaign. Without optimization, exposure becomes uneven and accidental.">?</span></p>',
+      '          <p class="v11-frequency-subtitle">Random distribution</p>',
+      '          <div class="v11-frequency-chart" data-standard-frequency aria-label="Standard approach frequency distribution"></div>',
+      '          <p class="v11-frequency-note">Frequency happens, but it is not controlled.</p>',
+      '        </div>',
+      '        <div class="v11-avatars-title">Selected creators</div>',
+      '        <div class="v11-avatars" data-agency-avatars></div>',
+      '      </section>',
+      '      <section class="v11-panel v11-panel--select">',
+      '        <h3>Wallchain Select</h3>',
+      '        <div class="v11-metric-grid">',
+      '          <div class="v11-mini-metric"><span>Optimized creators</span><strong data-select-creators>14</strong></div>',
+      '          <div class="v11-mini-metric"><span>Posts</span><strong data-select-posts>56</strong></div>',
+      '          <div class="v11-mini-metric v11-mini-metric--primary"><span>Relevant audience</span><strong data-select-reach>50K</strong></div>',
+      '          <div class="v11-mini-metric"><span>CPM per relevant user</span><strong data-select-cpm>$4.20</strong></div>',
+      '        </div>',
+      '        <ul class="v11-unavailable v11-available"><li><span>Frequency control</span><b>controlled</b></li><li><span>Overlap</span><b data-select-overlap>12% controlled</b></li></ul>',
+      '        <div class="v11-frequency-card">',
+      '          <p class="v11-frequency-title">Controlled frequency <span class="v11-help-icon" tabindex="0" data-tip="Wallchain optimizes creator selection to shape exposure around your reach/frequency balance.">?</span></p>',
+      '          <p class="v11-frequency-subtitle">Targeted distribution</p>',
+      '          <div class="v11-frequency-chart" data-select-frequency aria-label="Wallchain Select frequency distribution"></div>',
+      '          <p class="v11-frequency-note">Frequency is planned around your target.</p>',
+      '        </div>',
+      '        <div class="v11-avatars-title" data-select-avatar-title>Selected creators (14)</div>',
+      '        <div class="v11-avatars" data-select-avatars></div>',
+      '      </section>',
+      '    </div>',
+      '    <div class="v11-calculator__cta"><a class="v11-action v11-action--primary" href="#plan-campaign">Analyze my campaign</a><a class="v11-action v11-action--secondary" href="#call">Book a call</a><div class="v11-calculator__micro">30-minute call. No slides. Just your campaign data.</div></div>',
+      '  </section>',
+      '  <section class="v11-proof-band" aria-label="Numbers from real campaigns">',
+      '    <div class="v11-frame v11-proof-band__inner" data-size="desktop">',
+      '      <p class="v11-proof-band__eyebrow">NUMBERS FROM REAL CAMPAIGNS</p>',
+      '      <div class="v11-proof-band__stats">',
+      '        <div class="v11-proof-band__stat"><p class="v11-proof-band__value">3.7×</p><p class="v11-proof-band__caption">more reach than baseline</p></div>',
+      '        <div class="v11-proof-band__stat"><p class="v11-proof-band__value">2×</p><p class="v11-proof-band__caption">cheaper per niche reader</p></div>',
+      '        <div class="v11-proof-band__stat"><p class="v11-proof-band__value">60+</p><p class="v11-proof-band__caption">niches analyzed</p></div>',
+      '      </div>',
+      '      <a class="v11-proof-band__cta" href="#prediction-markets-research">Read the full Prediction Markets analysis →</a>',
+      '    </div>',
+      '  </section>',
+      '  <section class="v11-frame v11-network" data-size="desktop" data-network id="creator-network">',
+      '    <h2>Same creator. Different value.</h2>',
+      '    <p class="v11-network__subtitle">Switch the niche. The same creator performs differently.</p>',
+      '    <div class="v11-niche-row" data-network-filters aria-label="Niche filters"></div>',
+      '    <div class="v11-network-demo" aria-label="Creator niche value demo">',
+      '      <article class="v11-network-card v11-network-card--ghost"><div class="v11-demo-avatar">AA</div><p class="v11-demo-handle">@creator_01</p><p class="v11-demo-followers">260K followers</p><p class="v11-demo-label">Relevant audience</p><p class="v11-demo-value">--</p></article>',
+      '      <article class="v11-network-card v11-network-card--ghost"><div class="v11-demo-avatar">BB</div><p class="v11-demo-handle">@creator_02</p><p class="v11-demo-followers">84K followers</p><p class="v11-demo-label">Relevant audience</p><p class="v11-demo-value">--</p></article>',
+      '      <article class="v11-network-card v11-network-card--ghost"><div class="v11-demo-avatar">CC</div><p class="v11-demo-handle">@creator_03</p><p class="v11-demo-followers">410K followers</p><p class="v11-demo-label">Relevant audience</p><p class="v11-demo-value">--</p></article>',
+      '      <article class="v11-network-card"><div class="v11-demo-avatar">JK</div><p class="v11-demo-handle">@creator_demo</p><p class="v11-demo-followers">120K followers</p><p class="v11-demo-label">Relevant audience</p><p class="v11-demo-value" data-network-value>0</p><p class="v11-demo-niche">Niche: <span data-network-niche-label>Prediction Markets</span></p><span class="v11-demo-sample">Sample data</span></article>',
+      '    </div>',
+      '    <div class="v11-network__footer"><p>Demo with sample data. Real creator data shown on call.</p><a class="v11-action v11-action--primary" href="#creators">See top creators in my niche →</a></div>',
+      '  </section>',
+      '  <section class="v11-frame v11-close" data-size="desktop" id="call">',
+      '    <div class="v11-close__box">',
+      '      <div>',
+      '        <p class="v11-close__meta">Ready to start?</p>',
+      '        <h2>Let&apos;s plan your campaign.</h2>',
+      '        <p>Just your data. No deck. 30-min call, direct with the founder.</p>',
+      '      </div>',
+      '      <div class="v11-close__doors">',
+      '        <div class="v11-close__door">',
+      '          <strong>Ran a campaign before?</strong>',
+      '          <p>Audit your last campaign and see where reach leaked.</p>',
+      '          <a class="v11-action v11-action--primary" href="#audit">Analyze my last campaign</a>',
+      '        </div>',
+      '        <div class="v11-close__door">',
+      '          <strong>Planning your first one?</strong>',
+      '          <p>Start with a clean plan and build from the calculator.</p>',
+      '          <a class="v11-action v11-action--secondary" href="#plan-campaign">Plan my first campaign</a>',
+      '        </div>',
+      '      </div>',
+      '    </div>',
+      '  </section>',
+      '  <section class="v11-about" aria-label="About Wallchain">',
+      '    <div class="v11-frame v11-about__inner" data-size="desktop">',
+      '      <p class="v11-about__eyebrow">&gt; Built by Wallchain</p>',
+      '      <p class="v11-about__lead">Wallchain is the audience graph for Web3 marketing.</p>',
+      '      <p class="v11-about__copy">We map every account on Crypto Twitter — 3.3M and counting — and turn it into infrastructure for teams who want to grow with data, not vibes.</p>',
+      '      <div class="v11-about__links">',
+      '        <a href="#prediction-markets-research">Read our research →</a>',
+      '        <a href="#x-placeholder">Follow on X →</a>',
+      '        <a href="#telegram-placeholder">Join Telegram →</a>',
+      '      </div>',
+      '    </div>',
+      '  </section>',
+      '  <section class="v11-faq" aria-label="FAQ">',
+      '    <div class="v11-faq__inner">',
+      '      <p class="v11-faq__eyebrow">FAQ</p>',
+      '      <h2>Common questions before booking</h2>',
+      '      <div class="v11-faq__list" data-faq>',
+      '        <div class="v11-faq__item" aria-expanded="false"><button class="v11-faq__q" type="button"><span>What&apos;s the minimum campaign budget?</span><span>⌄</span></button><div class="v11-faq__a"><div class="v11-faq__a-inner">We work with campaigns starting from $5,000. Below that, the optimization gains do not outweigh the coordination overhead.</div></div></div>',
+      '        <div class="v11-faq__item" aria-expanded="false"><button class="v11-faq__q" type="button"><span>How long does it take to launch a campaign?</span><span>⌄</span></button><div class="v11-faq__a"><div class="v11-faq__a-inner">Typically 1–2 weeks from first call to first KOL posts. Most of that time is creator outreach and negotiation, which we handle.</div></div></div>',
+      '        <div class="v11-faq__item" aria-expanded="false"><button class="v11-faq__q" type="button"><span>Do you work with creators outside Crypto Twitter?</span><span>⌄</span></button><div class="v11-faq__a"><div class="v11-faq__a-inner">Right now, no. Our audience graph is mapped specifically for Crypto Twitter. Other platforms are on the roadmap.</div></div></div>',
+      '        <div class="v11-faq__item" aria-expanded="false"><button class="v11-faq__q" type="button"><span>What if my niche isn&apos;t on the list?</span><span>⌄</span></button><div class="v11-faq__a"><div class="v11-faq__a-inner">We&apos;ve mapped 60+ niches. If yours isn&apos;t covered, the call is the fastest way to check. We add new niches regularly.</div></div></div>',
+      '        <div class="v11-faq__item" aria-expanded="false"><button class="v11-faq__q" type="button"><span>How do you charge?</span><span>⌄</span></button><div class="v11-faq__a"><div class="v11-faq__a-inner">Flat percentage of campaign budget. No hidden markup on creator fees. Pricing details on the call.</div></div></div>',
+      '        <div class="v11-faq__item" aria-expanded="false"><button class="v11-faq__q" type="button"><span>Can I see real campaign results before signing?</span><span>⌄</span></button><div class="v11-faq__a"><div class="v11-faq__a-inner">Yes, we&apos;ll walk you through a recent campaign on the call, with the actual numbers and creator lineup.</div></div></div>',
+      '        <div class="v11-faq__item" aria-expanded="false"><button class="v11-faq__q" type="button"><span>Who runs my campaign?</span><span>⌄</span></button><div class="v11-faq__a"><div class="v11-faq__a-inner">Direct contact with the founder for the first campaign. After that, dedicated campaign manager plus our optimization team.</div></div></div>',
+      '      </div>',
+      '    </div>',
+      '  </section>',
+      '</main>'
+    ].join('');
+
+    var frames = targetDocument.querySelectorAll('.v11-frame');
+    var sizeButtons = targetDocument.querySelectorAll('[data-size]');
+    for (var i = 0; i < sizeButtons.length; i++) {
+      sizeButtons[i].addEventListener('click', function () {
+        var size = this.getAttribute('data-size');
+        for (var k = 0; k < frames.length; k++) {
+          frames[k].setAttribute('data-size', size);
+        }
+        for (var j = 0; j < sizeButtons.length; j++) {
+          sizeButtons[j].setAttribute('aria-pressed', String(sizeButtons[j] === this));
+        }
+      });
+    }
+
+    var calc = targetDocument.querySelector('[data-calculator]');
+    if (calc) {
+      var niches = {
+        'Prediction Markets': ['PM', 'KAL', 'ODD', 'YES', 'FUT', 'ARB', 'WIN', 'EDGE', 'VOL', 'BET', 'DATA', 'ALP'],
+        'Trading': ['TR', 'LV', 'MG', 'SW', 'QB', 'FX', 'AR', 'RN', 'MX', 'SP', 'TK', 'HT'],
+        'DeFi': ['DEX', 'LEND', 'LP', 'YLD', 'VAULT', 'SWAP', 'DAO', 'RISK', 'POOL', 'GAS', 'STAKE', 'ZK'],
+        'Stablecoins': ['US', 'PY', 'FX', 'RS', 'BP', 'ON', 'MT', 'SF', 'BK', 'CA', 'ST', 'TR'],
+        'AI': ['AI', 'ML', 'NX', 'LM', 'CV', 'AG', 'NE', 'LL', 'RA', 'PR', 'DP', 'MOD'],
+        'NFTs': ['AR', 'GM', 'DP', 'MT', 'PF', 'DA', 'IP', 'CL', 'RA', 'ME', 'PL', 'CR']
+      };
+      var reachBase = { 'Prediction Markets': 50, Trading: 46, DeFi: 54, Stablecoins: 41, AI: 49, NFTs: 36 };
+      var budget = calc.querySelector('[data-budget]');
+      var niche = calc.querySelector('[data-niche]');
+      var frequency = calc.querySelector('[data-frequency]');
+      var overlap = calc.querySelector('[data-overlap]');
+
+      function setText(selector, value) {
+        var node = calc.querySelector(selector) || targetDocument.querySelector(selector);
+        if (node) node.textContent = value;
+      }
+
+      function initials(label, index) {
+        var raw = String(label || '').replace(/[^a-zA-Z0-9]/g, '');
+        if (!raw) return 'AA';
+        if (raw.length === 1) return (raw + raw).toUpperCase();
+        if (raw.length === 2) return raw.toUpperCase();
+        return (raw[0] + raw[raw.length - 1] + (index % 2 ? raw[1] : raw[0])).slice(0, 2).toUpperCase();
+      }
+
+      function makeAvatars(container, labels, total, accent, palette, offset) {
+        container.innerHTML = '';
+        var visible = Math.min(12, total);
+        if (accent && total > 12) visible = 11;
+        for (var i = 0; i < visible; i++) {
+          var item = targetDocument.createElement('span');
+          item.className = 'v11-avatar';
+          if (!accent) {
+            item.className += ' v11-avatar--generic';
+            item.textContent = '';
+            item.style.background = ['#d9d9d9', '#cfcfcf', '#e5e5e5', '#bdbdbd'][(i + (offset || 0)) % 4];
+          } else {
+            item.textContent = initials(labels[(i + (offset || 0)) % labels.length], i + (offset || 0));
+            var bg = palette[(i + (offset || 0)) % palette.length];
+            item.style.background = bg;
+            item.style.color = (bg === '#f3c51b' || bg === '#f7d133') ? '#111' : '#fff';
+          }
+          container.appendChild(item);
+        }
+        if (total > visible) {
+          var more = targetDocument.createElement('span');
+          more.className = 'v11-avatar v11-avatar--more';
+          more.textContent = '+' + (total - visible);
+          container.appendChild(more);
+        }
+      }
+
+      var frequencyLabels = ['1×', '2×', '3×', '4×', '5×', '6×', '7×', '8×', '9×', '10×+'];
+      var staticStandardFrequency = [88, 58, 36, 22, 31, 55, 20, 47, 18, 42];
+
+      function clampNumber(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function renderFrequencyChart(container, values, peakIndex, controlled) {
+        if (!container) return;
+        container.innerHTML = '';
+        for (var i = 0; i < frequencyLabels.length; i++) {
+          var slot = targetDocument.createElement('span');
+          slot.className = 'v11-frequency-slot';
+          var bar = targetDocument.createElement('i');
+          bar.className = 'v11-frequency-stick';
+          if (!controlled) {
+            bar.className += ' v11-frequency-stick--standard';
+          } else if (i === peakIndex) {
+            bar.className += ' v11-frequency-stick--peak';
+          } else if (i < peakIndex) {
+            bar.className += ' v11-frequency-stick--under';
+          } else {
+            bar.className += ' v11-frequency-stick--over';
+          }
+          bar.style.height = clampNumber(values[i], 8, 92) + '%';
+          var label = targetDocument.createElement('b');
+          label.className = 'v11-frequency-label';
+          label.textContent = frequencyLabels[i];
+          slot.appendChild(bar);
+          slot.appendChild(label);
+          container.appendChild(slot);
+        }
+      }
+
+      function getControlledFrequency(frequencyValue, overlapValue) {
+        var overlapNudge = overlapValue >= 34 ? 1 : (overlapValue <= 12 ? -1 : 0);
+        var peakIndex = clampNumber(Math.round(frequencyValue - 1 + overlapNudge), 0, 8);
+        var spread = frequencyValue <= 2 ? 2.4 : (frequencyValue >= 7 ? 3.2 : 4.2);
+        var values = [];
+        for (var i = 0; i < frequencyLabels.length; i++) {
+          var distance = i - peakIndex;
+          var height = 12 + 80 * Math.exp(-(distance * distance) / spread);
+          if (frequencyValue <= 2 && i > peakIndex) height -= i * 2.6;
+          if (frequencyValue >= 7 && i > peakIndex) height += (i - peakIndex) * 3.2;
+          values.push(Math.round(clampNumber(height, 8, 92)));
+        }
+        return { peakIndex: peakIndex, values: values };
+      }
+
+      function renderCalculator() {
+        var b = Number(budget.value);
+        var f = Number(frequency.value);
+        var o = Number(overlap.value);
+        var n = niche.value;
+        var budgetScale = b / 5;
+        var agencyCreators = Math.max(1, Math.round((b * 1000) / 833));
+        var agencyPosts = agencyCreators * 4;
+        var agencyRelevant = Math.max(1, Math.round((agencyPosts * 3900 * 0.07) / 1000));
+        var selectCreators = Math.max(8, Math.round(18 + (Math.pow(budgetScale, 0.72) - 1) * 5 + (f - 5) * 0.45 - (o - 20) / 28));
+        var selectPosts = selectCreators * 4;
+        var reach = Math.max(1, Math.round(reachBase[n] * (1 + (Math.sqrt(budgetScale) - 1) * 0.35) * (1 + (20 - o) / 180) * (1 + (5 - f) * 0.08)));
+        var selectCpm = Math.max(2.8, 4.2 / Math.pow(budgetScale, 0.08) * (1 + (f - 5) * 0.025)).toFixed(2);
+        var controlledOverlap = Math.max(4, Math.round(o * .6));
+        var labels = niches[n];
+        var mutedPalette = ['#f04b4b', '#18bdb5', '#ff8c35', '#646ef7', '#ea4fa3', '#39b24e', '#f3c51b', '#2f57ff'];
+        var vividPalette = ['#f54848', '#10b7b1', '#ff8040', '#e842a0', '#3ba64c', '#2b55ff', '#5f63f5', '#f3c51b', '#17c46d', '#ff5ca6'];
+        var selectOffset = (n.charCodeAt(0) + f + o + b) % 10;
+        var controlledFrequency = getControlledFrequency(f, o);
+
+        setText('[data-budget-label]', '$' + b + 'K');
+        setText('[data-frequency-label]', f + '×');
+        setText('[data-overlap-label]', o + '%');
+        setText('[data-agency-creators]', String(agencyCreators));
+        setText('[data-agency-posts]', String(agencyPosts));
+        setText('[data-agency-relevant]', '~' + agencyRelevant + 'K');
+        setText('[data-agency-cpm]', '$24.67');
+        setText('[data-select-creators]', String(selectCreators));
+        setText('[data-select-posts]', String(selectPosts));
+        setText('[data-select-reach]', reach + 'K');
+        setText('[data-select-cpm]', '$' + selectCpm);
+        setText('[data-select-overlap]', controlledOverlap + '% controlled');
+        setText('[data-select-avatar-title]', 'Selected creators (' + selectCreators + ')');
+
+        renderFrequencyChart(calc.querySelector('[data-standard-frequency]'), staticStandardFrequency, -1, false);
+        renderFrequencyChart(calc.querySelector('[data-select-frequency]'), controlledFrequency.values, controlledFrequency.peakIndex, true);
+
+        makeAvatars(calc.querySelector('[data-agency-avatars]'), labels, 12, false, mutedPalette, 0);
+        makeAvatars(calc.querySelector('[data-select-avatars]'), labels.slice(f % labels.length).concat(labels), selectCreators, true, vividPalette, selectOffset + f);
+      }
+
+      var standardToggle = calc.querySelector('[data-standard-toggle]');
+      var standardPanel = calc.querySelector('[data-standard-panel]');
+      if (standardToggle && standardPanel) {
+        standardToggle.addEventListener('click', function () {
+          var isOpen = standardPanel.classList.toggle('is-open');
+          standardToggle.setAttribute('aria-expanded', String(isOpen));
+          standardToggle.textContent = isOpen ? 'Compare to standard approach ↑' : 'Compare to standard approach ↓';
+        });
+      }
+
+      [budget, niche, frequency, overlap].forEach(function (control) {
+        control.addEventListener('input', renderCalculator);
+        control.addEventListener('change', renderCalculator);
+      });
+      renderCalculator();
+    }
+
+    var network = targetDocument.querySelector('[data-network]');
+    if (network) {
+      var demoNiches = ['Prediction Markets', 'DeFi', 'Stablecoins', 'NFTs', 'L2s', 'GameFi', 'Memecoins', 'Onchain Trading'];
+      var demoValues = {
+        'Prediction Markets': 4800,
+        DeFi: 32400,
+        Stablecoins: 1200,
+        NFTs: 7600,
+        L2s: 18300,
+        GameFi: 540,
+        Memecoins: 22100,
+        'Onchain Trading': 11500
+      };
+      var activeDemoNiche = 'Prediction Markets';
+      var demoFilterWrap = network.querySelector('[data-network-filters]');
+      var demoValueNode = network.querySelector('[data-network-value]');
+      var demoNicheLabel = network.querySelector('[data-network-niche-label]');
+
+      function formatDemoCount(value) {
+        if (value >= 1000) return (value / 1000).toFixed(value >= 10000 ? 1 : 1).replace('.0', '') + 'K';
+        return String(value);
+      }
+
+      function animateDemoNumber(node, nextValue) {
+        var startValue = Number(node.getAttribute('data-value') || 0);
+        var startedAt = performance.now();
+        var duration = 850;
+        node.classList.add('is-changing');
+        function tick(now) {
+          var progress = Math.min(1, (now - startedAt) / duration);
+          var eased = 1 - Math.pow(1 - progress, 3);
+          var current = Math.round(startValue + (nextValue - startValue) * eased);
+          node.textContent = formatDemoCount(current);
+          if (progress < 1) {
+            requestAnimationFrame(tick);
+          } else {
+            node.setAttribute('data-value', String(nextValue));
+            node.textContent = formatDemoCount(nextValue);
+            window.setTimeout(function () { node.classList.remove('is-changing'); }, 140);
+          }
+        }
+        requestAnimationFrame(tick);
+      }
+
+      function renderDemoFilters() {
+        demoFilterWrap.innerHTML = '';
+        demoNiches.forEach(function (name) {
+          var button = targetDocument.createElement('button');
+          button.type = 'button';
+          button.textContent = name;
+          button.setAttribute('aria-pressed', String(name === activeDemoNiche));
+          button.addEventListener('click', function () {
+            activeDemoNiche = name;
+            renderDemoFilters();
+            updateDemoValue();
+          });
+          demoFilterWrap.appendChild(button);
+        });
+        var more = targetDocument.createElement('span');
+        more.textContent = '+ 45 more niches';
+        demoFilterWrap.appendChild(more);
+      }
+
+      function updateDemoValue() {
+        demoNicheLabel.textContent = activeDemoNiche;
+        animateDemoNumber(demoValueNode, demoValues[activeDemoNiche]);
+      }
+
+      renderDemoFilters();
+      updateDemoValue();
+    }
+
+    var faq = targetDocument.querySelector('[data-faq]');
+    if (faq) {
+      var faqItems = faq.querySelectorAll('.v11-faq__item');
+      faqItems.forEach(function (item) {
+        var button = item.querySelector('.v11-faq__q');
+        var answer = item.querySelector('.v11-faq__a');
+        button.addEventListener('click', function () {
+          var expanded = item.getAttribute('aria-expanded') === 'true';
+          faqItems.forEach(function (other) {
+            if (other !== item) {
+              other.setAttribute('aria-expanded', 'false');
+              var otherAnswer = other.querySelector('.v11-faq__a');
+              otherAnswer.style.maxHeight = '0px';
+            }
+          });
+          item.setAttribute('aria-expanded', String(!expanded));
+          answer.style.maxHeight = expanded ? '0px' : answer.scrollHeight + 'px';
+        });
+      });
+    }
+
+    installVersionControls(targetDocument);
+  }
 
   function bytesFromBase64(value) {
     var bin = atob(value);
@@ -157,7 +944,20 @@
     try {
       var html = await unlock(input.value);
       sessionStorage.setItem(passwordStorageKey, input.value);
-      window.location.replace('./v1.4/#wireframe');
+      document.open();
+      document.write(html);
+      document.close();
+      installVersionControls(document);
+      openWireframeFirst(document);
+      window.setTimeout(function () {
+        trimV11ToFirstScreen(document);
+        installVersionControls(document);
+      }, 0);
+      new MutationObserver(function () {
+        trimV11ToFirstScreen(document);
+        installVersionControls(document);
+      })
+        .observe(document.body, { childList: true, subtree: true });
     } catch (err) {
       error.textContent = 'Wrong password. Please try again.';
       button.disabled = false;
@@ -169,7 +969,7 @@
   var savedPassword = sessionStorage.getItem(passwordStorageKey);
   if (savedPassword) {
     input.value = savedPassword;
-    window.location.replace('./v1.4/#wireframe');
+    form.requestSubmit();
   }
 })();
 </script>
