@@ -237,6 +237,20 @@
         '.v11-proof{margin-top:34px;display:grid;gap:12px;justify-items:center;color:#777;font:500 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.12em;text-transform:uppercase}',
         '.v11-logos{width:min(100%,760px);display:grid;grid-template-columns:repeat(6,1fr);gap:12px;letter-spacing:0;text-transform:none;font-family:Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}',
         '.v11-logo-pill{border:1px solid #d0d0d0;border-radius:4px;min-height:46px;display:grid;place-items:center;color:#444;font:800 16px Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}',
+        '.v11-pain{padding:18px 0 10px}',
+        '.v11-pain h2{margin:0 0 24px;font-size:clamp(38px,4vw,54px);line-height:1.06;font-weight:950;max-width:900px}',
+        '.v11-pain__grid{display:grid;grid-template-columns:1.02fr .98fr;gap:18px;align-items:stretch}',
+        '.v11-pain__report,.v11-pain__visual{border:1px solid #d0d0d0;border-radius:4px;background:#fff;padding:22px}',
+        '.v11-pain__report{display:grid;gap:10px;align-content:start}',
+        '.v11-pain__eyebrow{margin:0 0 4px;color:#666;font:700 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.14em;text-transform:uppercase}',
+        '.v11-pain__line{display:flex;align-items:center;gap:10px;margin:0;color:#111;font-size:18px;line-height:1.28;font-weight:800}',
+        '.v11-pain__line--meta{color:#444;font-size:16px;font-weight:700}',
+        '.v11-pain__line--problem{color:#7e2e2e}',
+        '.v11-pain__bullet{display:inline-grid;place-items:center;width:18px;height:18px;border:1px solid #b07272;border-radius:999px;color:#9c4242;font:900 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;line-height:1;flex:0 0 auto}',
+        '.v11-pain__divider{margin:4px 0 0;color:#777;font:700 11px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.14em;text-transform:uppercase}',
+        '.v11-pain__visual{display:grid;place-items:center;min-height:286px;background:#fafafa}',
+        '.v11-pain__visual svg{width:100%;height:auto;max-width:100%}',
+        '.v11-pain__micro{margin:16px auto 0;max-width:780px;color:#555;font-size:16px;line-height:1.45;text-align:center;font-weight:650}',
         '.v11-insight{padding:0 0 18px}',
         '.v11-insight h2{margin:0 0 34px;font-size:clamp(40px,4vw,54px);line-height:1.06;letter-spacing:-.02em;font-weight:950}',
         '.v11-insight__top{display:grid;grid-template-columns:390px 1fr;gap:48px;align-items:center;margin-bottom:34px}',
@@ -295,12 +309,16 @@
         '.v11-mini-metric span{display:block;color:#777;font:600 11px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.08em;text-transform:uppercase}',
         '.v11-mini-metric strong{display:block;margin-top:6px;font-size:24px;line-height:1;font-weight:950}',
         '.v11-mini-metric--primary{grid-column:1 / -1}',
+        '.v11-mini-metric--full{grid-column:1 / -1}',
+        '.v11-mini-metric--warning strong{color:#8b2f2f}',
+        '.v11-mini-metric--good strong{color:#126f38}',
+        '.v11-mini-metric__note{display:block;margin-top:6px;color:#666;font:700 11px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.12em;text-transform:uppercase}',
         '.v11-panel--select .v11-mini-metric{border-color:#c9aa25;background:#fff8cf}',
         '.v11-panel--select .v11-mini-metric--primary strong{font-size:34px}',
-        '.v11-unavailable{display:grid;gap:8px;margin:0 0 20px;padding:0;list-style:none;color:#666;font:800 13px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}',
+        '.v11-unavailable{display:grid;gap:8px;margin:0 0 20px;padding:0;list-style:none;color:#555;font:800 13px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}',
         '.v11-unavailable li{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e2e2e2;padding-bottom:8px}',
-        '.v11-unavailable li span{letter-spacing:.12em;text-transform:uppercase;color:#777}',
-        '.v11-unavailable li b{display:inline-flex;align-items:center;gap:6px;padding:3px 8px;border-radius:4px;background:#f1f1f1;color:#555;letter-spacing:.1em;text-transform:uppercase}',
+        '.v11-unavailable li span{letter-spacing:.12em;text-transform:uppercase;color:#666}',
+        '.v11-unavailable li b{display:inline-flex;align-items:center;gap:6px;padding:3px 8px;border-radius:4px;background:#f3f3f3;color:#444;letter-spacing:.1em;text-transform:uppercase}',
         '.v11-unavailable li b::before{content:"×";display:inline-grid;place-items:center;width:15px;height:15px;border:1px solid #999;border-radius:999px;color:#555;font-size:11px;line-height:1}',
         '.v11-available li b{background:#fff8cf;color:#111}',
         '.v11-available li b::before{content:"✓";border-color:#c9aa25;color:#126f38}',
@@ -344,12 +362,27 @@
         '.v11-proof-band{padding:78px 0 92px}',
         '.v11-proof-band__inner{border-top:1px solid #d0d0d0;padding-top:28px}',
         '.v11-proof-band__eyebrow{margin:0 0 18px;color:#666;font:700 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.14em;text-transform:uppercase}',
-        '.v11-proof-band__stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}',
+        '.v11-proof-band__stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;align-items:start}',
         '.v11-proof-band__stat{min-width:0}',
         '.v11-proof-band__value{margin:0 0 8px;color:#111;font-size:clamp(40px,4vw,64px);line-height:1;font-weight:950;letter-spacing:-.04em}',
         '.v11-proof-band__caption{margin:0;color:#444;font-size:16px;line-height:1.35;font-weight:650}',
         '.v11-proof-band__cta{display:inline-flex;margin-top:24px;color:#111;font-size:16px;font-weight:800;text-decoration:none}',
         '.v11-proof-band__cta:hover{text-decoration:underline}',
+        '.v11-bridge{padding:48px 0 18px}',
+        '.v11-bridge__box{border-top:1px solid #d0d0d0;border-bottom:1px solid #d0d0d0;padding:30px 0;text-align:center}',
+        '.v11-bridge__eyebrow{margin:0 0 14px;color:#666;font:700 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.14em;text-transform:uppercase}',
+        '.v11-bridge__value{margin:0;color:#111;font-size:clamp(54px,6vw,84px);line-height:1;font-weight:950;letter-spacing:-.05em}',
+        '.v11-bridge__caption{margin:10px auto 0;max-width:660px;color:#444;font-size:17px;line-height:1.4;font-weight:650}',
+        '.v11-bridge__actions{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:20px}',
+        '.v11-bridge__micro{margin-top:10px;color:#666;font:600 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.08em}',
+        '.v11-testimonials{padding:20px 0 72px}',
+        '.v11-testimonials__inner{border-top:1px solid #d0d0d0;padding-top:28px}',
+        '.v11-testimonials__eyebrow{margin:0 0 18px;color:#666;font:700 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.14em;text-transform:uppercase}',
+        '.v11-testimonials h2{margin:0 0 22px;font-size:clamp(34px,4vw,48px);line-height:1.08;font-weight:950;color:#111}',
+        '.v11-testimonials__cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}',
+        '.v11-testimonial{border:1px solid #d0d0d0;border-radius:4px;background:#fff;padding:18px}',
+        '.v11-testimonial p{margin:0;color:#111;font-size:18px;line-height:1.45;font-weight:700}',
+        '.v11-testimonial span{display:block;margin-top:12px;color:#666;font:700 11px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.12em;text-transform:uppercase}',
         '.v11-calculator__micro{margin-left:auto;color:#777;font:600 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.08em}',
         '.v11-note{margin-top:12px;padding:12px 14px;border:1px solid #d0d0d0;border-radius:4px;background:#fafafa;font:600 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.08em;color:#666;line-height:1.45}',
         '.v11-network{padding:76px 0 0}',
@@ -416,9 +449,9 @@
         '.v11-faq__item[aria-expanded="true"] .v11-faq__q span:last-child{transform:rotate(180deg)}',
         '.v11-faq__a{max-height:0;overflow:hidden;transition:max-height .22s ease}',
         '.v11-faq__a-inner{padding:0 20px 18px;color:#444;font-size:16px;line-height:1.55;max-width:620px}',
-        '@media (max-width:980px){.v11-insight__top{grid-template-columns:1fr;gap:22px}.v11-audience{width:390px;max-width:100%;margin:0 auto}.v11-signal{grid-template-columns:1fr}.v11-signal__row{grid-template-columns:110px 1fr 24px;align-items:center}.v11-signal__outcome{grid-column:2 / -1}.v11-mapped{grid-column:1;margin-left:0;text-align:left}.v11-tool{grid-template-columns:1fr}.v11-panel{border-right:0;border-bottom:1px solid #d0d0d0}.v11-panel:last-child{border-bottom:0}.v11-panel--select{order:2}.v11-panel--muted{order:3}}',
-        '@media (max-width:760px){.v11-standard-toggle{order:3;display:flex;align-items:center;justify-content:space-between;width:100%;min-height:52px;padding:0 18px;border:0;border-bottom:1px solid #d0d0d0;background:#fafafa;color:#111;font:900 14px Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;text-align:left;cursor:pointer}.v11-standard-panel{order:4;max-height:0;overflow:hidden;padding-top:0!important;padding-bottom:0!important;border-bottom:0!important;transition:max-height .24s ease,padding .24s ease}.v11-standard-panel.is-open{max-height:1600px;padding-top:22px!important;padding-bottom:22px!important;border-bottom:1px solid #d0d0d0!important}}',
-        '@media (max-width:760px){.v11-toolbar{height:auto;grid-template-columns:1fr;padding:10px 14px}.v11-toolbar__label,.v11-toolbar__right,.v11-back{justify-self:start}.v11-frame{padding:0 14px}.v11-nav{height:auto;padding:18px 0;align-items:flex-start;gap:14px}.v11-links{order:3;width:100%;margin-left:0}.v11-nav__cta{order:2;margin-left:0}.v11-demo{margin-left:auto}.v11-hero{padding:42px 0 52px}.v11-copy h1{font-size:42px}.v11-logos{grid-template-columns:repeat(2,1fr)}.v11-insight{padding:0 0 10px}.v11-insight h2{font-size:36px;margin-bottom:28px}.v11-audience{height:320px}.v11-audience__ring--outer{width:288px;height:288px}.v11-audience__ring--inner{width:72px;height:72px;left:108px;top:196px}.v11-signal{padding:18px}.v11-signal__title{font-size:28px}.v11-signal__row{grid-template-columns:1fr;gap:8px}.v11-signal__row-title{grid-column:auto;margin:0}.v11-signal__arrow{display:none}.v11-brand-text,.v11-signal__arrow,.v11-signal__outcome{font-size:18px}.v11-mapped{font-size:11px;line-height:1.45;margin-top:8px}.v11-proof-band{padding:56px 0 72px}.v11-proof-band__stats{grid-template-columns:1fr;gap:14px}.v11-proof-band__value{font-size:44px}.v11-metric-grid,.v11-select-extra{grid-template-columns:1fr}.v11-mini-metric--primary{grid-column:auto}.v11-avatars{grid-template-columns:repeat(6,30px)}.v11-avatar{width:30px;height:30px}.v11-niche-row{margin-left:-14px;margin-right:-14px;padding-left:14px;padding-right:14px}.v11-network-card--ghost{display:none}.v11-network-demo{min-height:auto}.v11-creator-grid{grid-template-columns:repeat(2,1fr)}.v11-creator-card{min-height:122px;padding:12px}.v11-network__footer{align-items:flex-start;flex-direction:column}.v11-network h2{font-size:36px}.v11-close{padding:56px 0 72px}.v11-close__box{grid-template-columns:1fr;gap:16px}.v11-close__actions{justify-content:center}.v11-close__doors{grid-template-columns:1fr}.v11-about{margin-top:18px;padding:64px 0 76px}.v11-about__lead{font-size:24px}.v11-about__copy{font-size:16px}.v11-about__links{flex-direction:column;gap:14px}.v11-faq{padding-bottom:72px}.v11-faq__inner{padding-top:64px}.v11-faq h2{font-size:30px}.v11-faq__q{padding:16px 18px;font-size:15px}.v11-faq__a-inner{padding:0 18px 16px;font-size:15px}}'
+        '@media (max-width:980px){.v11-pain__grid{grid-template-columns:1fr;gap:14px}.v11-pain__visual{min-height:240px}.v11-insight__top{grid-template-columns:1fr;gap:22px}.v11-audience{width:390px;max-width:100%;margin:0 auto}.v11-signal{grid-template-columns:1fr}.v11-signal__row{grid-template-columns:110px 1fr 24px;align-items:center}.v11-signal__outcome{grid-column:2 / -1}.v11-mapped{grid-column:1;margin-left:0;text-align:left}.v11-tool{grid-template-columns:1fr}.v11-panel{border-right:0;border-bottom:1px solid #d0d0d0}.v11-panel:last-child{border-bottom:0}.v11-panel--select{order:2}.v11-panel--muted{order:3}.v11-testimonials__cards{grid-template-columns:1fr}.v11-bridge__caption{font-size:16px}.v11-proof-band__stats{grid-template-columns:repeat(2,1fr);gap:14px}}',
+        '@media (max-width:760px){.v11-standard-toggle{order:3;display:flex;align-items:center;justify-content:space-between;width:100%;min-height:52px;padding:0 18px;border:0;border-bottom:1px solid #d0d0d0;background:#fafafa;color:#111;font:900 14px Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;text-align:left;cursor:pointer}.v11-standard-panel{order:4;max-height:0;overflow:hidden;padding-top:0!important;padding-bottom:0!important;border-bottom:0!important;transition:max-height .24s ease,padding .24s ease}.v11-standard-panel.is-open{max-height:1600px;padding-top:22px!important;padding-bottom:22px!important;border-bottom:1px solid #d0d0d0!important}.v11-pain{padding-top:36px}.v11-pain h2{font-size:34px;margin-bottom:18px}.v11-pain__report,.v11-pain__visual{padding:18px}.v11-pain__line{font-size:16px}.v11-pain__visual{min-height:210px}.v11-testimonials{padding-bottom:60px}.v11-testimonials h2{font-size:30px}.v11-testimonial p{font-size:16px}.v11-bridge{padding:34px 0 12px}.v11-bridge__box{padding:24px 0}.v11-bridge__value{font-size:clamp(44px,12vw,64px)}.v11-proof-band{padding:50px 0 64px}.v11-proof-band__stats{grid-template-columns:1fr;gap:14px}.v11-proof-band__value{font-size:44px}}',
+        '@media (max-width:760px){.v11-toolbar{height:auto;grid-template-columns:1fr;padding:10px 14px}.v11-toolbar__label,.v11-toolbar__right,.v11-back{justify-self:start}.v11-frame{padding:0 14px}.v11-nav{height:auto;padding:18px 0;align-items:flex-start;gap:14px}.v11-links{order:3;width:100%;margin-left:0}.v11-nav__cta{order:2;margin-left:0}.v11-demo{margin-left:auto}.v11-hero{padding:42px 0 52px}.v11-copy h1{font-size:42px}.v11-logos{grid-template-columns:repeat(2,1fr)}.v11-insight{padding:0 0 10px}.v11-insight h2{font-size:36px;margin-bottom:28px}.v11-audience{height:320px}.v11-audience__ring--outer{width:288px;height:288px}.v11-audience__ring--inner{width:72px;height:72px;left:108px;top:196px}.v11-signal{padding:18px}.v11-signal__title{font-size:28px}.v11-signal__row{grid-template-columns:1fr;gap:8px}.v11-signal__row-title{grid-column:auto;margin:0}.v11-signal__arrow{display:none}.v11-brand-text,.v11-signal__arrow,.v11-signal__outcome{font-size:18px}.v11-mapped{font-size:11px;line-height:1.45;margin-top:8px}.v11-pain__grid{grid-template-columns:1fr}.v11-pain__visual{min-height:220px}.v11-pain__micro{font-size:15px}.v11-proof-band{padding:54px 0 66px}.v11-proof-band__value{font-size:42px}.v11-metric-grid,.v11-select-extra{grid-template-columns:1fr}.v11-mini-metric--primary,.v11-mini-metric--full{grid-column:auto}.v11-avatars{grid-template-columns:repeat(6,30px)}.v11-avatar{width:30px;height:30px}.v11-niche-row{margin-left:-14px;margin-right:-14px;padding-left:14px;padding-right:14px}.v11-network-card--ghost{display:none}.v11-network-demo{min-height:auto}.v11-creator-grid{grid-template-columns:repeat(2,1fr)}.v11-creator-card{min-height:122px;padding:12px}.v11-network__footer{align-items:flex-start;flex-direction:column}.v11-network h2{font-size:36px}.v11-close{padding:56px 0 72px}.v11-close__box{grid-template-columns:1fr;gap:16px}.v11-close__actions{justify-content:center}.v11-close__doors{grid-template-columns:1fr}.v11-about{margin-top:18px;padding:64px 0 76px}.v11-about__lead{font-size:24px}.v11-about__copy{font-size:16px}.v11-about__links{flex-direction:column;gap:14px}.v11-testimonials__inner{padding-top:60px}.v11-testimonials__cards{grid-template-columns:1fr}.v11-faq{padding-bottom:72px}.v11-faq__inner{padding-top:64px}.v11-faq h2{font-size:30px}.v11-faq__q{padding:16px 18px;font-size:15px}.v11-faq__a-inner{padding:0 18px 16px;font-size:15px}}'
       ].join('');
       targetDocument.head.appendChild(style);
     }
@@ -470,9 +503,86 @@
       '      </div>',
       '    </div>',
       '  </section>',
+      '  <section class="v11-frame v11-pain" data-size="desktop" id="pain">',
+      '    <h2>You can spend $50K and still miss your audience.</h2>',
+      '    <div class="v11-pain__grid">',
+      '      <div class="v11-pain__report">',
+      '        <p class="v11-pain__eyebrow">Campaign report</p>',
+      '        <div class="v11-pain__line v11-pain__line--meta">10 creators</div>',
+      '        <div class="v11-pain__line v11-pain__line--meta">240K impressions</div>',
+      '        <div class="v11-pain__divider">— but —</div>',
+      '        <div class="v11-pain__line v11-pain__line--problem"><span class="v11-pain__bullet">×</span><span>61% audience overlap</span></div>',
+      '        <div class="v11-pain__line v11-pain__line--problem"><span class="v11-pain__bullet">×</span><span>72% outside target niche</span></div>',
+      '        <div class="v11-pain__line v11-pain__line--problem"><span class="v11-pain__bullet">×</span><span>random frequency distribution</span></div>',
+      '      </div>',
+      '      <div class="v11-pain__visual" aria-label="Audience relevance illustration">',
+      '        <svg viewBox="0 0 560 300" role="img" aria-label="Target audience illustration">',
+      '          <defs>',
+      '            <linearGradient id="v11PainGlow" x1="0" y1="0" x2="1" y2="1">',
+      '              <stop offset="0%" stop-color="#f7d133" stop-opacity=".9" />',
+      '              <stop offset="100%" stop-color="#f7d133" stop-opacity=".15" />',
+      '            </linearGradient>',
+      '          </defs>',
+      '          <rect x="0.5" y="0.5" width="559" height="299" rx="4" fill="#fafafa" stroke="#e3e3e3" />',
+      '          <g stroke="#d0d0d0" stroke-width="1">',
+      '            <line x1="82" y1="78" x2="184" y2="120" />',
+      '            <line x1="118" y1="196" x2="206" y2="148" />',
+      '            <line x1="146" y1="104" x2="212" y2="166" />',
+      '            <line x1="332" y1="120" x2="434" y2="88" />',
+      '            <line x1="324" y1="176" x2="442" y2="156" />',
+      '            <line x1="300" y1="142" x2="410" y2="208" />',
+      '            <line x1="248" y1="152" x2="336" y2="122" />',
+      '            <line x1="252" y1="160" x2="344" y2="188" />',
+      '          </g>',
+      '          <g fill="#bfbfbf" opacity=".82">',
+      '            <circle cx="82" cy="78" r="7" />',
+      '            <circle cx="108" cy="106" r="6" />',
+      '            <circle cx="132" cy="132" r="6" />',
+      '            <circle cx="98" cy="160" r="5" />',
+      '            <circle cx="118" cy="196" r="7" />',
+      '            <circle cx="164" cy="206" r="6" />',
+      '            <circle cx="194" cy="88" r="6" />',
+      '            <circle cx="212" cy="122" r="7" />',
+      '            <circle cx="236" cy="160" r="6" />',
+      '            <circle cx="208" cy="194" r="6" />',
+      '            <circle cx="164" cy="154" r="5" />',
+      '            <circle cx="298" cy="122" r="5" />',
+      '            <circle cx="326" cy="96" r="6" />',
+      '            <circle cx="350" cy="138" r="6" />',
+      '            <circle cx="350" cy="176" r="5" />',
+      '            <circle cx="322" cy="204" r="6" />',
+      '            <circle cx="382" cy="94" r="6" />',
+      '            <circle cx="408" cy="122" r="5" />',
+      '            <circle cx="426" cy="166" r="6" />',
+      '            <circle cx="452" cy="196" r="5" />',
+      '            <circle cx="484" cy="150" r="7" />',
+      '          </g>',
+      '          <g fill="#f7d133" stroke="#c9aa25">',
+      '            <circle cx="258" cy="145" r="16" />',
+      '            <circle cx="286" cy="126" r="13" />',
+      '            <circle cx="312" cy="144" r="12" />',
+      '            <circle cx="286" cy="166" r="14" />',
+      '          </g>',
+      '          <g stroke="url(#v11PainGlow)" stroke-width="3" stroke-linecap="round">',
+      '            <path d="M258 145 C214 114, 170 102, 128 94" />',
+      '            <path d="M286 126 C250 92, 220 82, 188 78" />',
+      '            <path d="M312 144 C370 138, 406 130, 456 110" />',
+      '            <path d="M286 166 C324 186, 360 202, 418 206" />',
+      '          </g>',
+      '          <g fill="#f7d133">',
+      '            <circle cx="258" cy="145" r="6" />',
+      '            <circle cx="286" cy="126" r="5" />',
+      '            <circle cx="312" cy="144" r="5" />',
+      '            <circle cx="286" cy="166" r="5" />',
+      '          </g>',
+      '        </svg>',
+      '      </div>',
+      '    </div>',
+      '    <p class="v11-pain__micro">Most teams don&apos;t know which part of their impressions actually mattered.</p>',
+      '  </section>',
       '  <section class="v11-frame" data-size="desktop" id="niche-followers">',
       '    <div class="v11-insight">',
-      '      <h2>Most creators are irrelevant to your campaign</h2>',
+      '      <h2>Follower count doesn&apos;t tell you who will convert.</h2>',
       '      <div class="v11-insight__top">',
       '        <div class="v11-audience" aria-label="Audience relevance diagram">',
       '          <div class="v11-audience__ring v11-audience__ring--outer"></div>',
@@ -486,8 +596,8 @@
       '          <div class="v11-metric__arrow">↓</div>',
       '          <div class="v11-metric v11-metric--highlight">',
       '            <p class="v11-metric__label">Relevant to your campaign</p>',
-      '            <p class="v11-metric__value">584 niche followers</p>',
-      '            <span class="v11-metric__note">Not the same thing as total followers.</span>',
+      '            <p class="v11-metric__value">584 relevant to your campaign</p>',
+      '            <span class="v11-metric__note">(niche followers)</span>',
       '          </div>',
       '        </div>',
       '      </div>',
@@ -511,27 +621,37 @@
       '      </div>',
       '    </div>',
       '  </section>',
+      '  <section class="v11-frame v11-network" data-size="desktop" data-network id="creator-network">',
+      '    <h2>Same creator. Different value.</h2>',
+      '    <p class="v11-network__subtitle">Switch the niche. The same creator performs differently.</p>',
+      '    <div class="v11-niche-row" data-network-filters aria-label="Niche filters"></div>',
+      '    <div class="v11-network-demo" aria-label="Creator niche value demo">',
+      '      <article class="v11-network-card v11-network-card--ghost" aria-hidden="true"><div class="v11-demo-avatar">AA</div><p class="v11-demo-handle">@sample_alpha</p><p class="v11-demo-label">Sample network</p></article>',
+      '      <article class="v11-network-card v11-network-card--ghost" aria-hidden="true"><div class="v11-demo-avatar">BB</div><p class="v11-demo-handle">@sample_beta</p><p class="v11-demo-label">Sample network</p></article>',
+      '      <article class="v11-network-card"><div class="v11-demo-avatar">JK</div><p class="v11-demo-handle">@creator_demo</p><p class="v11-demo-followers">120K followers</p><p class="v11-demo-label">Relevant audience</p><p class="v11-demo-value" data-network-value>0</p><p class="v11-demo-niche">Niche: <span data-network-niche-label>Prediction Markets</span></p><span class="v11-demo-sample">Sample data</span></article>',
+      '    </div>',
+      '    <div class="v11-network__footer"><p>Demo with sample data. Real creator data shown on call.</p><a class="v11-action v11-action--primary" href="#plan-campaign">See top creators in my niche →</a></div>',
+      '  </section>',
       '  <section class="v11-frame v11-calculator" data-size="desktop" id="plan-campaign">',
       '    <h2>Plan your campaign with real audience data</h2>',
-      '    <p class="v11-calculator__subtitle">Move the controls. See what changes — and what standard planning cannot control.</p>',
+      '    <p class="v11-calculator__subtitle">Move the controls. See what you can shape — and what most campaigns leave to chance.</p>',
       '    <div class="v11-tool" data-calculator>',
       '      <aside class="v11-panel v11-panel--controls">',
       '        <h3>Campaign inputs</h3>',
       '        <p class="v11-panel__sub">Play with controls below</p>',
       '        <div class="v11-control"><label>Target niche</label><select data-niche><option>Prediction Markets</option><option>Trading</option><option>DeFi</option><option>Stablecoins</option><option>AI</option><option>NFTs</option></select></div>',
       '        <div class="v11-control"><label><span class="v11-label-copy">Budget <span class="v11-help-icon" tabindex="0" data-tip="We work with campaigns starting from $5K.">?</span></span><strong data-budget-label>$5K</strong></label><input data-budget type="range" min="5" max="50" value="5" step="1"></div>',
-      '        <div class="v11-control"><label><span class="v11-label-copy">Audience overlap <span class="v11-help-icon" tabindex="0" data-tip="Maximum allowed % of shared followers between any two creators in the selected lineup.">?</span></span><strong data-overlap-label>20%</strong></label><input data-overlap type="range" min="0" max="50" value="20" step="1"></div>',
-      '        <div class="v11-control"><label><span class="v11-label-copy">Audience frequency <span class="v11-help-icon" tabindex="0" data-tip="How many times a unique niche user should see the campaign across all placements.">?</span></span><strong data-frequency-label>5×</strong></label><input data-frequency type="range" min="1" max="8" value="5" step="1"><div class="v11-freq-frame"><div class="v11-freq-label"><span>Max Reach</span><span>Balanced</span><span>Max Frequency</span></div></div></div>',
+      '        <div class="v11-control"><label><span class="v11-label-copy">Audience frequency <span class="v11-help-icon" tabindex="0" data-tip="How many times a unique niche user should see the campaign across all placements.">?</span></span><strong data-frequency-label>5×</strong></label><input data-frequency type="range" min="1" max="8" value="5" step="1"><div class="v11-freq-frame"><div class="v11-freq-label"><span>MAX REACH</span><span>BALANCED</span><span>MAX FREQUENCY</span></div></div></div>',
       '        <div class="v11-note">Inside the optimizer there are 20+ unique parameters for selecting the best influencer lineup.</div>',
       '      </aside>',
       '      <button class="v11-standard-toggle" type="button" data-standard-toggle aria-expanded="false">Compare to standard approach ↓</button>',
       '      <section class="v11-panel v11-panel--muted v11-standard-panel" data-standard-panel>',
       '        <h3>Standard approach</h3>',
       '        <div class="v11-metric-grid">',
-      '          <div class="v11-mini-metric"><span>Creators</span><strong data-agency-creators>12</strong></div>',
-      '          <div class="v11-mini-metric"><span>Posts</span><strong data-agency-posts>48</strong></div>',
-      '          <div class="v11-mini-metric v11-mini-metric--primary"><span>Estimated relevant audience <span class="v11-help-icon" tabindex="0" data-tip="Based on average niche concentration (~7%). Not measured directly.">?</span></span><strong data-agency-relevant>~17K</strong></div>',
-      '          <div class="v11-mini-metric"><span>CPM</span><strong data-agency-cpm>$24.67</strong></div>',
+      '          <div class="v11-mini-metric"><span>Creators</span><strong data-agency-creators>6</strong></div>',
+      '          <div class="v11-mini-metric"><span>Posts</span><strong data-agency-posts>24</strong></div>',
+      '          <div class="v11-mini-metric v11-mini-metric--full v11-mini-metric--primary"><span>Estimated relevant audience <span class="v11-help-icon" tabindex="0" data-tip="Estimated from average niche concentration. Not measured directly.">?</span></span><strong data-agency-relevant>~17K</strong></div>',
+      '          <div class="v11-mini-metric v11-mini-metric--full v11-mini-metric--warning"><span>Wasted budget</span><strong data-agency-wasted>$4,100</strong><span class="v11-mini-metric__note">BUDGET NOT REACHING YOUR NICHE</span></div>',
       '        </div>',
       '        <ul class="v11-unavailable"><li><span>Frequency control</span><b>not controlled</b></li><li><span>Overlap</span><b>not measured</b></li></ul>',
       '        <div class="v11-frequency-card">',
@@ -546,46 +666,57 @@
       '      <section class="v11-panel v11-panel--select">',
       '        <h3>Wallchain Select</h3>',
       '        <div class="v11-metric-grid">',
-      '          <div class="v11-mini-metric"><span>Optimized creators</span><strong data-select-creators>14</strong></div>',
-      '          <div class="v11-mini-metric"><span>Posts</span><strong data-select-posts>56</strong></div>',
-      '          <div class="v11-mini-metric v11-mini-metric--primary"><span>Relevant audience</span><strong data-select-reach>50K</strong></div>',
-      '          <div class="v11-mini-metric"><span>CPM per relevant user</span><strong data-select-cpm>$4.20</strong></div>',
+      '          <div class="v11-mini-metric"><span>Optimized creators</span><strong data-select-creators>9</strong></div>',
+      '          <div class="v11-mini-metric"><span>Posts</span><strong data-select-posts>36</strong></div>',
+      '          <div class="v11-mini-metric v11-mini-metric--full v11-mini-metric--primary"><span>Relevant audience</span><strong data-select-reach>37K</strong></div>',
+      '          <div class="v11-mini-metric v11-mini-metric--full v11-mini-metric--good"><span>Wasted budget</span><strong data-select-wasted>$750</strong><span class="v11-mini-metric__note">LESS WASTE</span></div>',
       '        </div>',
       '        <ul class="v11-unavailable v11-available"><li><span>Frequency control</span><b>controlled</b></li><li><span>Overlap</span><b data-select-overlap>12% controlled</b></li></ul>',
       '        <div class="v11-frequency-card">',
-      '          <p class="v11-frequency-title">Controlled frequency <span class="v11-help-icon" tabindex="0" data-tip="Wallchain optimizes creator selection to shape exposure around your reach/frequency balance.">?</span></p>',
+      '          <p class="v11-frequency-title">Controlled frequency <span class="v11-help-icon" tabindex="0" data-tip="Wallchain shapes exposure around your reach/frequency balance.">?</span></p>',
       '          <p class="v11-frequency-subtitle">Targeted distribution</p>',
       '          <div class="v11-frequency-chart" data-select-frequency aria-label="Wallchain Select frequency distribution"></div>',
       '          <p class="v11-frequency-note">Frequency is planned around your target.</p>',
       '        </div>',
-      '        <div class="v11-avatars-title" data-select-avatar-title>Selected creators (14)</div>',
+      '        <div class="v11-avatars-title" data-select-avatar-title>Selected creators (9)</div>',
       '        <div class="v11-avatars" data-select-avatars></div>',
       '      </section>',
       '    </div>',
       '    <div class="v11-calculator__cta"><a class="v11-action v11-action--primary" href="#plan-campaign">Analyze my campaign</a><a class="v11-action v11-action--secondary" href="#call">Book a call</a><div class="v11-calculator__micro">30-minute call. No slides. Just your campaign data.</div></div>',
       '  </section>',
+      '  <section class="v11-bridge" aria-label="Campaign setup CTA">',
+      '    <div class="v11-frame v11-bridge__box" data-size="desktop">',
+      '      <p class="v11-bridge__eyebrow">LET&apos;S RUN YOUR NUMBERS</p>',
+      '      <p class="v11-bridge__value">$6.9M</p>',
+      '      <p class="v11-bridge__caption">already paid to creators through Wallchain campaigns</p>',
+      '      <div class="v11-bridge__actions">',
+      '        <a class="v11-action v11-action--primary" href="#call">Set this up for me →</a>',
+      '      </div>',
+      '      <div class="v11-bridge__micro">30-minute call. Real campaign data on the screen.</div>',
+      '    </div>',
+      '  </section>',
       '  <section class="v11-proof-band" aria-label="Numbers from real campaigns">',
       '    <div class="v11-frame v11-proof-band__inner" data-size="desktop">',
       '      <p class="v11-proof-band__eyebrow">NUMBERS FROM REAL CAMPAIGNS</p>',
       '      <div class="v11-proof-band__stats">',
-      '        <div class="v11-proof-band__stat"><p class="v11-proof-band__value">3.7×</p><p class="v11-proof-band__caption">more reach than baseline</p></div>',
-      '        <div class="v11-proof-band__stat"><p class="v11-proof-band__value">2×</p><p class="v11-proof-band__caption">cheaper per niche reader</p></div>',
-      '        <div class="v11-proof-band__stat"><p class="v11-proof-band__value">60+</p><p class="v11-proof-band__caption">niches analyzed</p></div>',
+      '        <div class="v11-proof-band__stat"><p class="v11-proof-band__value">3.7×</p><p class="v11-proof-band__caption">more relevant audience</p></div>',
+      '        <div class="v11-proof-band__stat"><p class="v11-proof-band__value">2×</p><p class="v11-proof-band__caption">cheaper per niche audience member</p></div>',
+      '        <div class="v11-proof-band__stat"><p class="v11-proof-band__value">60+</p><p class="v11-proof-band__caption">mapped niches</p></div>',
+      '        <div class="v11-proof-band__stat"><p class="v11-proof-band__value">3.3M</p><p class="v11-proof-band__caption">mapped crypto accounts</p></div>',
       '      </div>',
       '      <a class="v11-proof-band__cta" href="#prediction-markets-research">Read the full Prediction Markets analysis →</a>',
       '    </div>',
       '  </section>',
-      '  <section class="v11-frame v11-network" data-size="desktop" data-network id="creator-network">',
-      '    <h2>Same creator. Different value.</h2>',
-      '    <p class="v11-network__subtitle">Switch the niche. The same creator performs differently.</p>',
-      '    <div class="v11-niche-row" data-network-filters aria-label="Niche filters"></div>',
-      '    <div class="v11-network-demo" aria-label="Creator niche value demo">',
-      '      <article class="v11-network-card v11-network-card--ghost"><div class="v11-demo-avatar">AA</div><p class="v11-demo-handle">@creator_01</p><p class="v11-demo-followers">260K followers</p><p class="v11-demo-label">Relevant audience</p><p class="v11-demo-value">--</p></article>',
-      '      <article class="v11-network-card v11-network-card--ghost"><div class="v11-demo-avatar">BB</div><p class="v11-demo-handle">@creator_02</p><p class="v11-demo-followers">84K followers</p><p class="v11-demo-label">Relevant audience</p><p class="v11-demo-value">--</p></article>',
-      '      <article class="v11-network-card v11-network-card--ghost"><div class="v11-demo-avatar">CC</div><p class="v11-demo-handle">@creator_03</p><p class="v11-demo-followers">410K followers</p><p class="v11-demo-label">Relevant audience</p><p class="v11-demo-value">--</p></article>',
-      '      <article class="v11-network-card"><div class="v11-demo-avatar">JK</div><p class="v11-demo-handle">@creator_demo</p><p class="v11-demo-followers">120K followers</p><p class="v11-demo-label">Relevant audience</p><p class="v11-demo-value" data-network-value>0</p><p class="v11-demo-niche">Niche: <span data-network-niche-label>Prediction Markets</span></p><span class="v11-demo-sample">Sample data</span></article>',
+      '  <section class="v11-testimonials" aria-label="Testimonials">',
+      '    <div class="v11-frame v11-testimonials__inner" data-size="desktop">',
+      '      <p class="v11-testimonials__eyebrow">TESTIMONIALS</p>',
+      '      <h2>What teams notice after the first campaign.</h2>',
+      '      <div class="v11-testimonials__cards">',
+      '        <article class="v11-testimonial"><p>&ldquo;We stopped paying for the same audience twice.&rdquo;</p><span>Growth lead</span></article>',
+      '        <article class="v11-testimonial"><p>&ldquo;The lineup finally matched the niche, not just the follower count.&rdquo;</p><span>Marketing team</span></article>',
+      '        <article class="v11-testimonial"><p>&ldquo;The calculator made the spend tradeoff obvious in seconds.&rdquo;</p><span>Founder</span></article>',
+      '      </div>',
       '    </div>',
-      '    <div class="v11-network__footer"><p>Demo with sample data. Real creator data shown on call.</p><a class="v11-action v11-action--primary" href="#creators">See top creators in my niche →</a></div>',
       '  </section>',
       '  <section class="v11-frame v11-close" data-size="desktop" id="call">',
       '    <div class="v11-close__box">',
@@ -662,15 +793,23 @@
         'AI': ['AI', 'ML', 'NX', 'LM', 'CV', 'AG', 'NE', 'LL', 'RA', 'PR', 'DP', 'MOD'],
         'NFTs': ['AR', 'GM', 'DP', 'MT', 'PF', 'DA', 'IP', 'CL', 'RA', 'ME', 'PL', 'CR']
       };
-      var reachBase = { 'Prediction Markets': 50, Trading: 46, DeFi: 54, Stablecoins: 41, AI: 49, NFTs: 36 };
+      var standardNicheFactors = { 'Prediction Markets': 1, Trading: 0.96, DeFi: 1.05, Stablecoins: 0.9, AI: 1.01, NFTs: 0.82 };
+      var wallchainNicheFactors = { 'Prediction Markets': 1.08, Trading: 1.01, DeFi: 1.12, Stablecoins: 0.9, AI: 1.04, NFTs: 0.8 };
       var budget = calc.querySelector('[data-budget]');
       var niche = calc.querySelector('[data-niche]');
       var frequency = calc.querySelector('[data-frequency]');
-      var overlap = calc.querySelector('[data-overlap]');
 
       function setText(selector, value) {
         var node = calc.querySelector(selector) || targetDocument.querySelector(selector);
         if (node) node.textContent = value;
+      }
+
+      function formatCompactK(value) {
+        return String(Math.max(1, Math.round(value))) + 'K';
+      }
+
+      function formatMoney(value) {
+        return '$' + Math.round(value).toLocaleString('en-US');
       }
 
       function initials(label, index) {
@@ -742,16 +881,15 @@
         }
       }
 
-      function getControlledFrequency(frequencyValue, overlapValue) {
-        var overlapNudge = overlapValue >= 34 ? 1 : (overlapValue <= 12 ? -1 : 0);
-        var peakIndex = clampNumber(Math.round(frequencyValue - 1 + overlapNudge), 0, 8);
-        var spread = frequencyValue <= 2 ? 2.4 : (frequencyValue >= 7 ? 3.2 : 4.2);
+      function getControlledFrequency(frequencyValue) {
+        var peakIndex = clampNumber(Math.round(frequencyValue - 1), 0, 7);
+        var spread = frequencyValue <= 2 ? 1.9 : (frequencyValue <= 4 ? 2.5 : (frequencyValue <= 6 ? 3.05 : 3.5));
         var values = [];
         for (var i = 0; i < frequencyLabels.length; i++) {
           var distance = i - peakIndex;
-          var height = 12 + 80 * Math.exp(-(distance * distance) / spread);
-          if (frequencyValue <= 2 && i > peakIndex) height -= i * 2.6;
-          if (frequencyValue >= 7 && i > peakIndex) height += (i - peakIndex) * 3.2;
+          var height = 12 + 78 * Math.exp(-(distance * distance) / spread);
+          if (frequencyValue <= 2 && i > peakIndex) height -= (i - peakIndex) * 4.2;
+          if (frequencyValue >= 7 && i > peakIndex) height += (i - peakIndex) * 3.4;
           values.push(Math.round(clampNumber(height, 8, 92)));
         }
         return { peakIndex: peakIndex, values: values };
@@ -760,41 +898,42 @@
       function renderCalculator() {
         var b = Number(budget.value);
         var f = Number(frequency.value);
-        var o = Number(overlap.value);
         var n = niche.value;
-        var budgetScale = b / 5;
-        var agencyCreators = Math.max(1, Math.round((b * 1000) / 833));
+        var standardRate = 0.18;
+        var selectRate = 0.85;
+        var agencyCreators = Math.max(4, Math.round(6 + (b - 5) * 0.45));
         var agencyPosts = agencyCreators * 4;
-        var agencyRelevant = Math.max(1, Math.round((agencyPosts * 3900 * 0.07) / 1000));
-        var selectCreators = Math.max(8, Math.round(18 + (Math.pow(budgetScale, 0.72) - 1) * 5 + (f - 5) * 0.45 - (o - 20) / 28));
+        var agencyRelevant = Math.max(1, Math.round((agencyPosts * 3900 * standardRate * (standardNicheFactors[n] || 1)) / 1000));
+        var agencyWaste = Math.round(b * 1000 * (1 - standardRate));
+        var selectCreators = Math.max(6, Math.round(9 + (5 - f) * 0.8 + (b - 5) * 0.35));
         var selectPosts = selectCreators * 4;
-        var reach = Math.max(1, Math.round(reachBase[n] * (1 + (Math.sqrt(budgetScale) - 1) * 0.35) * (1 + (20 - o) / 180) * (1 + (5 - f) * 0.08)));
-        var selectCpm = Math.max(2.8, 4.2 / Math.pow(budgetScale, 0.08) * (1 + (f - 5) * 0.025)).toFixed(2);
-        var controlledOverlap = Math.max(4, Math.round(o * .6));
+        var selectReachFactor = 0.28 * (wallchainNicheFactors[n] || 1) * (1 + (4 - f) * 0.05);
+        var reach = Math.max(1, Math.round((selectPosts * 3900 * selectReachFactor) / 1000));
+        var selectWaste = Math.round(b * 1000 * (1 - selectRate));
         var labels = niches[n];
         var mutedPalette = ['#f04b4b', '#18bdb5', '#ff8c35', '#646ef7', '#ea4fa3', '#39b24e', '#f3c51b', '#2f57ff'];
         var vividPalette = ['#f54848', '#10b7b1', '#ff8040', '#e842a0', '#3ba64c', '#2b55ff', '#5f63f5', '#f3c51b', '#17c46d', '#ff5ca6'];
-        var selectOffset = (n.charCodeAt(0) + f + o + b) % 10;
-        var controlledFrequency = getControlledFrequency(f, o);
+        var selectOffset = (n.charCodeAt(0) + f + b) % 10;
+        var controlledFrequency = getControlledFrequency(f);
+        var standardOffset = (n.charCodeAt(0) + b) % 4;
 
         setText('[data-budget-label]', '$' + b + 'K');
         setText('[data-frequency-label]', f + '×');
-        setText('[data-overlap-label]', o + '%');
         setText('[data-agency-creators]', String(agencyCreators));
         setText('[data-agency-posts]', String(agencyPosts));
-        setText('[data-agency-relevant]', '~' + agencyRelevant + 'K');
-        setText('[data-agency-cpm]', '$24.67');
+        setText('[data-agency-relevant]', '~' + formatCompactK(agencyRelevant));
+        setText('[data-agency-wasted]', formatMoney(agencyWaste));
         setText('[data-select-creators]', String(selectCreators));
         setText('[data-select-posts]', String(selectPosts));
-        setText('[data-select-reach]', reach + 'K');
-        setText('[data-select-cpm]', '$' + selectCpm);
-        setText('[data-select-overlap]', controlledOverlap + '% controlled');
+        setText('[data-select-reach]', formatCompactK(reach));
+        setText('[data-select-wasted]', formatMoney(selectWaste));
+        setText('[data-select-overlap]', '12% controlled');
         setText('[data-select-avatar-title]', 'Selected creators (' + selectCreators + ')');
 
         renderFrequencyChart(calc.querySelector('[data-standard-frequency]'), staticStandardFrequency, -1, false);
         renderFrequencyChart(calc.querySelector('[data-select-frequency]'), controlledFrequency.values, controlledFrequency.peakIndex, true);
 
-        makeAvatars(calc.querySelector('[data-agency-avatars]'), labels, 12, false, mutedPalette, 0);
+        makeAvatars(calc.querySelector('[data-agency-avatars]'), labels, 12, false, mutedPalette, standardOffset);
         makeAvatars(calc.querySelector('[data-select-avatars]'), labels.slice(f % labels.length).concat(labels), selectCreators, true, vividPalette, selectOffset + f);
       }
 
@@ -808,7 +947,7 @@
         });
       }
 
-      [budget, niche, frequency, overlap].forEach(function (control) {
+      [budget, niche, frequency].forEach(function (control) {
         control.addEventListener('input', renderCalculator);
         control.addEventListener('change', renderCalculator);
       });
