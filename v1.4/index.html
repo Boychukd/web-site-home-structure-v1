@@ -352,6 +352,8 @@
         '.v11-freq-label{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;color:#444;font:700 11px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.14em;text-transform:uppercase}',
         '.v11-freq-label span:nth-child(2){text-align:center}',
         '.v11-freq-label span:last-child{text-align:right}',
+        '.v11-frequency-stage{margin-top:8px;color:#111;font:900 11px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.16em;text-transform:uppercase}',
+        '.v11-frequency-stage--select{margin:10px 0 0;padding:6px 8px;border:1px solid #e5cf67;border-radius:4px;background:#fffdf0;color:#8b6a00;text-align:center}',
         '.v11-avatars-title{margin:16px 0 10px;font-size:14px;font-weight:950}',
         '.v11-avatars{display:grid;grid-template-columns:repeat(6,34px);gap:12px}',
         '.v11-avatar{width:34px;height:34px;border-radius:999px;border:3px solid #fff;box-shadow:0 0 0 1px #d9d9d9;display:grid;place-items:center;color:#fff;font:900 12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.03em}',
@@ -641,7 +643,7 @@
       '        <h3>Campaign inputs</h3>',
       '        <p class="v11-panel__sub">Play with controls below</p>',
       '        <div class="v11-control"><label><span class="v11-label-copy">Budget <span class="v11-help-icon" tabindex="0" data-tip="We work with campaigns starting from $5K.">?</span></span><strong data-budget-label>$5K</strong></label><input data-budget type="range" min="5" max="50" value="5" step="1"></div>',
-      '        <div class="v11-control"><label><span class="v11-label-copy">Audience frequency <span class="v11-help-icon" tabindex="0" data-tip="How many times a unique niche user should see the campaign across all placements.">?</span></span><strong data-frequency-label>5×</strong></label><input data-frequency type="range" min="1" max="8" value="5" step="1"><div class="v11-freq-frame"><div class="v11-freq-label"><span>MAX REACH</span><span>BALANCED</span><span>MAX FREQUENCY</span></div></div></div>',
+      '        <div class="v11-control"><label><span class="v11-label-copy">Audience frequency <span class="v11-help-icon" tabindex="0" data-tip="How many times a unique niche user should see the campaign across all placements.">?</span></span><strong data-frequency-label>5×</strong></label><input data-frequency type="range" min="1" max="8" value="5" step="1"><div class="v11-freq-frame"><div class="v11-freq-label"><span>MAX REACH</span><span>BALANCED</span><span>MAX FREQUENCY</span></div><div class="v11-frequency-stage" data-frequency-stage>MAX-RICH</div></div></div>',
       '        <div class="v11-note">Inside the optimizer there are 20+ unique parameters for selecting the best influencer lineup.</div>',
       '      </aside>',
       '      <button class="v11-standard-toggle" type="button" data-standard-toggle aria-expanded="false">Compare to standard approach ↓</button>',
@@ -675,6 +677,7 @@
       '        <div class="v11-frequency-card">',
       '          <p class="v11-frequency-title">Controlled frequency <span class="v11-help-icon" tabindex="0" data-tip="Wallchain shapes exposure around your reach/frequency balance.">?</span></p>',
       '          <p class="v11-frequency-subtitle">Targeted distribution</p>',
+      '          <div class="v11-frequency-stage v11-frequency-stage--select" data-select-frequency-stage>MAX-RICH</div>',
       '          <div class="v11-frequency-chart" data-select-frequency aria-label="Wallchain Select frequency distribution"></div>',
       '          <p class="v11-frequency-note">Frequency is planned around your target.</p>',
       '        </div>',
@@ -786,18 +789,9 @@
 
     var calc = targetDocument.querySelector('[data-calculator]');
     if (calc) {
-      var niches = {
-        'Prediction Markets': ['PM', 'KAL', 'ODD', 'YES', 'FUT', 'ARB', 'WIN', 'EDGE', 'VOL', 'BET', 'DATA', 'ALP'],
-        'Trading': ['TR', 'LV', 'MG', 'SW', 'QB', 'FX', 'AR', 'RN', 'MX', 'SP', 'TK', 'HT'],
-        'DeFi': ['DEX', 'LEND', 'LP', 'YLD', 'VAULT', 'SWAP', 'DAO', 'RISK', 'POOL', 'GAS', 'STAKE', 'ZK'],
-        'Stablecoins': ['US', 'PY', 'FX', 'RS', 'BP', 'ON', 'MT', 'SF', 'BK', 'CA', 'ST', 'TR'],
-        'AI': ['AI', 'ML', 'NX', 'LM', 'CV', 'AG', 'NE', 'LL', 'RA', 'PR', 'DP', 'MOD'],
-        'NFTs': ['AR', 'GM', 'DP', 'MT', 'PF', 'DA', 'IP', 'CL', 'RA', 'ME', 'PL', 'CR']
-      };
-      var standardNicheFactors = { 'Prediction Markets': 1, Trading: 0.96, DeFi: 1.05, Stablecoins: 0.9, AI: 1.01, NFTs: 0.82 };
-      var wallchainNicheFactors = { 'Prediction Markets': 1.08, Trading: 1.01, DeFi: 1.12, Stablecoins: 0.9, AI: 1.04, NFTs: 0.8 };
+      var creatorPool = ['PM', 'KAL', 'ODD', 'YES', 'FUT', 'ARB', 'WIN', 'EDGE', 'VOL', 'BET', 'DATA', 'ALP', 'TR', 'LV', 'MG', 'SW', 'QB', 'FX', 'AR', 'RN', 'MX', 'SP', 'TK', 'HT', 'DEX', 'LEND', 'LP', 'YLD'];
+      var frequencyStages = ['MAX-RICH', 'RICH', 'RICH / BALANCED', 'BALANCED', 'BALANCED / FREQUENCIES', 'FREQUENCIES', 'MAX FREQUENCIES', 'MAX-FREQUENCIES'];
       var budget = calc.querySelector('[data-budget]');
-      var niche = calc.querySelector('[data-niche]');
       var frequency = calc.querySelector('[data-frequency]');
 
       function setText(selector, value) {
@@ -855,6 +849,14 @@
         return Math.max(min, Math.min(max, value));
       }
 
+      function getFrequencyStage(frequencyValue) {
+        var idx = clampNumber(Math.round(frequencyValue) - 1, 0, frequencyStages.length - 1);
+        return {
+          label: frequencyStages[idx],
+          overlap: clampNumber(8 + idx * 1.7, 8, 21)
+        };
+      }
+
       function renderFrequencyChart(container, values, peakIndex, controlled) {
         if (!container) return;
         container.innerHTML = '';
@@ -883,7 +885,7 @@
       }
 
       function getControlledFrequency(frequencyValue) {
-        var peakIndex = clampNumber(Math.round(frequencyValue - 1), 0, 7);
+        var peakIndex = clampNumber(Math.round(frequencyValue - 1 + (frequencyValue >= 6 ? 1 : (frequencyValue <= 2 ? -1 : 0))), 0, 9);
         var spread = frequencyValue <= 2 ? 1.9 : (frequencyValue <= 4 ? 2.5 : (frequencyValue <= 6 ? 3.05 : 3.5));
         var values = [];
         for (var i = 0; i < frequencyLabels.length; i++) {
@@ -899,27 +901,27 @@
       function renderCalculator() {
         var b = Number(budget.value);
         var f = Number(frequency.value);
-        var n = niche.value;
         var standardRate = 0.18;
         var selectRate = 0.85;
         var agencyCreators = Math.max(4, Math.round(6 + (b - 5) * 0.45));
         var agencyPosts = agencyCreators * 4;
-        var agencyRelevant = Math.max(1, Math.round((agencyPosts * 3900 * standardRate * (standardNicheFactors[n] || 1)) / 1000));
+        var agencyRelevant = Math.max(1, Math.round((agencyPosts * 3900 * standardRate) / 1000));
         var agencyWaste = Math.round(b * 1000 * (1 - standardRate));
-        var selectCreators = Math.max(6, Math.round(9 + (5 - f) * 0.8 + (b - 5) * 0.35));
+        var selectCreators = clampNumber(Math.round(12 + (5 - f) * 0.6 + (b - 5) * 0.4), 8, 16);
         var selectPosts = selectCreators * 4;
-        var selectReachFactor = 0.28 * (wallchainNicheFactors[n] || 1) * (1 + (4 - f) * 0.05);
+        var selectReachFactor = 0.205 * (1 + (4 - f) * 0.06);
         var reach = Math.max(1, Math.round((selectPosts * 3900 * selectReachFactor) / 1000));
         var selectWaste = Math.round(b * 1000 * (1 - selectRate));
-        var labels = niches[n];
+        var labels = creatorPool;
         var mutedPalette = ['#f04b4b', '#18bdb5', '#ff8c35', '#646ef7', '#ea4fa3', '#39b24e', '#f3c51b', '#2f57ff'];
         var vividPalette = ['#f54848', '#10b7b1', '#ff8040', '#e842a0', '#3ba64c', '#2b55ff', '#5f63f5', '#f3c51b', '#17c46d', '#ff5ca6'];
-        var selectOffset = (n.charCodeAt(0) + f + b) % 10;
+        var selectOffset = (f * 7 + b * 3) % labels.length;
         var controlledFrequency = getControlledFrequency(f);
-        var standardOffset = (n.charCodeAt(0) + b) % 4;
+        var stage = getFrequencyStage(f);
+        var standardOffset = (b * 2 + f) % 4;
 
         setText('[data-budget-label]', '$' + b + 'K');
-        setText('[data-frequency-label]', f + '×');
+        setText('[data-frequency-label]', f + '× ' + stage.label);
         setText('[data-agency-creators]', String(agencyCreators));
         setText('[data-agency-posts]', String(agencyPosts));
         setText('[data-agency-relevant]', '~' + formatCompactK(agencyRelevant));
@@ -928,14 +930,16 @@
         setText('[data-select-posts]', String(selectPosts));
         setText('[data-select-reach]', formatCompactK(reach));
         setText('[data-select-wasted]', formatMoney(selectWaste));
-        setText('[data-select-overlap]', '12% controlled');
+        setText('[data-select-overlap]', stage.overlap + '% controlled');
+        setText('[data-frequency-stage]', stage.label);
+        setText('[data-select-frequency-stage]', stage.label);
         setText('[data-select-avatar-title]', 'Selected creators (' + selectCreators + ')');
 
         renderFrequencyChart(calc.querySelector('[data-standard-frequency]'), staticStandardFrequency, -1, false);
         renderFrequencyChart(calc.querySelector('[data-select-frequency]'), controlledFrequency.values, controlledFrequency.peakIndex, true);
 
         makeAvatars(calc.querySelector('[data-agency-avatars]'), labels, 12, false, mutedPalette, standardOffset);
-        makeAvatars(calc.querySelector('[data-select-avatars]'), labels.slice(f % labels.length).concat(labels), selectCreators, true, vividPalette, selectOffset + f);
+        makeAvatars(calc.querySelector('[data-select-avatars]'), labels.slice(selectOffset).concat(labels), selectCreators, true, vividPalette, selectOffset);
       }
 
       var standardToggle = calc.querySelector('[data-standard-toggle]');
@@ -948,7 +952,7 @@
         });
       }
 
-      [budget, niche, frequency].forEach(function (control) {
+      [budget, frequency].forEach(function (control) {
         control.addEventListener('input', renderCalculator);
         control.addEventListener('change', renderCalculator);
       });
