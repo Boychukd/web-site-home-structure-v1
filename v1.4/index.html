@@ -643,7 +643,7 @@
       '        <h3>Campaign inputs</h3>',
       '        <p class="v11-panel__sub">Play with controls below</p>',
       '        <div class="v11-control"><label><span class="v11-label-copy">Budget <span class="v11-help-icon" tabindex="0" data-tip="We work with campaigns starting from $5K.">?</span></span><strong data-budget-label>$5K</strong></label><input data-budget type="range" min="5" max="50" value="5" step="1"></div>',
-      '        <div class="v11-control"><label><span class="v11-label-copy">Audience frequency <span class="v11-help-icon" tabindex="0" data-tip="How many times a unique niche user should see the campaign across all placements.">?</span></span><strong data-frequency-label>5×</strong></label><input data-frequency type="range" min="1" max="8" value="5" step="1"><div class="v11-freq-frame"><div class="v11-freq-label"><span>MAX REACH</span><span>BALANCED</span><span>MAX FREQUENCY</span></div><div class="v11-frequency-stage" data-frequency-stage>MAX-RICH</div></div></div>',
+      '        <div class="v11-control"><label><span class="v11-label-copy">Audience frequency <span class="v11-help-icon" tabindex="0" data-tip="How many times a unique niche user should see the campaign across all placements.">?</span></span><strong data-frequency-label>5×</strong></label><input data-frequency type="range" min="1" max="8" value="5" step="1"><div class="v11-freq-frame"><div class="v11-freq-label"><span>MAX REACH</span><span>BALANCED</span><span>MAX FREQUENCY</span></div></div></div>',
       '        <div class="v11-note">Inside the optimizer there are 20+ unique parameters for selecting the best influencer lineup.</div>',
       '      </aside>',
       '      <button class="v11-standard-toggle" type="button" data-standard-toggle aria-expanded="false">Compare to standard approach ↓</button>',
@@ -673,7 +673,7 @@
       '          <div class="v11-mini-metric v11-mini-metric--full v11-mini-metric--primary"><span>Relevant audience</span><strong data-select-reach>37K</strong></div>',
       '          <div class="v11-mini-metric v11-mini-metric--full v11-mini-metric--good"><span>Wasted budget</span><strong data-select-wasted>$750</strong><span class="v11-mini-metric__note">LESS WASTE</span></div>',
       '        </div>',
-      '        <ul class="v11-unavailable v11-available"><li><span>Frequency control</span><b>controlled</b></li><li><span>Overlap</span><b data-select-overlap>12% controlled</b></li></ul>',
+      '        <ul class="v11-unavailable v11-available"><li><span>Frequency control</span><b data-select-frequency-control>controlled</b></li><li><span>Overlap</span><b data-select-overlap>12% controlled</b></li></ul>',
       '        <div class="v11-frequency-card">',
       '          <p class="v11-frequency-title">Controlled frequency <span class="v11-help-icon" tabindex="0" data-tip="Wallchain shapes exposure around your reach/frequency balance.">?</span></p>',
       '          <p class="v11-frequency-subtitle">Targeted distribution</p>',
@@ -921,7 +921,7 @@
         var standardOffset = (b * 2 + f) % 4;
 
         setText('[data-budget-label]', '$' + b + 'K');
-        setText('[data-frequency-label]', f + '× ' + stage.label);
+        setText('[data-frequency-label]', f + '×');
         setText('[data-agency-creators]', String(agencyCreators));
         setText('[data-agency-posts]', String(agencyPosts));
         setText('[data-agency-relevant]', '~' + formatCompactK(agencyRelevant));
@@ -931,7 +931,7 @@
         setText('[data-select-reach]', formatCompactK(reach));
         setText('[data-select-wasted]', formatMoney(selectWaste));
         setText('[data-select-overlap]', stage.overlap + '% controlled');
-        setText('[data-frequency-stage]', stage.label);
+        setText('[data-select-frequency-control]', stage.label);
         setText('[data-select-frequency-stage]', stage.label);
         setText('[data-select-avatar-title]', 'Selected creators (' + selectCreators + ')');
 
