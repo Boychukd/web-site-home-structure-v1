@@ -151,7 +151,7 @@ function Hero() {
             <a className="hover:text-white" href="#niche-followers">
               niche followers
             </a>
-            <a className="hover:text-white" href="#call">
+            <a className="hover:text-white" href="#plan-campaign">
               Plan Campaign
             </a>
             <a className="hover:text-white" href="#creator-network">
@@ -159,7 +159,7 @@ function Hero() {
             </a>
           </div>
           <div className="flex flex-wrap gap-2">
-            <ActionLink href="#call" variant="secondary">
+            <ActionLink href="#plan-campaign" variant="secondary">
               Analyze my campaign
             </ActionLink>
             <ActionLink href="#call">Book a call</ActionLink>
@@ -177,7 +177,7 @@ function Hero() {
               We map 3.3M accounts on Crypto Twitter and fix that.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <ActionLink href="#call">Analyze my campaign</ActionLink>
+              <ActionLink href="#plan-campaign">Analyze my campaign</ActionLink>
               <ActionLink href="#call" variant="secondary">
                 Book a call
               </ActionLink>
@@ -391,7 +391,7 @@ function CreatorNetwork() {
         <CreatorCard handle="@sample_beta" subline="Sample network" />
       </div>
       <div className="mt-6">
-        <ActionLink href="#call">See top creators in my niche</ActionLink>
+        <ActionLink href="#plan-campaign">See top creators in my niche</ActionLink>
       </div>
     </Section>
   );
@@ -406,6 +406,420 @@ function CreatorCard({ handle, subline }: { handle: string; subline: string }) {
         <p className="mt-1 text-sm text-neutral-500">{subline}</p>
       </div>
     </article>
+  );
+}
+
+const creatorPool = [
+  "PM",
+  "KAL",
+  "ODD",
+  "YES",
+  "FUT",
+  "ARB",
+  "WIN",
+  "EDGE",
+  "VOL",
+  "BET",
+  "DATA",
+  "ALP",
+  "TR",
+  "LV",
+  "MG",
+  "SW",
+  "QB",
+  "FX",
+  "AR",
+  "RN",
+  "MX",
+  "SP",
+  "TK",
+  "HT",
+  "DEX",
+  "LEND",
+  "LP",
+  "YLD",
+];
+
+const frequencyStages = [
+  "MAX-RICH",
+  "RICH",
+  "RICH / BALANCED",
+  "BALANCED",
+  "BALANCED / FREQUENCIES",
+  "FREQUENCIES",
+  "MAX FREQUENCIES",
+  "MAX-FREQUENCIES",
+];
+
+const frequencyLabels = ["1×", "2×", "3×", "4×", "5×", "6×", "7×", "8×", "9×", "10×+"];
+const staticStandardFrequency = [88, 58, 36, 22, 31, 55, 20, 47, 18, 42];
+
+function clampNumber(value: number, min: number, max: number) {
+  return Math.max(min, Math.min(max, value));
+}
+
+function formatCompactK(value: number) {
+  return `${Math.max(1, Math.round(value))}K`;
+}
+
+function formatMoney(value: number) {
+  return `$${Math.round(value).toLocaleString("en-US")}`;
+}
+
+function getFrequencyStage(frequencyValue: number) {
+  const index = clampNumber(Math.round(frequencyValue) - 1, 0, frequencyStages.length - 1);
+
+  return {
+    label: frequencyStages[index],
+    overlap: clampNumber(8 + index * 1.7, 8, 21),
+  };
+}
+
+function getControlledFrequency(frequencyValue: number) {
+  const peakIndex = clampNumber(
+    Math.round(
+      frequencyValue -
+        1 +
+        (frequencyValue >= 6 ? 1 : frequencyValue <= 2 ? -1 : 0),
+    ),
+    0,
+    9,
+  );
+  const spread =
+    frequencyValue <= 2 ? 1.9 : frequencyValue <= 4 ? 2.5 : frequencyValue <= 6 ? 3.05 : 3.5;
+  const values = frequencyLabels.map((_, index) => {
+    const distance = index - peakIndex;
+    let height = 12 + 78 * Math.exp(-(distance * distance) / spread);
+    if (frequencyValue <= 2 && index > peakIndex) height -= (index - peakIndex) * 4.2;
+    if (frequencyValue >= 7 && index > peakIndex) height += (index - peakIndex) * 3.4;
+    return Math.round(clampNumber(height, 8, 92));
+  });
+
+  return { peakIndex, values };
+}
+
+function FrequencyChart({
+  controlled,
+  peakIndex = -1,
+  values,
+}: {
+  controlled?: boolean;
+  peakIndex?: number;
+  values: number[];
+}) {
+  return (
+    <div className="grid h-28 grid-cols-10 items-end gap-1 border-b border-neutral-700 pb-1">
+      {frequencyLabels.map((label, index) => {
+        const barTone = !controlled
+          ? "border-neutral-600 bg-neutral-600"
+          : index === peakIndex
+            ? "border-[#F7D133] bg-[#F7D133]"
+            : index < peakIndex
+              ? "border-sky-400/60 bg-sky-400/35"
+              : "border-red-300/60 bg-red-300/35";
+
+        return (
+          <span className="grid h-full grid-rows-[1fr_auto] items-end gap-1" key={label}>
+            <i
+              className={`block min-h-2 rounded-t-sm border ${barTone}`}
+              style={{ height: `${clampNumber(values[index], 8, 92)}%` }}
+            />
+            <b className="text-center font-mono text-[9px] font-semibold text-neutral-500">
+              {label}
+            </b>
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
+function AvatarStack({
+  accent,
+  offset,
+  total,
+}: {
+  accent?: boolean;
+  offset: number;
+  total: number;
+}) {
+  const mutedPalette = ["#d9d9d9", "#cfcfcf", "#e5e5e5", "#bdbdbd"];
+  const vividPalette = [
+    "#f54848",
+    "#10b7b1",
+    "#ff8040",
+    "#e842a0",
+    "#3ba64c",
+    "#2b55ff",
+    "#5f63f5",
+    "#f3c51b",
+    "#17c46d",
+    "#ff5ca6",
+  ];
+  const visible = accent && total > 12 ? 11 : Math.min(12, total);
+  const items = Array.from({ length: visible });
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      {items.map((_, index) => {
+        const label = creatorPool[(index + offset) % creatorPool.length];
+        const background = accent
+          ? vividPalette[(index + offset) % vividPalette.length]
+          : mutedPalette[(index + offset) % mutedPalette.length];
+
+        return (
+          <span
+            className="grid size-9 place-items-center rounded-full text-[10px] font-semibold"
+            key={`${label}-${index}`}
+            style={{
+              background,
+              color: accent && (background === "#f3c51b" || background === "#f7d133") ? "#111" : accent ? "#fff" : "transparent",
+            }}
+          >
+            {accent ? label : ""}
+          </span>
+        );
+      })}
+      {total > visible ? (
+        <span className="grid size-9 place-items-center rounded-full border border-[#F7D133]/40 bg-[#F7D133]/10 text-xs font-semibold text-[#F7D133]">
+          +{total - visible}
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
+function MiniMetric({
+  label,
+  note,
+  tone = "default",
+  value,
+}: {
+  label: string;
+  note?: string;
+  tone?: "default" | "primary" | "warning" | "good";
+  value: string;
+}) {
+  const toneClass =
+    tone === "primary"
+      ? "border-[#F7D133]/40 bg-[#F7D133]/10"
+      : tone === "warning"
+        ? "border-red-400/25 bg-red-500/10"
+        : tone === "good"
+          ? "border-emerald-400/25 bg-emerald-500/10"
+          : "border-neutral-800 bg-neutral-950/70";
+
+  return (
+    <div className={`rounded-2xl border p-4 ${toneClass}`}>
+      <span className="text-sm text-neutral-500">{label}</span>
+      <strong className="mt-2 block text-3xl font-medium text-white">{value}</strong>
+      {note ? (
+        <span className="mt-2 block font-mono text-[10px] uppercase tracking-[0.14em] text-neutral-500">
+          {note}
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
+function CampaignCalculator() {
+  const [budget, setBudget] = useState(5);
+  const [frequency, setFrequency] = useState(5);
+  const [standardOpen, setStandardOpen] = useState(false);
+
+  const standardRate = 0.12;
+  const selectRate = 0.85;
+  const agencyCreators = Math.max(4, Math.round(6 + (budget - 5) * 0.45));
+  const agencyPosts = agencyCreators * 4;
+  const agencyRelevant = Math.max(1, Math.round((agencyPosts * 3900 * standardRate) / 1000));
+  const agencyWaste = Math.round(budget * 1000 * (1 - standardRate));
+  const budgetLift = Math.max(0, budget - 5);
+  const selectCreators = clampNumber(
+    Math.round(11 + (5 - frequency) * 0.55 + budgetLift * 0.7),
+    8,
+    18,
+  );
+  const selectPosts = selectCreators * 4;
+  const selectReachFactor = 0.19 * (1 + (4 - frequency) * 0.06 + budgetLift * 0.015);
+  const reach = Math.max(1, Math.round((selectPosts * 3900 * selectReachFactor) / 1000));
+  const selectWorking = Math.round(budget * 1000 * selectRate);
+  const selectOffset = (frequency * 7 + budgetLift * 5) % creatorPool.length;
+  const standardOffset = (budget * 2 + frequency) % 4;
+  const controlledFrequency = getControlledFrequency(frequency);
+  const stage = getFrequencyStage(frequency);
+
+  return (
+    <Section
+      copy="Move the controls. See what you can shape — and what most campaigns leave to chance."
+      eyebrow="Plan campaign"
+      id="plan-campaign"
+      title="Plan your campaign with real audience data"
+    >
+      <div className="mt-7 grid gap-4 xl:grid-cols-[0.8fr_1fr_1fr]">
+        <aside className="rounded-3xl border border-neutral-800 bg-neutral-900/70 p-5">
+          <h3 className="text-2xl font-medium">Campaign inputs</h3>
+          <p className="mt-1 text-sm text-neutral-500">Play with controls below</p>
+          <div className="mt-6 grid gap-6">
+            <label className="block">
+              <span className="flex items-center justify-between gap-4 text-sm text-neutral-400">
+                Budget
+                <strong className="text-lg font-medium text-white">${budget}K</strong>
+              </span>
+              <input
+                className="mt-3 w-full accent-[#F7D133]"
+                max="50"
+                min="5"
+                onChange={(event) => setBudget(Number(event.target.value))}
+                step="1"
+                type="range"
+                value={budget}
+              />
+            </label>
+            <label className="block">
+              <span className="flex items-center justify-between gap-4 text-sm text-neutral-400">
+                Audience frequency
+                <strong className="text-lg font-medium text-white">{frequency}×</strong>
+              </span>
+              <input
+                className="mt-3 w-full accent-[#F7D133]"
+                max="8"
+                min="1"
+                onChange={(event) => setFrequency(Number(event.target.value))}
+                step="1"
+                type="range"
+                value={frequency}
+              />
+              <span className="mt-2 flex justify-between font-mono text-[10px] uppercase tracking-[0.12em] text-neutral-600">
+                <span>Max reach</span>
+                <span>Balanced</span>
+                <span>Max frequency</span>
+              </span>
+            </label>
+          </div>
+          <p className="mt-6 rounded-2xl border border-[#F7D133]/40 bg-[#F7D133]/10 p-4 text-sm leading-6 text-neutral-300">
+            Inside the optimizer there are 20+ unique parameters for selecting
+            the best influencer lineup.
+          </p>
+        </aside>
+
+        <button
+          aria-expanded={standardOpen}
+          className="flex min-h-12 items-center justify-between rounded-2xl border border-neutral-800 bg-neutral-900 px-4 text-left text-sm font-medium text-white xl:hidden"
+          onClick={() => setStandardOpen((value) => !value)}
+          type="button"
+        >
+          Compare to standard approach {standardOpen ? "↑" : "↓"}
+        </button>
+
+        <section
+          className={`rounded-3xl border border-neutral-800 bg-neutral-900/50 p-5 ${
+            standardOpen ? "block" : "hidden xl:block"
+          }`}
+        >
+          <h3 className="text-2xl font-medium">Standard approach</h3>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <MiniMetric label="Creators" value={String(agencyCreators)} />
+            <MiniMetric label="Posts" value={String(agencyPosts)} />
+            <MiniMetric
+              label="Estimated relevant audience"
+              tone="primary"
+              value={`~${formatCompactK(agencyRelevant)}`}
+            />
+            <MiniMetric
+              label="Wasted budget"
+              note="Budget not reaching your niche"
+              tone="warning"
+              value={formatMoney(agencyWaste)}
+            />
+          </div>
+          <ul className="mt-4 grid gap-2 text-sm text-neutral-400">
+            <li className="flex justify-between rounded-2xl border border-neutral-800 bg-neutral-950 px-4 py-3">
+              <span>Frequency control</span>
+              <b className="font-medium text-red-200">not controlled</b>
+            </li>
+            <li className="flex justify-between rounded-2xl border border-neutral-800 bg-neutral-950 px-4 py-3">
+              <span>Overlap</span>
+              <b className="font-medium text-red-200">not measured</b>
+            </li>
+          </ul>
+          <div className="mt-4 rounded-2xl border border-neutral-800 bg-neutral-950 p-4">
+            <p className="text-sm font-medium text-white">Uncontrolled frequency</p>
+            <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-neutral-500">
+              Random distribution
+            </p>
+            <div className="mt-4">
+              <FrequencyChart values={staticStandardFrequency} />
+            </div>
+            <p className="mt-3 font-mono text-xs text-neutral-500">
+              Frequency happens, but it is not controlled.
+            </p>
+          </div>
+          <p className="mt-4 text-sm font-medium text-neutral-300">Selected creators</p>
+          <div className="mt-3">
+            <AvatarStack offset={standardOffset} total={12} />
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-[#F7D133]/40 bg-[#F7D133]/10 p-5">
+          <h3 className="text-2xl font-medium">Wallchain Select</h3>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <MiniMetric label="Optimized creators" value={String(selectCreators)} />
+            <MiniMetric label="Posts" value={String(selectPosts)} />
+            <MiniMetric label="Relevant audience" tone="primary" value={formatCompactK(reach)} />
+            <MiniMetric
+              label="Working budget"
+              note="Budget hitting your niche"
+              tone="good"
+              value={formatMoney(selectWorking)}
+            />
+          </div>
+          <ul className="mt-4 grid gap-2 text-sm text-neutral-300">
+            <li className="flex justify-between rounded-2xl border border-[#F7D133]/30 bg-neutral-950/70 px-4 py-3">
+              <span>Frequency control</span>
+              <b className="font-medium text-[#F7D133]">{stage.label}</b>
+            </li>
+            <li className="flex justify-between rounded-2xl border border-[#F7D133]/30 bg-neutral-950/70 px-4 py-3">
+              <span>Overlap</span>
+              <b className="font-medium text-[#F7D133]">{stage.overlap}% controlled</b>
+            </li>
+          </ul>
+          <div className="mt-4 rounded-2xl border border-[#F7D133]/30 bg-neutral-950/70 p-4">
+            <p className="text-sm font-medium text-white">Controlled frequency</p>
+            <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-neutral-500">
+              Targeted distribution
+            </p>
+            <p className="mt-3 rounded-xl border border-[#F7D133]/40 bg-[#F7D133]/10 px-3 py-2 text-center font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[#F7D133]">
+              {stage.label}
+            </p>
+            <div className="mt-4">
+              <FrequencyChart
+                controlled
+                peakIndex={controlledFrequency.peakIndex}
+                values={controlledFrequency.values}
+              />
+            </div>
+            <p className="mt-3 font-mono text-xs text-neutral-500">
+              Frequency is planned around your target.
+            </p>
+          </div>
+          <p className="mt-4 text-sm font-medium text-neutral-300">
+            Selected creators ({selectCreators})
+          </p>
+          <div className="mt-3">
+            <AvatarStack accent offset={selectOffset} total={selectCreators} />
+          </div>
+        </section>
+      </div>
+      <div className="mt-6 flex flex-wrap items-center gap-3">
+        <ActionLink href="#plan-campaign">Analyze my campaign</ActionLink>
+        <ActionLink href="#call" variant="secondary">
+          Book a call
+        </ActionLink>
+        <p className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-neutral-500">
+          15-minute call. No slides. Just your campaign data.
+        </p>
+      </div>
+    </Section>
   );
 }
 
@@ -497,6 +911,7 @@ export function App() {
       <Pain />
       <NicheFollowers />
       <CreatorNetwork />
+      <CampaignCalculator />
       <BridgeCTA />
       <ProofBand />
       <Testimonials />
