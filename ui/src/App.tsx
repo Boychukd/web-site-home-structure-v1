@@ -1,10 +1,51 @@
-import { useState } from "react";
-import { ArrowRight, Check, Hash, Network, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { ArrowRight, Check, Hash, Menu, Network, X } from "lucide-react";
 import { CTA3 } from "@/components/blocks/cta-3";
 import { Contact1 } from "@/components/blocks/contact-1";
 import { FAQ2 } from "@/components/blocks/faq-2";
 
-const logos = ["Solana", "Kraken", "MEXC", "Avantis", "Apechain", "Limitless"];
+const wallchainLogoUrl = new URL("./assets/wallchain-logo.svg", import.meta.url).href;
+
+const partnerLogos = [
+  {
+    name: "Solana",
+    src: new URL("./assets/partners/solana.svg", import.meta.url).href,
+  },
+  {
+    name: "Kraken",
+    src: new URL("./assets/partners/kraken.svg", import.meta.url).href,
+  },
+  {
+    name: "MEXC",
+    src: new URL("./assets/partners/mexc.svg", import.meta.url).href,
+  },
+  {
+    name: "Avantis",
+    src: new URL("./assets/partners/avantis.svg", import.meta.url).href,
+  },
+  {
+    name: "Apechain",
+    src: new URL("./assets/partners/apechain.svg", import.meta.url).href,
+  },
+  {
+    name: "Limitless",
+    src: new URL("./assets/partners/limitless.svg", import.meta.url).href,
+  },
+];
+
+const navigationLinks = [
+  { label: "How it works", href: "#niche-followers" },
+  { label: "Campaign planner", href: "#plan-campaign" },
+  { label: "Results", href: "#proof" },
+  { label: "FAQ", href: "#faq" },
+];
+
+const heroBullets = [
+  "60+ niches",
+  "150K KOLs scored",
+  "Real-niche reach modeled",
+];
 
 const niches = [
   "Prediction Markets",
@@ -73,10 +114,10 @@ function ActionLink({
 }) {
   return (
     <a
-      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 text-sm font-medium transition duration-200 hover:scale-[1.02] ${
+      className={`inline-flex min-h-11 items-center justify-center gap-2 px-5 text-sm font-medium transition duration-200 hover:scale-[1.02] ${
         variant === "primary"
-          ? "bg-[#F7D133] text-neutral-950 hover:bg-[#ffe45c]"
-          : "border border-neutral-700 text-white hover:bg-neutral-900"
+          ? "yellow-cta"
+          : "outline-cta"
       }`}
       href={href}
     >
@@ -86,21 +127,184 @@ function ActionLink({
   );
 }
 
+function SiteNavigation() {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <div className="sticky top-4 z-50 px-4 py-4 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-[1280px]">
+        <motion.nav
+          animate={{ opacity: 1, y: 0 }}
+          className={`relative flex items-center justify-between py-1.5 transition-[background-color,backdrop-filter,border-color,box-shadow,border-radius,padding-left,padding-right] duration-300 ease-out ${
+            scrolled
+              ? "rounded-2xl border border-neutral-800 bg-neutral-950/70 pl-4 pr-1.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.35)] backdrop-blur-xl"
+              : "rounded-none border border-transparent bg-transparent px-0"
+          }`}
+          initial={{ opacity: 0, y: -6 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <a aria-label="Wallchain home" className="flex items-center" href="#hero">
+            <img
+              alt="Wallchain"
+              className="h-[28px] w-auto object-contain"
+              decoding="async"
+              src={wallchainLogoUrl}
+            />
+          </a>
+
+          <div className="hidden items-center gap-8 px-4 md:flex">
+            {navigationLinks.map((link) => (
+              <a
+                className="text-sm font-medium text-neutral-400 transition-colors hover:text-white"
+                href={link.href}
+                key={link.label}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            <a
+              className={`outline-cta hidden items-center gap-2 px-5 py-2.5 text-sm font-medium transition duration-200 sm:inline-flex ${
+                scrolled
+                  ? "border-transparent"
+                  : "border-neutral-700 hover:border-neutral-500"
+              }`}
+              href="#plan-campaign"
+            >
+              Analyze my campaign
+              <ArrowRight className="size-4" />
+            </a>
+            <a
+              className="yellow-cta hidden items-center gap-2 px-5 py-2.5 text-sm font-medium transition duration-200 sm:inline-flex"
+              href="#call"
+            >
+              Book a call
+              <ArrowRight className="size-4" />
+            </a>
+            <button
+              aria-label="Toggle menu"
+              className="grid size-10 cursor-pointer place-items-center rounded-full border border-neutral-700 text-white md:hidden"
+              onClick={() => setOpen((value) => !value)}
+              type="button"
+            >
+              {open ? <X className="size-4" /> : <Menu className="size-4" />}
+            </button>
+          </div>
+        </motion.nav>
+
+        <AnimatePresence>
+          {open ? (
+            <motion.div
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-2 flex flex-col gap-1 rounded-2xl border border-neutral-800 bg-neutral-950/85 p-4 backdrop-blur-xl md:hidden"
+              exit={{ opacity: 0, y: -8 }}
+              initial={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25 }}
+            >
+              {navigationLinks.map((link) => (
+                <a
+                  className="py-2 text-sm font-medium text-neutral-200"
+                  href={link.href}
+                  key={link.label}
+                  onClick={() => setOpen(false)}
+                >
+                  {link.label}
+                </a>
+              ))}
+              <a
+                className="yellow-cta mt-2 inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium"
+                href="#call"
+                onClick={() => setOpen(false)}
+              >
+                Book a call
+                <ArrowRight className="size-4" />
+              </a>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+function useSmoothAnchorScroll() {
+  useEffect(() => {
+    const easeInOutCubic = (value: number) =>
+      value < 0.5 ? 4 * value * value * value : 1 - Math.pow(-2 * value + 2, 3) / 2;
+
+    const scrollToHash = (hash: string) => {
+      const target = document.querySelector(hash);
+      if (!target) return false;
+
+      const startY = window.scrollY;
+      const navOffset = 96;
+      const targetY =
+        target.getBoundingClientRect().top + window.scrollY - navOffset;
+      const distance = targetY - startY;
+      const duration = Math.min(1200, Math.max(520, Math.abs(distance) * 0.55));
+      const startTime = performance.now();
+
+      const animate = (time: number) => {
+        const progress = Math.min(1, (time - startTime) / duration);
+        const eased = easeInOutCubic(progress);
+        window.scrollTo(0, startY + distance * eased);
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          history.pushState(null, "", hash);
+        }
+      };
+
+      requestAnimationFrame(animate);
+      return true;
+    };
+
+    const handleClick = (event: MouseEvent) => {
+      const link = (event.target as Element | null)?.closest<HTMLAnchorElement>(
+        'a[href^="#"]',
+      );
+      if (!link) return;
+
+      const hash = link.getAttribute("href");
+      if (!hash || hash === "#") return;
+
+      if (scrollToHash(hash)) {
+        event.preventDefault();
+      }
+    };
+
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, []);
+}
+
 function Section({
   children,
+  className = "",
   eyebrow,
   id,
   title,
   copy,
 }: {
   children: React.ReactNode;
+  className?: string;
   eyebrow: string;
   id: string;
   title: React.ReactNode;
   copy?: string;
 }) {
   return (
-    <section className="bg-neutral-950 px-4 py-10 text-white sm:px-6 lg:px-8" id={id}>
+    <section className={`bg-[#020202] px-4 py-10 text-white sm:px-6 lg:px-8 ${className}`} id={id}>
       <div className="mx-auto max-w-[1280px]">
         <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
           {eyebrow}
@@ -141,70 +345,58 @@ function DataTile({
 
 function Hero() {
   return (
-    <section className="bg-neutral-950 px-4 pb-10 pt-5 text-white sm:px-6 lg:px-8" id="hero">
-      <div className="mx-auto max-w-[1280px]">
-        <nav className="flex flex-wrap items-center justify-between gap-4 py-4">
-          <a className="text-xl font-medium tracking-tight" href="#hero">
-            Wallchain
-          </a>
-          <div className="flex flex-wrap items-center gap-5 text-sm font-medium text-neutral-400">
-            <a className="hover:text-white" href="#niche-followers">
-              niche followers
-            </a>
-            <a className="hover:text-white" href="#plan-campaign">
-              Plan Campaign
-            </a>
-            <a className="hover:text-white" href="#creator-network">
-              Creator Network
-            </a>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <ActionLink href="#plan-campaign" variant="secondary">
-              Analyze my campaign
-            </ActionLink>
-            <ActionLink href="#call">Book a call</ActionLink>
-          </div>
-        </nav>
+    <section className="relative overflow-hidden bg-neutral-950 px-4 pb-14 pt-10 text-white sm:px-6 lg:px-8" id="hero">
+      <div className="hero-aurora" />
+      <div className="hero-dome" />
 
-        <div className="grid items-center gap-7 py-10 lg:grid-cols-[1.05fr_0.95fr]">
-          <div>
-            <h1 className="max-w-5xl text-4xl font-medium leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-              Get <span className="text-[#F7D133]">3-6x more reach</span> for
-              half the cost.
-            </h1>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-neutral-400">
-              Most KOL campaigns pay multiple creators to reach the same users.
-              We map 3.3M accounts on Crypto Twitter and fix that.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <ActionLink href="#plan-campaign">Analyze my campaign</ActionLink>
-              <ActionLink href="#call" variant="secondary">
-                Book a call
-              </ActionLink>
-            </div>
-            <p className="mt-6 font-mono text-xs font-medium uppercase tracking-[0.16em] text-neutral-500">
-              60+ niches · 150K KOLs scored · Real-niche reach modeled
-            </p>
-          </div>
+      <div className="relative z-10 mx-auto flex min-h-[760px] max-w-[1280px] flex-col items-center justify-start pt-10 text-center sm:min-h-[820px] sm:pt-14 lg:min-h-[850px] lg:pt-16">
+        <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-neutral-800 bg-neutral-950/55 px-3 py-2 text-xs font-medium text-neutral-300 shadow-[0_18px_60px_rgba(0,0,0,0.4)] backdrop-blur-xl sm:px-4 sm:text-sm">
+          <span className="rounded-full bg-[#F7D133]/15 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#F7D133]">
+            Backed
+          </span>
+          <span>Backed by Alliance DAO · Built by engineers from Google, Meta, Y Combinator</span>
+        </div>
 
-          <div className="rounded-3xl border border-neutral-800 bg-neutral-900/70 p-5">
-            <p className="text-center font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
-              Trusted by
-            </p>
-            <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {logos.map((logo) => (
-                <div
-                  className="rounded-full border border-neutral-800 bg-neutral-950 px-4 py-3 text-center text-sm font-medium text-neutral-200"
-                  key={logo}
-                >
-                  {logo}
+        <h1 className="mt-12 max-w-5xl text-5xl font-medium leading-[1.04] tracking-tight sm:text-6xl lg:text-7xl">
+          Get <span className="text-[#F7D133]">3-6x more reach</span>
+          <br className="hidden sm:block" /> for half the cost.
+        </h1>
+
+        <p className="mt-6 max-w-3xl text-lg leading-8 text-neutral-300 sm:text-xl">
+          Most KOL campaigns pay multiple creators to reach the same users.
+          We map 3.3M accounts on Crypto Twitter and fix that.
+        </p>
+
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <ActionLink href="#plan-campaign">Analyze my campaign</ActionLink>
+          <ActionLink href="#call" variant="secondary">
+            Book a call
+          </ActionLink>
+        </div>
+
+        <div className="mt-8 flex flex-wrap justify-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-neutral-400">
+          {heroBullets.map((bullet) => (
+            <span
+              className="rounded-full border border-neutral-800 bg-neutral-950/55 px-4 py-2 backdrop-blur-xl"
+              key={bullet}
+            >
+              {bullet}
+            </span>
+          ))}
+        </div>
+
+        <div className="mt-auto w-full pb-4 sm:pb-8">
+          <p className="text-center font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
+            Trusted by Web3 teams
+          </p>
+          <div className="hero-logo-shell mx-auto mt-5 w-full max-w-[1280px]">
+            <div className="hero-logo-track py-7">
+              {[...partnerLogos, ...partnerLogos].map((logo, index) => (
+                <div className="hero-logo-item" key={`${logo.name}-${index}`}>
+                  <img alt={logo.name} decoding="async" src={logo.src} />
                 </div>
               ))}
             </div>
-            <p className="mt-5 rounded-3xl border border-[#F7D133]/40 bg-[#F7D133]/10 p-5 text-base font-medium leading-7 text-white">
-              Backed by Alliance DAO · Built by engineers from Google, Meta, Y
-              Combinator
-            </p>
           </div>
         </div>
       </div>
@@ -215,6 +407,7 @@ function Hero() {
 function Pain() {
   return (
     <Section
+      className="pt-5"
       eyebrow="Campaign report"
       id="pain"
       title="You can spend $50K and still miss your audience."
@@ -905,8 +1098,11 @@ function Testimonials() {
 }
 
 export function App() {
+  useSmoothAnchorScroll();
+
   return (
     <main className="min-h-screen bg-neutral-950 text-white">
+      <SiteNavigation />
       <Hero />
       <Pain />
       <NicheFollowers />
@@ -917,7 +1113,9 @@ export function App() {
       <Testimonials />
       <Contact1 />
       <CTA3 />
-      <FAQ2 faqs={faqs} />
+      <div id="faq">
+        <FAQ2 faqs={faqs} />
+      </div>
     </main>
   );
 }

@@ -18,6 +18,7 @@
     "hooks": "src/hooks"
   },
   "registries": {
+    "@reactbits-free": "https://reactbits.dev/r/{name}",
     "@reactbits-starter": {
       "url": "https://pro.reactbits.dev/api/r/starter/{name}.json",
       "headers": {
