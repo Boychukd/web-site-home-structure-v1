@@ -6,6 +6,8 @@ import { Contact1 } from "@/components/blocks/contact-1";
 import { FAQ2 } from "@/components/blocks/faq-2";
 
 const wallchainLogoUrl = new URL("./assets/wallchain-logo.svg", import.meta.url).href;
+const allianceLogoUrl = new URL("./assets/alliance.svg", import.meta.url).href;
+const engineersLogosUrl = new URL("./assets/engineers-logos.svg", import.meta.url).href;
 
 const partnerLogos = [
   {
@@ -42,9 +44,9 @@ const navigationLinks = [
 ];
 
 const heroBullets = [
-  "60+ niches",
+  "3.3M crypto account mapped",
   "150K KOLs scored",
-  "Real-niche reach modeled",
+  "60+ niches analized",
 ];
 
 const niches = [
@@ -350,14 +352,13 @@ function Hero() {
       <div className="hero-dome" />
 
       <div className="relative z-10 mx-auto flex min-h-[760px] max-w-[1280px] flex-col items-center justify-start pt-10 text-center sm:min-h-[820px] sm:pt-14 lg:min-h-[850px] lg:pt-16">
-        <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-neutral-800 bg-neutral-950/55 px-3 py-2 text-xs font-medium text-neutral-300 shadow-[0_18px_60px_rgba(0,0,0,0.4)] backdrop-blur-xl sm:px-4 sm:text-sm">
-          <span className="rounded-full bg-[#F7D133]/15 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#F7D133]">
-            Backed
-          </span>
-          <span>Backed by Alliance DAO · Built by engineers from Google, Meta, Y Combinator</span>
+        <div className="hero-stat-row hero-meta-text text-neutral-400">
+          {heroBullets.map((bullet) => (
+            <span key={bullet}>{bullet}</span>
+          ))}
         </div>
 
-        <h1 className="mt-12 max-w-5xl text-5xl font-medium leading-[1.04] tracking-tight sm:text-6xl lg:text-7xl">
+        <h1 className="mt-10 max-w-5xl text-5xl font-medium leading-[1.04] tracking-tight sm:text-6xl lg:text-7xl">
           Get <span className="text-[#F7D133]">3-6x more reach</span>
           <br className="hidden sm:block" /> for half the cost.
         </h1>
@@ -374,24 +375,39 @@ function Hero() {
           </ActionLink>
         </div>
 
-        <div className="mt-8 flex flex-wrap justify-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-neutral-400">
-          {heroBullets.map((bullet) => (
-            <span
-              className="rounded-full border border-neutral-800 bg-neutral-950/55 px-4 py-2 backdrop-blur-xl"
-              key={bullet}
-            >
-              {bullet}
+        <div className="mt-12 flex flex-col items-center justify-center gap-5 text-neutral-400 sm:flex-row sm:gap-8">
+          <div className="flex items-center gap-4">
+            <span className="hero-meta-text">
+              Backed by
             </span>
-          ))}
+            <img
+              alt="Alliance"
+              className="hero-trust-logo h-5 w-auto opacity-70"
+              decoding="async"
+              src={allianceLogoUrl}
+            />
+          </div>
+          <div className="hidden h-5 w-px bg-neutral-800 sm:block" />
+          <div className="flex items-center gap-4">
+            <span className="hero-meta-text">
+              Built by engineers from
+            </span>
+            <img
+              alt="Google, Meta, Y Combinator"
+              className="hero-trust-logo h-5 w-auto opacity-70"
+              decoding="async"
+              src={engineersLogosUrl}
+            />
+          </div>
         </div>
 
-        <div className="mt-auto w-full pb-4 sm:pb-8">
+        <div className="hero-logo-zone mt-auto w-full pb-4 sm:pb-8">
           <p className="text-center font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
             Trusted by Web3 teams
           </p>
           <div className="hero-logo-shell mx-auto mt-5 w-full max-w-[1280px]">
             <div className="hero-logo-track py-7">
-              {[...partnerLogos, ...partnerLogos].map((logo, index) => (
+              {[...partnerLogos, ...partnerLogos, ...partnerLogos].map((logo, index) => (
                 <div className="hero-logo-item" key={`${logo.name}-${index}`}>
                   <img alt={logo.name} decoding="async" src={logo.src} />
                 </div>

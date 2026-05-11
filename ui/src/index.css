@@ -86,6 +86,43 @@
   color: #f7d133;
 }
 
+.hero-meta-text {
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.hero-trust-logo {
+  display: block;
+  transform: translateY(-1px);
+}
+
+.hero-stat-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 40px;
+  row-gap: 12px;
+}
+
+.hero-stat-row span {
+  position: relative;
+}
+
+.hero-stat-row span:not(:last-child)::after {
+  content: "·";
+  position: absolute;
+  left: calc(100% + 20px);
+  top: 50%;
+  color: rgb(115 115 115 / 0.9);
+  transform: translate(-50%, -50%);
+}
+
 .hero-aurora {
   position: absolute;
   inset: 0;
@@ -112,7 +149,7 @@
   z-index: 1;
   left: 50%;
   bottom: -30%;
-  width: 118vw;
+  width: max(118vw, 1800px);
   height: 64%;
   pointer-events: none;
   transform: translateX(-50%);
@@ -134,35 +171,22 @@
   mask-image: linear-gradient(180deg, #000 0 2px, transparent 18px);
 }
 
+.hero-logo-zone {
+  clip-path: ellipse(max(59vw, 900px) 300px at 50% -18px);
+}
+
 .hero-logo-shell {
   position: relative;
   overflow: hidden;
-  background:
-    linear-gradient(180deg, rgb(0 0 0 / 0.08), rgb(0 0 0 / 0.74) 38%, rgb(0 0 0 / 0.96)),
-    rgb(0 0 0 / 0.62);
-  box-shadow: 0 -24px 90px rgb(0 0 0 / 0.76);
-  backdrop-filter: blur(14px);
+  margin-inline: auto;
+  background: transparent;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
 }
 
 .hero-logo-shell::before,
 .hero-logo-shell::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  z-index: 1;
-  width: 18%;
-  pointer-events: none;
-}
-
-.hero-logo-shell::before {
-  left: 0;
-  background: linear-gradient(90deg, #000000, transparent);
-}
-
-.hero-logo-shell::after {
-  right: 0;
-  background: linear-gradient(270deg, #000000, transparent);
+  display: none;
 }
 
 .hero-logo-track {
@@ -200,7 +224,7 @@
   }
 
   to {
-    transform: translate3d(calc(-50% - clamp(16px, 2.2vw, 32px)), 0, 0);
+    transform: translate3d(calc(-33.333% - clamp(10.666px, 1.466vw, 21.333px)), 0, 0);
   }
 }
 
