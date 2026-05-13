@@ -1,9 +1,63 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowRight, Check, Hash, Menu, Network, X } from "lucide-react";
+import { ArrowRight, Check, Menu, X } from "lucide-react";
+import Counter from "@/components/Counter";
+import CountUp from "@/components/CountUp";
 import { CTA3 } from "@/components/blocks/cta-3";
 import { Contact1 } from "@/components/blocks/contact-1";
 import { FAQ2 } from "@/components/blocks/faq-2";
+
+const titleFontFamily =
+  '"Bai Jamjuree", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+
+function AnimatedNumber({
+  value,
+  prefix,
+  suffix,
+  fontSize = 30,
+  fontWeight = 500,
+  color = "currentColor",
+}: {
+  value: number;
+  prefix?: string;
+  suffix?: string;
+  fontSize?: number;
+  fontWeight?: number | string;
+  color?: string;
+}) {
+  const rounded = Math.max(0, Math.round(value));
+  const groups = rounded.toLocaleString("en-US").split(",");
+
+  return (
+    <span
+      className="inline-flex items-center align-baseline"
+      style={{
+        fontFamily: titleFontFamily,
+        fontSize,
+        fontWeight,
+        lineHeight: 1,
+        color,
+      }}
+    >
+      {prefix ? <span>{prefix}</span> : null}
+      {groups.map((segment, index) => (
+        <span className="inline-flex items-center" key={`${segment}-${index}`}>
+          {index > 0 ? <span>,</span> : null}
+          <Counter
+            fontSize={fontSize}
+            fontWeight={fontWeight}
+            gap={0}
+            gradientHeight={0}
+            horizontalPadding={0}
+            textColor={color}
+            value={parseInt(segment, 10)}
+          />
+        </span>
+      ))}
+      {suffix ? <span>{suffix}</span> : null}
+    </span>
+  );
+}
 
 const wallchainLogoUrl = new URL("./assets/wallchain-logo.svg", import.meta.url).href;
 const allianceLogoUrl = new URL("./assets/alliance.svg", import.meta.url).href;
@@ -51,20 +105,24 @@ const heroBullets = [
 
 const niches = [
   "Prediction Markets",
-  "Trading",
   "DeFi",
   "Stablecoins",
-  "AI",
   "NFTs",
+  "L2s",
+  "GameFi",
+  "Memecoins",
+  "Onchain Trading",
 ];
 
-const creatorValues: Record<string, string> = {
-  "Prediction Markets": "5,544",
-  Trading: "11,820",
-  DeFi: "8,406",
-  Stablecoins: "3,918",
-  AI: "6,702",
-  NFTs: "2,844",
+const creatorValues: Record<string, number> = {
+  "Prediction Markets": 4.8,
+  DeFi: 8.1,
+  Stablecoins: 3.6,
+  NFTs: 2.9,
+  L2s: 6.4,
+  GameFi: 5.2,
+  Memecoins: 9.7,
+  "Onchain Trading": 11.8,
 };
 
 const faqs = [
@@ -543,77 +601,156 @@ function CreatorNetwork() {
   const [selectedNiche, setSelectedNiche] = useState(niches[0]);
 
   return (
-    <Section
-      copy="Switch the niche. The same creator performs differently."
-      eyebrow="Creator network"
+    <section
+      className="overflow-hidden bg-[#020202] px-4 py-10 text-white sm:px-6 lg:px-8"
       id="creator-network"
-      title="Same creator. Different value."
     >
-      <div className="mt-6 flex flex-wrap gap-2">
-        {niches.map((niche) => (
-          <button
-            className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
-              selectedNiche === niche
-                ? "border-[#F7D133]/60 bg-[#F7D133]/10 text-[#F7D133]"
-                : "border-neutral-800 bg-neutral-900 text-neutral-300 hover:border-neutral-600"
-            }`}
-            key={niche}
-            onClick={() => setSelectedNiche(niche)}
-            type="button"
-          >
-            {niche}
-          </button>
-        ))}
-      </div>
+      <div className="mx-auto max-w-[1280px]">
+        <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
+          Creator network
+        </p>
+        <h2 className="mt-3 max-w-4xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
+          Same creator. Different value.
+        </h2>
+        <p className="mt-3 max-w-2xl text-sm leading-6 text-neutral-400 sm:text-base">
+          Switch the niche. The same creator performs differently.
+        </p>
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-[0.7fr_1fr_0.7fr]">
-        <CreatorCard handle="@sample_alpha" subline="Sample network" />
-        <article className="rounded-3xl border border-[#F7D133]/40 bg-[#F7D133]/10 p-5">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-[0.16em] text-[#F7D133]">
-                @creator_demo
-              </p>
-              <h3 className="mt-2 text-2xl font-medium text-white">
-                120K followers
-              </h3>
-            </div>
-            <Network className="size-9 text-[#F7D133]" />
+        <div className="mt-6 flex flex-wrap items-center gap-2">
+          <div className="relative flex items-center gap-1 overflow-x-auto rounded-full p-1">
+            {niches.map((niche) => {
+              const active = selectedNiche === niche;
+              return (
+                <button
+                  className={`relative cursor-pointer whitespace-nowrap rounded-full px-3.5 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors ${
+                    active
+                      ? "text-[#F7D133]"
+                      : "text-neutral-500 hover:text-neutral-200"
+                  }`}
+                  key={niche}
+                  onClick={() => setSelectedNiche(niche)}
+                  type="button"
+                >
+                  {active && (
+                    <motion.span
+                      layoutId="niche-pill"
+                      className="absolute inset-0 rounded-full bg-[#F7D133]/15"
+                      transition={{ type: "spring", stiffness: 320, damping: 30 }}
+                    />
+                  )}
+                  <span className="relative">{niche}</span>
+                </button>
+              );
+            })}
           </div>
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            <DataTile>
-              <p className="text-sm text-neutral-500">Relevant audience</p>
-              <p className="mt-2 text-4xl font-medium text-[#F7D133]">
-                {creatorValues[selectedNiche]}
-              </p>
-            </DataTile>
-            <DataTile>
-              <p className="text-sm text-neutral-500">Niche</p>
-              <p className="mt-2 text-2xl font-medium">{selectedNiche}</p>
-              <p className="mt-2 text-sm text-neutral-500">Sample data</p>
-            </DataTile>
-          </div>
-          <p className="mt-5 text-sm text-neutral-400">
-            Demo with sample data. Real creator data shown on call.
-          </p>
-        </article>
-        <CreatorCard handle="@sample_beta" subline="Sample network" />
+          <span
+            aria-disabled="true"
+            className="rounded-full bg-neutral-950 px-3.5 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-neutral-600"
+          >
+            + 45 more niches
+          </span>
+        </div>
+
+        <div className="mt-4 border-t border-neutral-800" />
+
+        <div className="relative min-h-[300px] overflow-hidden border-b border-neutral-800 py-6 sm:py-8 lg:min-h-[360px]">
+          <CreatorCard
+            className="lg:absolute lg:left-[8%] lg:top-[78px] lg:w-[30%] lg:-rotate-1"
+            handle="@sample_alpha"
+            initials="AA"
+            subline="Sample network"
+          />
+          <CreatorCard
+            active
+            className="mx-auto lg:absolute lg:left-1/2 lg:top-[28px] lg:w-[400px] lg:-translate-x-1/2"
+            handle="@creator_demo"
+            initials="JK"
+            selectedNiche={selectedNiche}
+            subline="120K followers"
+            value={creatorValues[selectedNiche]}
+          />
+          <CreatorCard
+            className="mt-3 lg:absolute lg:right-[8%] lg:top-[78px] lg:mt-0 lg:w-[30%] lg:rotate-1"
+            handle="@sample_beta"
+            initials="BB"
+            subline="Sample network"
+          />
+        </div>
+
+        <div className="mt-6">
+          <ActionLink href="#plan-campaign">See top creators in my niche</ActionLink>
+        </div>
       </div>
-      <div className="mt-6">
-        <ActionLink href="#plan-campaign">See top creators in my niche</ActionLink>
-      </div>
-    </Section>
+    </section>
   );
 }
 
-function CreatorCard({ handle, subline }: { handle: string; subline: string }) {
+function CreatorCard({
+  active = false,
+  className = "",
+  handle,
+  initials,
+  selectedNiche,
+  subline,
+  value,
+}: {
+  active?: boolean;
+  className?: string;
+  handle: string;
+  initials: string;
+  selectedNiche?: string;
+  subline: string;
+  value?: number;
+}) {
   return (
-    <article className="flex min-h-56 flex-col justify-between rounded-3xl border border-neutral-800 bg-neutral-900/60 p-5">
-      <Hash className="size-8 text-neutral-600" />
-      <div>
-        <p className="text-lg font-medium">{handle}</p>
-        <p className="mt-1 text-sm text-neutral-500">{subline}</p>
+    <article
+      className={`flex flex-col items-center justify-center rounded-lg border text-center transition duration-300 ${
+        active
+          ? "z-[2] min-h-[280px] border-[#D8B832]/50 bg-neutral-950 p-5 shadow-[0_18px_60px_-32px_rgba(247,209,51,0.5)] sm:min-h-[300px]"
+          : "min-h-[180px] border-neutral-800 bg-neutral-950/45 p-5 opacity-35"
+      } ${className}`}
+    >
+      <div
+        className={`grid place-items-center rounded-full border font-semibold ${
+          active
+            ? "size-14 border-neutral-950 bg-[#F7D133] text-base text-neutral-950"
+            : "size-12 border-neutral-700 bg-[#F7D133]/15 text-sm text-neutral-500"
+        }`}
+      >
+        {initials}
       </div>
+      <h3
+        className={`mt-4 font-medium leading-none tracking-tight ${
+          active ? "text-2xl text-white sm:text-3xl" : "text-xl text-neutral-500"
+        }`}
+      >
+        {handle}
+      </h3>
+      <p className="mt-2 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-neutral-500">
+        {subline}
+      </p>
+      {active ? (
+        <div className="mt-3">
+          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-500">
+            Relevant audience
+          </p>
+          <CountUp
+            className="mt-1 block text-5xl font-medium leading-none tracking-tight text-[#F7D133] sm:text-6xl"
+            decimals={1}
+            duration={1}
+            from={0}
+            suffix="K"
+            style={{ fontFamily: titleFontFamily }}
+            to={value ?? 0}
+          />
+          <p className="mt-3 text-base font-medium text-white sm:text-lg">
+            Niche: {selectedNiche}
+          </p>
+          <p className="mt-2 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-500">
+            Sample data
+          </p>
+        </div>
+      ) : null}
     </article>
   );
 }
@@ -665,14 +802,6 @@ const staticStandardFrequency = [88, 58, 36, 22, 31, 55, 20, 47, 18, 42];
 
 function clampNumber(value: number, min: number, max: number) {
   return Math.max(min, Math.min(max, value));
-}
-
-function formatCompactK(value: number) {
-  return `${Math.max(1, Math.round(value))}K`;
-}
-
-function formatMoney(value: number) {
-  return `$${Math.round(value).toLocaleString("en-US")}`;
 }
 
 function getFrequencyStage(frequencyValue: number) {
@@ -807,23 +936,23 @@ function MiniMetric({
   label: string;
   note?: string;
   tone?: "default" | "primary" | "warning" | "good";
-  value: string;
+  value: React.ReactNode;
 }) {
-  const toneClass =
+  const valueColorClass =
     tone === "primary"
-      ? "border-[#F7D133]/40 bg-[#F7D133]/10"
+      ? "text-[#F7D133]"
       : tone === "warning"
-        ? "border-red-400/25 bg-red-500/10"
+        ? "text-red-300"
         : tone === "good"
-          ? "border-emerald-400/25 bg-emerald-500/10"
-          : "border-neutral-800 bg-neutral-950/70";
+          ? "text-emerald-300"
+          : "text-white";
 
   return (
-    <div className={`rounded-2xl border p-4 ${toneClass}`}>
-      <span className="text-sm text-neutral-500">{label}</span>
-      <strong className="mt-2 block text-3xl font-medium text-white">{value}</strong>
+    <div className="min-w-0">
+      <span className="block text-xs leading-snug text-neutral-500">{label}</span>
+      <strong className={`mt-1.5 block ${valueColorClass}`}>{value}</strong>
       {note ? (
-        <span className="mt-2 block font-mono text-[10px] uppercase tracking-[0.14em] text-neutral-500">
+        <span className="mt-1.5 block font-mono text-[9px] uppercase leading-snug tracking-[0.1em] text-neutral-500">
           {note}
         </span>
       ) : null}
@@ -864,8 +993,9 @@ function CampaignCalculator() {
       id="plan-campaign"
       title="Plan your campaign with real audience data"
     >
-      <div className="mt-7 grid gap-4 xl:grid-cols-[0.8fr_1fr_1fr]">
-        <aside className="rounded-3xl border border-neutral-800 bg-neutral-900/70 p-5">
+      <div className="mt-7 rounded-3xl border border-neutral-800 bg-neutral-900/40 p-3 sm:p-4">
+        <div className="grid gap-4 xl:grid-cols-[0.55fr_1fr_1fr] xl:gap-0">
+        <aside className="p-2 xl:p-3 xl:pr-6">
           <h3 className="text-2xl font-medium">Campaign inputs</h3>
           <p className="mt-1 text-sm text-neutral-500">Play with controls below</p>
           <div className="mt-6 grid gap-6">
@@ -921,24 +1051,31 @@ function CampaignCalculator() {
         </button>
 
         <section
-          className={`rounded-3xl border border-neutral-800 bg-neutral-900/50 p-5 ${
+          className={`p-2 xl:border-l xl:border-neutral-800 xl:p-3 xl:px-6 ${
             standardOpen ? "block" : "hidden xl:block"
           }`}
         >
           <h3 className="text-2xl font-medium">Standard approach</h3>
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            <MiniMetric label="Creators" value={String(agencyCreators)} />
-            <MiniMetric label="Posts" value={String(agencyPosts)} />
+          <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <MiniMetric label="Creators" value={<AnimatedNumber fontSize={22} value={agencyCreators} />} />
+            <MiniMetric label="Posts" value={<AnimatedNumber fontSize={22} value={agencyPosts} />} />
             <MiniMetric
               label="Estimated relevant audience"
               tone="primary"
-              value={`~${formatCompactK(agencyRelevant)}`}
+              value={
+                <AnimatedNumber
+                  fontSize={22}
+                  prefix="~"
+                  suffix="K"
+                  value={Math.max(1, agencyRelevant)}
+                />
+              }
             />
             <MiniMetric
               label="Wasted budget"
               note="Budget not reaching your niche"
               tone="warning"
-              value={formatMoney(agencyWaste)}
+              value={<AnimatedNumber fontSize={22} prefix="$" value={agencyWaste} />}
             />
           </div>
           <ul className="mt-4 grid gap-2 text-sm text-neutral-400">
@@ -969,17 +1106,21 @@ function CampaignCalculator() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-[#F7D133]/40 bg-[#F7D133]/10 p-5">
+        <section className="rounded-2xl border border-[#F7D133]/40 bg-[#F7D133]/10 p-4 xl:ml-3">
           <h3 className="text-2xl font-medium">Wallchain Select</h3>
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            <MiniMetric label="Optimized creators" value={String(selectCreators)} />
-            <MiniMetric label="Posts" value={String(selectPosts)} />
-            <MiniMetric label="Relevant audience" tone="primary" value={formatCompactK(reach)} />
+          <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <MiniMetric label="Optimized creators" value={<AnimatedNumber fontSize={22} value={selectCreators} />} />
+            <MiniMetric label="Posts" value={<AnimatedNumber fontSize={22} value={selectPosts} />} />
+            <MiniMetric
+              label="Relevant audience"
+              tone="primary"
+              value={<AnimatedNumber fontSize={22} suffix="K" value={Math.max(1, reach)} />}
+            />
             <MiniMetric
               label="Working budget"
               note="Budget hitting your niche"
               tone="good"
-              value={formatMoney(selectWorking)}
+              value={<AnimatedNumber fontSize={22} prefix="$" value={selectWorking} />}
             />
           </div>
           <ul className="mt-4 grid gap-2 text-sm text-neutral-300">
@@ -1018,6 +1159,7 @@ function CampaignCalculator() {
             <AvatarStack accent offset={selectOffset} total={selectCreators} />
           </div>
         </section>
+        </div>
       </div>
       <div className="mt-6 flex flex-wrap items-center gap-3">
         <ActionLink href="#plan-campaign">Analyze my campaign</ActionLink>

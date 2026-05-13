@@ -13,6 +13,7 @@ Use the wireframes to shape structure, logic, copy, and block order. Use the UI 
 2. Use the version links to enter the wireframe builds.
 3. Read the docs in `docs/` before making structural changes.
 4. Put clean implementation work in `ui/`, not inside the wireframe versions.
+5. For local React setup and two-computer sync, read `docs/local-setup-and-sync.md`.
 
 ## Repo map
 
@@ -28,4 +29,3 @@ Use the wireframes to shape structure, logic, copy, and block order. Use the UI 
 
 Wireframe changes should stay isolated from the clean UI output.
 When a block is approved in wireframe, it can be rebuilt in UI without bringing the wireframe plumbing forward.
-
