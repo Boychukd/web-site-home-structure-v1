@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowRight, Check, Menu, X } from "lucide-react";
+import { ArrowRight, Menu, X } from "lucide-react";
 import Counter from "@/components/Counter";
 import CountUp from "@/components/CountUp";
 import { CTA3 } from "@/components/blocks/cta-3";
 import { Contact1 } from "@/components/blocks/contact-1";
 import { FAQ2 } from "@/components/blocks/faq-2";
+import CTA9 from "@/components/blocks/cta-9";
+import SocialProof11 from "@/components/blocks/social-proof-11";
+import Stats10 from "@/components/blocks/stats-10";
 
 const titleFontFamily =
   '"Bai Jamjuree", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
@@ -1175,83 +1178,53 @@ function CampaignCalculator() {
 }
 
 function BridgeCTA() {
-  return (
-    <Section
-      copy="Across hundreds of campaigns, we've turned budgets into right creator lineups. We'll do the same for yours."
-      eyebrow="Let's run your numbers"
-      id="run-your-numbers"
-      title="$6.9M already paid to creators"
-    >
-      <div className="mt-6 flex flex-wrap items-center gap-4">
-        <ActionLink href="#call">Set this up for me</ActionLink>
-        <p className="font-mono text-xs font-medium uppercase tracking-[0.16em] text-neutral-500">
-          15-minute call. Real campaign data on the screen.
-        </p>
-      </div>
-    </Section>
-  );
+  return <div id="run-your-numbers"><CTA9 /></div>;
 }
 
 function ProofBand() {
   const stats = [
-    ["3.7x", "more relevant audience"],
-    ["2x", "cheaper per niche audience member"],
-    ["60+", "mapped niches"],
-    ["3.3M", "mapped crypto accounts"],
+    {
+      value: 3.7,
+      suffix: "x",
+      decimals: 1,
+      label: "more relevant audience",
+      bg: "#101513",
+      fg: "#fbfaf2",
+    },
+    {
+      value: 2,
+      suffix: "x",
+      decimals: 0,
+      label: "cheaper per niche audience member",
+      bg: "#f7d133",
+      fg: "#1a1400",
+    },
+    {
+      value: 60,
+      suffix: "+",
+      label: "mapped niches",
+      bg: "#dfe9df",
+      fg: "#102114",
+    },
+    {
+      value: 3.3,
+      suffix: "M",
+      decimals: 1,
+      label: "mapped crypto accounts",
+      bg: "#111827",
+      fg: "#f8fafc",
+    },
   ];
 
   return (
-    <Section
+    <Stats10
+      ctaHref="#call"
+      ctaLabel="Read the full Prediction Markets analysis"
       eyebrow="Numbers from real campaigns"
       id="proof"
+      stats={stats}
       title="Optimization changes what the same budget can buy."
-    >
-      <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map(([value, label]) => (
-          <DataTile key={label}>
-            <p className="text-4xl font-medium text-[#F7D133]">{value}</p>
-            <p className="mt-2 text-sm text-neutral-400">{label}</p>
-          </DataTile>
-        ))}
-      </div>
-      <div className="mt-6">
-        <ActionLink href="#call" variant="secondary">
-          Read the full Prediction Markets analysis
-        </ActionLink>
-      </div>
-    </Section>
-  );
-}
-
-function Testimonials() {
-  const quotes = [
-    ["We stopped paying for the same audience twice.", "Growth lead"],
-    [
-      "The lineup finally matched the niche, not just the follower count.",
-      "Marketing team",
-    ],
-    ["The calculator made the spend tradeoff obvious in seconds.", "Founder"],
-  ];
-
-  return (
-    <Section
-      eyebrow="Testimonials"
-      id="testimonials"
-      title="What teams notice after the first campaign."
-    >
-      <div className="mt-7 grid gap-4 lg:grid-cols-3">
-        {quotes.map(([quote, role]) => (
-          <article
-            className="rounded-3xl border border-neutral-800 bg-neutral-900/60 p-5"
-            key={quote}
-          >
-            <Check className="size-5 text-[#F7D133]" />
-            <p className="mt-4 text-xl font-medium leading-snug">"{quote}"</p>
-            <p className="mt-5 text-sm text-neutral-500">{role}</p>
-          </article>
-        ))}
-      </div>
-    </Section>
+    />
   );
 }
 
@@ -1268,7 +1241,7 @@ export function App() {
       <CampaignCalculator />
       <BridgeCTA />
       <ProofBand />
-      <Testimonials />
+      <SocialProof11 />
       <Contact1 />
       <CTA3 />
       <div id="faq">
