@@ -547,13 +547,13 @@ function NicheFollowers() {
       title="Most teams don't know which part of their impressions actually mattered."
     >
       <div className="mt-8">
-        <article className="overflow-hidden rounded-[28px] bg-neutral-900/45 p-5 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] sm:p-6 lg:p-8">
-          <div className="grid gap-8 xl:grid-cols-[1.05fr_0.95fr]">
+        <article className="text-white">
+          <div className="grid gap-8 xl:grid-cols-[1.18fr_0.82fr]">
             <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
               <AudienceDiagram compact />
               <NicheMetricCopy compact />
             </div>
-            <div className="self-stretch rounded-[24px] bg-[#050505] p-5 sm:p-6">
+            <div className="self-start lg:justify-self-end lg:max-w-[640px] xl:max-w-[680px]">
               <NicheDiscoveryCard condensed />
             </div>
           </div>
@@ -607,7 +607,7 @@ function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
         This is what Wallchain sees
       </p>
       <p
-        className="mt-3 inline-block max-w-none bg-[#F7D133] px-0 text-3xl font-medium leading-[1.08] tracking-tight text-[#080808] sm:text-4xl"
+        className="mt-3 inline-block max-w-none text-3xl font-medium leading-[1.08] tracking-tight text-[#F7D133] sm:text-4xl"
         style={{ fontFamily: titleFontFamily }}
       >
         584 niche followers
@@ -628,7 +628,7 @@ function NicheDiscoveryCard({
 }) {
   return (
     <div
-      className={`bg-[#050505] p-5 text-white ${
+      className={`text-white ${
         condensed ? "flex h-full flex-col justify-between" : ""
       } ${className}`}
     >
@@ -636,10 +636,10 @@ function NicheDiscoveryCard({
         className={
           condensed
             ? "grid gap-6"
-            : "grid gap-6 lg:grid-cols-[0.95fr_1.45fr_1fr]"
+            : "grid gap-6 lg:grid-cols-[0.82fr_1.4fr_0.82fr]"
         }
       >
-        <h3 className="max-w-[240px] text-2xl font-medium leading-tight tracking-tight sm:text-3xl">
+        <h3 className="max-w-[210px] text-2xl font-medium leading-tight tracking-tight sm:text-3xl">
           How we know who is actually in your niche:
         </h3>
         <div className="grid gap-6">
@@ -812,9 +812,6 @@ function CreatorNetwork() {
           />
         </div>
 
-        <div className="mt-6">
-          <ActionLink href="#plan-campaign">See top creators in my niche</ActionLink>
-        </div>
       </div>
     </section>
   );
@@ -1063,11 +1060,13 @@ function AvatarStack({
 }
 
 function MiniMetric({
+  className = "",
   label,
   note,
   tone = "default",
   value,
 }: {
+  className?: string;
   label: string;
   note?: string;
   tone?: "default" | "primary" | "warning" | "good";
@@ -1083,11 +1082,11 @@ function MiniMetric({
           : "text-white";
 
   return (
-    <div className="min-w-0">
-      <span className="block text-xs leading-snug text-neutral-500">{label}</span>
-      <strong className={`mt-1.5 block ${valueColorClass}`}>{value}</strong>
+    <div className={`grid min-h-[92px] min-w-0 grid-rows-[2.35rem_1.65rem_1fr] rounded-xl bg-neutral-950/60 px-3 py-2.5 ${className}`}>
+      <span className="block max-w-[11ch] text-[11px] leading-[1.15] text-neutral-500">{label}</span>
+      <strong className={`block self-start ${valueColorClass}`}>{value}</strong>
       {note ? (
-        <span className="mt-1.5 block font-mono text-[9px] uppercase leading-snug tracking-[0.1em] text-neutral-500">
+        <span className="block self-end font-mono text-[8px] uppercase leading-[1.25] tracking-[0.12em] text-neutral-500">
           {note}
         </span>
       ) : null}
@@ -1128,176 +1127,184 @@ function CampaignCalculator() {
       id="plan-campaign"
       title="Plan your campaign with real audience data"
     >
-      <div className="mt-7 rounded-3xl bg-neutral-900/40 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] sm:p-4">
-        <div className="grid gap-3 xl:grid-cols-[0.55fr_1fr_1fr] xl:gap-0">
-        <aside className="p-2 xl:p-3 xl:pr-6">
-          <h3 className="text-2xl font-medium">Campaign inputs</h3>
-          <p className="mt-1 text-sm text-neutral-500">Play with controls below</p>
-          <div className="mt-5 grid gap-5">
-            <label className="block">
-              <span className="flex items-center justify-between gap-4 text-sm text-neutral-400">
-                Budget
-                <strong className="text-lg font-medium text-white">${budget}K</strong>
-              </span>
-              <input
-                className="mt-3 w-full accent-[#F7D133]"
-                max="50"
-                min="5"
-                onChange={(event) => setBudget(Number(event.target.value))}
-                step="1"
-                type="range"
-                value={budget}
-              />
-            </label>
-            <label className="block">
-              <span className="flex items-center justify-between gap-4 text-sm text-neutral-400">
-                Audience frequency
-                <strong className="text-lg font-medium text-white">{frequency}×</strong>
-              </span>
-              <input
-                className="mt-3 w-full accent-[#F7D133]"
-                max="8"
-                min="1"
-                onChange={(event) => setFrequency(Number(event.target.value))}
-                step="1"
-                type="range"
-                value={frequency}
-              />
-              <span className="mt-2 flex justify-between font-mono text-[10px] uppercase tracking-[0.12em] text-neutral-600">
-                <span>Max reach</span>
-                <span>Balanced</span>
-                <span>Max frequency</span>
-              </span>
-            </label>
-          </div>
-          <p className="mt-5 rounded-2xl bg-[#F7D133]/10 p-4 text-sm leading-6 text-neutral-300">
-            Inside the optimizer there are 20+ unique parameters for selecting
-            the best influencer lineup.
-          </p>
-        </aside>
-
-        <button
-          aria-expanded={standardOpen}
-          className="flex min-h-12 items-center justify-between rounded-2xl bg-neutral-900 px-4 text-left text-sm font-medium text-white xl:hidden"
-          onClick={() => setStandardOpen((value) => !value)}
-          type="button"
-        >
-          Compare to standard approach {standardOpen ? "↑" : "↓"}
-        </button>
-
-        <section
-          className={`p-2 xl:border-l xl:border-neutral-800 xl:p-3 xl:px-6 ${
-            standardOpen ? "block" : "hidden xl:block"
-          }`}
-        >
-          <h3 className="text-2xl font-medium">Standard approach</h3>
-          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
-            <MiniMetric label="Creators" value={<AnimatedNumber fontSize={22} value={agencyCreators} />} />
-            <MiniMetric label="Posts" value={<AnimatedNumber fontSize={22} value={agencyPosts} />} />
-            <MiniMetric
-              label="Estimated relevant audience"
-              tone="primary"
-              value={
-                <AnimatedNumber
-                  fontSize={22}
-                  prefix="~"
-                  suffix="K"
-                  value={Math.max(1, agencyRelevant)}
+      <div className="mt-7 overflow-hidden rounded-[28px] bg-neutral-900/40 p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.035)]">
+        <div className="grid gap-3.5 xl:grid-cols-[0.52fr_2fr] xl:items-stretch">
+          <aside className="rounded-2xl bg-neutral-950/30 p-3.5">
+            <h3 className="text-2xl font-medium">Campaign inputs</h3>
+            <p className="mt-1 text-sm text-neutral-500">Play with controls below</p>
+            <div className="mt-5 grid gap-4">
+              <label className="block">
+                <span className="flex items-center justify-between gap-4 text-sm text-neutral-400">
+                  Budget
+                  <strong className="text-lg font-medium text-white">${budget}K</strong>
+                </span>
+                <input
+                  className="mt-3 w-full accent-[#F7D133]"
+                  max="50"
+                  min="5"
+                  onChange={(event) => setBudget(Number(event.target.value))}
+                  step="1"
+                  type="range"
+                  value={budget}
                 />
-              }
-            />
-            <MiniMetric
-              label="Wasted budget"
-              note="Budget not reaching your niche"
-              tone="warning"
-              value={<AnimatedNumber fontSize={22} prefix="$" value={agencyWaste} />}
-            />
-          </div>
-          <ul className="mt-3 grid gap-2 text-sm text-neutral-400">
-            <li className="flex justify-between rounded-2xl bg-neutral-950 px-4 py-3">
-              <span>Frequency control</span>
-              <b className="font-medium text-red-200">not controlled</b>
-            </li>
-            <li className="flex justify-between rounded-2xl bg-neutral-950 px-4 py-3">
-              <span>Overlap</span>
-              <b className="font-medium text-red-200">not measured</b>
-            </li>
-          </ul>
-          <div className="mt-3 flex flex-col rounded-2xl bg-neutral-950 p-4">
-            <p className="text-sm font-medium text-white">Uncontrolled frequency</p>
-            <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-neutral-500">
-              Random distribution
-            </p>
-            <div className="mt-3">
-              <FrequencyChart values={staticStandardFrequency} />
+              </label>
+              <label className="block">
+                <span className="flex items-center justify-between gap-4 text-sm text-neutral-400">
+                  Audience frequency
+                  <strong className="text-lg font-medium text-white">{frequency}×</strong>
+                </span>
+                <input
+                  className="mt-3 w-full accent-[#F7D133]"
+                  max="8"
+                  min="1"
+                  onChange={(event) => setFrequency(Number(event.target.value))}
+                  step="1"
+                  type="range"
+                  value={frequency}
+                />
+                <span className="mt-2 flex justify-between font-mono text-[10px] uppercase tracking-[0.12em] text-neutral-600">
+                  <span>Max reach</span>
+                  <span>Balanced</span>
+                  <span>Max frequency</span>
+                </span>
+              </label>
             </div>
-            <p className="mt-2 font-mono text-xs text-neutral-500">
-              Frequency happens, but it is not controlled.
+            <p className="mt-5 rounded-2xl bg-[#F7D133]/10 p-4 text-sm leading-6 text-neutral-300">
+              Inside the optimizer there are 20+ unique parameters for selecting
+              the best influencer lineup.
             </p>
-          </div>
-          <p className="mt-3 text-sm font-medium text-neutral-300">Selected creators</p>
-          <div className="mt-2">
-            <AvatarStack offset={standardOffset} total={12} />
-          </div>
-        </section>
+          </aside>
 
-        <section className="rounded-2xl bg-[#F7D133]/10 p-4 xl:ml-3">
-          <h3 className="text-2xl font-medium">Wallchain Select</h3>
-          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
-            <MiniMetric label="Optimized creators" value={<AnimatedNumber fontSize={22} value={selectCreators} />} />
-            <MiniMetric label="Posts" value={<AnimatedNumber fontSize={22} value={selectPosts} />} />
-            <MiniMetric
-              label="Relevant audience"
-              tone="primary"
-              value={<AnimatedNumber fontSize={22} suffix="K" value={Math.max(1, reach)} />}
-            />
-            <MiniMetric
-              label="Working budget"
-              note="Budget hitting your niche"
-              tone="good"
-              value={<AnimatedNumber fontSize={22} prefix="$" value={selectWorking} />}
-            />
-          </div>
-          <ul className="mt-3 grid gap-2 text-sm text-neutral-300">
-            <li className="flex justify-between rounded-2xl bg-neutral-950/70 px-4 py-3">
-              <span>Frequency control</span>
-              <b className="font-medium text-[#F7D133]">{stage.label}</b>
-            </li>
-            <li className="flex justify-between rounded-2xl bg-neutral-950/70 px-4 py-3">
-              <span>Overlap</span>
-              <b className="font-medium text-[#F7D133]">{stage.overlap}% controlled</b>
-            </li>
-          </ul>
-          <div className="mt-3 flex flex-col rounded-2xl bg-neutral-950/70 p-4">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-sm font-medium text-white">Controlled frequency</p>
+          <button
+            aria-expanded={standardOpen}
+            className="flex min-h-12 items-center justify-between rounded-2xl bg-neutral-900 px-4 text-left text-sm font-medium text-white xl:hidden"
+            onClick={() => setStandardOpen((value) => !value)}
+            type="button"
+          >
+            Compare to standard approach {standardOpen ? "↑" : "↓"}
+          </button>
+
+          <div className="grid gap-3.5 xl:border-l xl:border-neutral-800/80 xl:pl-3.5 xl:grid-cols-2 xl:items-stretch xl:[grid-template-rows:minmax(142px,auto)_56px_56px_minmax(220px,1fr)_78px]">
+            <section
+              className={`gap-3.5 rounded-[24px] bg-neutral-950/25 p-3.5 xl:row-span-5 xl:[grid-template-rows:subgrid] ${
+                standardOpen ? "grid" : "hidden xl:grid"
+              }`}
+            >
+              <div className="flex h-full flex-col">
+                <h3 className="text-2xl font-medium">Standard approach</h3>
+                <div className="mt-3 grid flex-1 grid-cols-2 gap-2 sm:grid-cols-4">
+                  <MiniMetric label="Creators" value={<AnimatedNumber fontSize={22} value={agencyCreators} />} />
+                  <MiniMetric label="Posts" value={<AnimatedNumber fontSize={22} value={agencyPosts} />} />
+                  <MiniMetric
+                    label="Estimated relevant audience"
+                    tone="primary"
+                    value={
+                      <AnimatedNumber
+                        fontSize={22}
+                        prefix="~"
+                        suffix="K"
+                        value={Math.max(1, agencyRelevant)}
+                      />
+                    }
+                  />
+                  <MiniMetric
+                    label="Wasted budget"
+                    note="Budget not reaching your niche"
+                    tone="warning"
+                    value={<AnimatedNumber fontSize={22} prefix="$" value={agencyWaste} />}
+                  />
+                </div>
+              </div>
+              <div className="flex h-full items-center justify-between gap-3.5 border-t border-neutral-800/80 px-3.5 text-sm text-neutral-400">
+                <span>Frequency control</span>
+                <b className="font-medium text-red-200">not controlled</b>
+              </div>
+              <div className="flex h-full items-center justify-between gap-3.5 border-t border-neutral-800/80 px-3.5 text-sm text-neutral-400">
+                <span>Overlap</span>
+                <b className="font-medium text-red-200">not measured</b>
+              </div>
+              <div className="flex h-full flex-col border-t border-neutral-800/80 p-3.5">
+                <p className="text-sm font-medium text-white">Uncontrolled frequency</p>
                 <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-neutral-500">
-                  Targeted distribution
+                  Random distribution
+                </p>
+                <div className="mt-3 flex-1">
+                  <FrequencyChart values={staticStandardFrequency} />
+                </div>
+                <p className="mt-2 font-mono text-xs text-neutral-500">
+                  Frequency happens, but it is not controlled.
                 </p>
               </div>
-              <p className="rounded-xl bg-[#F7D133]/10 px-3 py-2 text-center font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[#F7D133]">
-                {stage.label}
-              </p>
-            </div>
-            <div className="mt-3">
-              <FrequencyChart
-                controlled
-                peakIndex={controlledFrequency.peakIndex}
-                values={controlledFrequency.values}
-              />
-            </div>
-            <p className="mt-2 font-mono text-xs text-neutral-500">
-              Frequency is planned around your target.
-            </p>
+              <div className="flex h-full flex-col justify-center border-t border-neutral-800/80 px-3.5">
+                <p className="text-sm font-medium text-neutral-300">Selected creators</p>
+                <div className="mt-2">
+                  <AvatarStack offset={standardOffset} total={12} />
+                </div>
+              </div>
+            </section>
+
+            <section className="grid h-full gap-3.5 rounded-[24px] bg-[#F7D133]/10 p-3.5 xl:-my-3.5 xl:-mr-3.5 xl:row-span-5 xl:[grid-template-rows:subgrid] xl:rounded-l-[24px] xl:rounded-r-[28px] xl:pb-7 xl:pt-7">
+              <div className="flex h-full flex-col">
+                <h3 className="text-2xl font-medium">Wallchain Select</h3>
+                <div className="mt-3 grid flex-1 grid-cols-2 gap-2 sm:grid-cols-4">
+                  <MiniMetric className="bg-transparent" label="Optimized creators" value={<AnimatedNumber fontSize={22} value={selectCreators} />} />
+                  <MiniMetric className="bg-transparent" label="Posts" value={<AnimatedNumber fontSize={22} value={selectPosts} />} />
+                  <MiniMetric
+                    className="bg-transparent"
+                    label="Relevant audience"
+                    tone="primary"
+                    value={<AnimatedNumber fontSize={22} suffix="K" value={Math.max(1, reach)} />}
+                  />
+                  <MiniMetric
+                    className="bg-transparent"
+                    label="Working budget"
+                    note="Budget hitting your niche"
+                    tone="good"
+                    value={<AnimatedNumber fontSize={22} prefix="$" value={selectWorking} />}
+                  />
+                </div>
+              </div>
+              <div className="flex h-full items-center justify-between gap-3.5 border-t border-[#F7D133]/15 px-3.5 text-sm text-neutral-300">
+                <span>Frequency control</span>
+                <b className="font-medium text-[#F7D133]">{stage.label}</b>
+              </div>
+              <div className="flex h-full items-center justify-between gap-3.5 border-t border-[#F7D133]/15 px-3.5 text-sm text-neutral-300">
+                <span>Overlap</span>
+                <b className="font-medium text-[#F7D133]">{stage.overlap}% controlled</b>
+              </div>
+              <div className="flex h-full flex-col border-t border-[#F7D133]/15 p-3.5">
+                <div className="flex items-start justify-between gap-3.5">
+                  <div>
+                    <p className="text-sm font-medium text-white">Controlled frequency</p>
+                    <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-neutral-500">
+                      Targeted distribution
+                    </p>
+                  </div>
+                  <p className="px-3 py-2 text-center font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[#F7D133]">
+                    {stage.label}
+                  </p>
+                </div>
+                <div className="mt-3 flex-1">
+                  <FrequencyChart
+                    controlled
+                    peakIndex={controlledFrequency.peakIndex}
+                    values={controlledFrequency.values}
+                  />
+                </div>
+                <p className="mt-2 font-mono text-xs text-neutral-500">
+                  Frequency is planned around your target.
+                </p>
+              </div>
+              <div className="flex h-full flex-col justify-center border-t border-[#F7D133]/15 px-3.5">
+                <p className="text-sm font-medium text-neutral-300">
+                  Selected creators ({selectCreators})
+                </p>
+                <div className="mt-2">
+                  <AvatarStack accent offset={selectOffset} total={selectCreators} />
+                </div>
+              </div>
+            </section>
           </div>
-          <p className="mt-3 text-sm font-medium text-neutral-300">
-            Selected creators ({selectCreators})
-          </p>
-          <div className="mt-2">
-            <AvatarStack accent offset={selectOffset} total={selectCreators} />
-          </div>
-        </section>
         </div>
       </div>
       <div className="mt-6 flex flex-wrap items-center gap-3">
