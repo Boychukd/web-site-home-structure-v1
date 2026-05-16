@@ -39,9 +39,9 @@ export default function SocialProof11() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3 }}
-          className="flex flex-col gap-5"
+          className="flex flex-col items-center gap-5 text-center"
         >
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col items-center gap-3">
             <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
               Testimonials
             </p>

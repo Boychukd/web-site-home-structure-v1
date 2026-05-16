@@ -177,9 +177,10 @@ export function CTA3() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
-            We map every account on Crypto Twitter — 3.3M and counting — and
-            turn it into infrastructure for teams who want to grow with data,
-            not vibes.
+            We map every account on Crypto Twitter — and use proprietary ML to
+            find which creators actually reach the audience your brand needs.
+            Then we run the campaign end-to-end. No catalog to browse. No ops
+            to staff. Just the right creators and the right audience.
           </motion.p>
 
           <motion.div

@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowRight, Menu, X } from "lucide-react";
+import { ArrowRight, BadgeCheck, Menu, User, X } from "lucide-react";
 import Counter from "@/components/Counter";
 import CountUp from "@/components/CountUp";
+import BorderGlow from "@/components/BorderGlow";
 import { CTA3 } from "@/components/blocks/cta-3";
 import { Contact1 } from "@/components/blocks/contact-1";
 import { FAQ2 } from "@/components/blocks/faq-2";
@@ -65,6 +67,13 @@ function AnimatedNumber({
 const wallchainLogoUrl = new URL("./assets/wallchain-logo.svg", import.meta.url).href;
 const allianceLogoUrl = new URL("./assets/alliance.svg", import.meta.url).href;
 const engineersLogosUrl = new URL("./assets/engineers-logos.svg", import.meta.url).href;
+const twitterAvatarModules = import.meta.glob("./assets/twitter-avatars/*.{jpg,jpeg,png,webp,avif}", {
+  eager: true,
+  import: "default",
+}) as Record<string, string>;
+const twitterAvatarUrls = Object.entries(twitterAvatarModules)
+  .sort(([leftPath], [rightPath]) => leftPath.localeCompare(rightPath))
+  .map(([, src]) => src);
 
 const partnerLogos = [
   {
@@ -369,17 +378,19 @@ function Section({
   return (
     <section className={`bg-[#020202] px-4 py-10 text-white sm:px-6 lg:px-8 ${className}`} id={id}>
       <div className="mx-auto max-w-[1280px]">
-        <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
-          {eyebrow}
-        </p>
-        <h2 className="mt-3 max-w-4xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl lg:text-5xl">
-          {title}
-        </h2>
-        {copy ? (
-          <p className="mt-4 max-w-2xl text-base leading-7 text-neutral-400 sm:text-lg">
-            {copy}
+        <div className="flex flex-col items-center text-center">
+          <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
+            {eyebrow}
           </p>
-        ) : null}
+          <h2 className="mt-3 max-w-4xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+            {title}
+          </h2>
+          {copy ? (
+            <p className="mt-4 max-w-2xl text-base leading-7 text-neutral-400 sm:text-lg">
+              {copy}
+            </p>
+          ) : null}
+        </div>
         {children}
       </div>
     </section>
@@ -548,13 +559,13 @@ function NicheFollowers() {
     >
       <div className="mt-8">
         <article className="text-white">
-          <div className="grid gap-8 xl:grid-cols-[1.18fr_0.82fr]">
-            <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="grid gap-12 xl:grid-cols-[minmax(0,1.18fr)_minmax(500px,0.82fr)] xl:items-center">
+            <div className="grid items-center gap-10 lg:grid-cols-[1.12fr_0.88fr]">
               <AudienceDiagram compact />
               <NicheMetricCopy compact />
             </div>
-            <div className="self-start lg:justify-self-end lg:max-w-[640px] xl:max-w-[680px]">
-              <NicheDiscoveryCard condensed />
+            <div className="self-start xl:justify-self-end">
+              <NicheDiscoveryCard />
             </div>
           </div>
         </article>
@@ -569,14 +580,16 @@ function AudienceDiagram({ compact = false }: { compact?: boolean }) {
       <div
         className={`relative rounded-full border-[2px] border-neutral-300/80 bg-[#050505] ${
           compact
-            ? "size-[260px] sm:size-[340px] lg:size-[300px]"
+            ? "size-[260px] sm:size-[340px] lg:size-[320px]"
             : "size-[340px] sm:size-[440px]"
         }`}
       >
+        <div className="absolute inset-[18%] rounded-full border border-neutral-700/45" />
+        <div className="absolute inset-[34%] rounded-full border border-[#F7D133]/15 bg-[#F7D133]/[0.025]" />
         <div
           className={`absolute left-1/2 rounded-full border-[2px] border-[#111] bg-[#F7D133] shadow-[0_0_50px_rgba(247,209,51,0.18),inset_0_1px_0_rgba(255,255,255,0.4)] ${
             compact
-              ? "bottom-[12%] size-[76px] -translate-x-1/2 sm:size-[92px]"
+              ? "bottom-[12%] size-[82px] -translate-x-1/2 sm:size-[96px]"
               : "bottom-[12%] size-[112px] -translate-x-1/2"
           }`}
         />
@@ -619,60 +632,66 @@ function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
   );
 }
 
-function NicheDiscoveryCard({
-  className = "",
-  condensed = false,
-}: {
-  className?: string;
-  condensed?: boolean;
-}) {
+function NicheDiscoveryCard({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`text-white ${
-        condensed ? "flex h-full flex-col justify-between" : ""
-      } ${className}`}
+      className={`rounded-[28px] bg-white/[0.045] px-6 py-6 text-white shadow-[0_22px_70px_rgba(0,0,0,0.18)] sm:px-7 sm:py-7 ${className}`}
     >
-      <div
-        className={
-          condensed
-            ? "grid gap-6"
-            : "grid gap-6 lg:grid-cols-[0.82fr_1.4fr_0.82fr]"
-        }
-      >
-        <h3 className="max-w-[210px] text-2xl font-medium leading-tight tracking-tight sm:text-3xl">
+      <div className="grid gap-7">
+        <h3 className="max-w-[360px] text-2xl font-medium leading-tight tracking-tight sm:text-3xl">
           How we know who is actually in your niche:
         </h3>
-        <div className="grid gap-6">
-          <SignalRow label="User A follows:" variant="random" />
-          <SignalRow label="User B follows:" variant="buyer" />
+        <div className="grid gap-5">
+          <SignalInsightRow
+            insight="Could be anyone"
+            label="User A follows:"
+            tone="weak"
+            variant="random"
+          />
+          <SignalInsightRow
+            insight="Shows a stronger interest in this niche"
+            label="User B follows:"
+            tone="strong"
+            variant="buyer"
+          />
         </div>
-        {!condensed ? (
-          <div className="grid content-center gap-10 text-base font-medium sm:text-lg">
-            <p className="flex items-center gap-4 text-red-300">
-              <span className="text-white">&gt;</span>
-              <span>× Random crypto user</span>
-            </p>
-            <p className="flex items-center gap-4 text-green-300">
-              <span className="text-white">&gt;</span>
-              <span>✓ Real prediction markets buyer.</span>
-            </p>
-          </div>
-        ) : null}
       </div>
-      {condensed ? (
-        <div className="mt-7 grid gap-4 text-base font-medium">
-          <p className="flex items-start gap-3 text-red-300">
-            <span className="text-white">&gt;</span>
-            <span>× Random crypto user</span>
-          </p>
-          <p className="flex items-start gap-3 text-green-300">
-            <span className="text-white">&gt;</span>
-            <span>✓ Real prediction markets buyer.</span>
-          </p>
-        </div>
-      ) : null}
-      <p className="mt-7 font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-neutral-500">
-        # We mapped 3.3M Crypto Twitter accounts so you don't have to.
+      <p className="mt-8 flex items-start gap-2.5 font-mono text-[11px] font-semibold leading-relaxed tracking-[0.14em] text-neutral-500">
+        <BadgeCheck className="size-3.5 shrink-0 text-[#F7D133]" />
+        <span>
+          We mapped 3.3M Crypto Twitter accounts, apply additional filtering
+          based on X score, ML prediction models, & more, so you don&apos;t
+          have to.
+        </span>
+      </p>
+    </div>
+  );
+}
+
+function SignalInsightRow({
+  insight,
+  label,
+  tone,
+  variant,
+}: {
+  insight: string;
+  label: string;
+  tone: "weak" | "strong";
+  variant: "random" | "buyer";
+}) {
+  return (
+    <div className="grid items-center gap-3 sm:grid-cols-[minmax(248px,1fr)_auto_minmax(146px,0.75fr)] sm:gap-4">
+      <SignalRow label={label} variant={variant} />
+      <ArrowRight
+        aria-hidden="true"
+        className="hidden size-4 text-neutral-500 sm:block"
+      />
+      <p
+        className={`text-base font-medium leading-snug sm:text-lg ${
+          tone === "strong" ? "text-[#71f0c4]" : "text-red-200"
+        }`}
+      >
+        {insight}
       </p>
     </div>
   );
@@ -688,7 +707,7 @@ function SignalRow({
   return (
     <div>
       <p className="text-sm font-medium leading-none text-neutral-400 sm:text-base">{label}</p>
-      <div className="mt-3 flex flex-wrap items-center gap-2 text-base font-medium text-white sm:text-lg">
+      <div className="mt-3 flex flex-wrap items-center gap-2 text-base font-medium leading-none text-white sm:text-lg">
         <PolymarketBadge />
         {variant === "buyer" ? (
           <>
@@ -741,17 +760,19 @@ function CreatorNetwork() {
       id="creator-network"
     >
       <div className="mx-auto max-w-[1280px]">
-        <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
-          Creator network
-        </p>
-        <h2 className="mt-3 max-w-4xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
-          Same creator. Different value.
-        </h2>
-        <p className="mt-3 max-w-2xl text-sm leading-6 text-neutral-400 sm:text-base">
-          Switch the niche. The same creator performs differently.
-        </p>
+        <div className="flex flex-col items-center text-center">
+          <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
+            Creator network
+          </p>
+          <h2 className="mt-3 max-w-4xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
+            Same creator. Different value.
+          </h2>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-neutral-400 sm:text-base">
+            Switch the niche. The same creator performs differently.
+          </p>
+        </div>
 
-        <div className="mt-6 flex flex-wrap items-center gap-2">
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
           <div className="relative flex items-center gap-1 overflow-x-auto rounded-full p-1">
             {niches.map((niche) => {
               const active = selectedNiche === niche;
@@ -887,46 +908,15 @@ function CreatorCard({
   );
 }
 
-const creatorPool = [
-  "PM",
-  "KAL",
-  "ODD",
-  "YES",
-  "FUT",
-  "ARB",
-  "WIN",
-  "EDGE",
-  "VOL",
-  "BET",
-  "DATA",
-  "ALP",
-  "TR",
-  "LV",
-  "MG",
-  "SW",
-  "QB",
-  "FX",
-  "AR",
-  "RN",
-  "MX",
-  "SP",
-  "TK",
-  "HT",
-  "DEX",
-  "LEND",
-  "LP",
-  "YLD",
-];
-
 const frequencyStages = [
-  "MAX-RICH",
-  "RICH",
-  "RICH / BALANCED",
-  "BALANCED",
-  "BALANCED / FREQUENCIES",
-  "FREQUENCIES",
-  "MAX FREQUENCIES",
-  "MAX-FREQUENCIES",
+  "Max reach",
+  "Reach",
+  "Reach / Balanced",
+  "Balanced",
+  "Balanced / Frequency",
+  "Frequency",
+  "High frequency",
+  "Max frequency",
 ];
 
 const frequencyLabels = ["1×", "2×", "3×", "4×", "5×", "6×", "7×", "8×", "9×", "10×+"];
@@ -934,6 +924,17 @@ const staticStandardFrequency = [88, 58, 36, 22, 31, 55, 20, 47, 18, 42];
 
 function clampNumber(value: number, min: number, max: number) {
   return Math.max(min, Math.min(max, value));
+}
+
+function shuffleArray<T>(items: T[]) {
+  const nextItems = [...items];
+
+  for (let index = nextItems.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [nextItems[index], nextItems[swapIndex]] = [nextItems[swapIndex], nextItems[index]];
+  }
+
+  return nextItems;
 }
 
 function getFrequencyStage(frequencyValue: number) {
@@ -1006,52 +1007,78 @@ function FrequencyChart({
 
 function AvatarStack({
   accent,
-  offset,
+  avatars,
   total,
 }: {
   accent?: boolean;
-  offset: number;
+  avatars: string[];
   total: number;
 }) {
-  const mutedPalette = ["#d9d9d9", "#cfcfcf", "#e5e5e5", "#bdbdbd"];
-  const vividPalette = [
-    "#f54848",
-    "#10b7b1",
-    "#ff8040",
-    "#e842a0",
-    "#3ba64c",
-    "#2b55ff",
-    "#5f63f5",
-    "#f3c51b",
-    "#17c46d",
-    "#ff5ca6",
-  ];
-  const visible = accent && total > 12 ? 11 : Math.min(12, total);
-  const items = Array.from({ length: visible });
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  useEffect(() => {
+    const node = containerRef.current;
+    if (!node) return;
+
+    const updateWidth = () => setContainerWidth(node.clientWidth);
+    updateWidth();
+
+    if (typeof ResizeObserver === "undefined") return;
+
+    const observer = new ResizeObserver(() => updateWidth());
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, []);
+
+  const avatarSize = 32;
+  const avatarGap = 6;
+  const slotWidth = avatarSize + avatarGap;
+  const capacity =
+    containerWidth > 0
+      ? Math.max(1, Math.floor((containerWidth + avatarGap) / slotWidth))
+      : Math.min(12, total);
+  const visible = total > capacity ? Math.max(0, capacity - 1) : Math.min(capacity, total);
+  const items = avatars.slice(0, visible);
 
   return (
-    <div className="flex flex-wrap gap-1.5">
-      {items.map((_, index) => {
-        const label = creatorPool[(index + offset) % creatorPool.length];
-        const background = accent
-          ? vividPalette[(index + offset) % vividPalette.length]
-          : mutedPalette[(index + offset) % mutedPalette.length];
+    <div className="flex flex-nowrap items-center gap-1.5 overflow-hidden" ref={containerRef}>
+      {items.map((avatar, index) => {
+        if (!accent) {
+          return (
+            <span
+              className="grid size-8 place-items-center rounded-full border border-white/10 bg-[#C9C9C9] text-[#626262]"
+              key={`standard-avatar-${index}`}
+            >
+              <User className="size-4 stroke-[2.1]" />
+            </span>
+          );
+        }
 
         return (
           <span
-            className="grid size-8 place-items-center rounded-full text-[9px] font-semibold"
-            key={`${label}-${index}`}
-            style={{
-              background,
-              color: accent && (background === "#f3c51b" || background === "#f7d133") ? "#111" : accent ? "#fff" : "transparent",
-            }}
+            className="block size-8 overflow-hidden rounded-full border border-[#F7D133]/20 bg-neutral-950/40"
+            key={`${avatar}-${index}`}
           >
-            {accent ? label : ""}
+            <img
+              alt=""
+              className="size-full object-cover"
+              draggable={false}
+              loading="lazy"
+              src={avatar}
+            />
           </span>
         );
       })}
       {total > visible ? (
-        <span className="grid size-8 place-items-center rounded-full bg-[#F7D133]/10 text-[11px] font-semibold text-[#F7D133]">
+        <span
+          className={`grid size-8 place-items-center rounded-full text-[11px] font-semibold ${
+            accent
+              ? "bg-[#F7D133]/10 text-[#F7D133]"
+              : "bg-[#C9C9C9] text-[#626262]"
+          }`}
+        >
           +{total - visible}
         </span>
       ) : null}
@@ -1094,10 +1121,148 @@ function MiniMetric({
   );
 }
 
+function ElasticSlider({
+  "aria-label": ariaLabel,
+  labels,
+  maxValue,
+  onChange,
+  startingValue,
+  stepSize = 1,
+  value,
+}: {
+  "aria-label": string;
+  labels?: ReactNode;
+  maxValue: number;
+  onChange: (value: number) => void;
+  startingValue: number;
+  stepSize?: number;
+  value: number;
+}) {
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const [isActive, setIsActive] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const totalRange = maxValue - startingValue;
+  const percent = totalRange === 0 ? 0 : ((value - startingValue) / totalRange) * 100;
+
+  const updateValue = (clientX: number) => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    const { left, width } = slider.getBoundingClientRect();
+    const rawProgress = (clientX - left) / width;
+    const nextValue =
+      Math.round((startingValue + rawProgress * totalRange) / stepSize) * stepSize;
+
+    onChange(clampNumber(nextValue, startingValue, maxValue));
+  };
+
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    setIsActive(true);
+    updateValue(event.clientX);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      updateValue(event.clientX);
+    }
+  };
+
+  const handlePointerUp = () => {
+    setIsActive(false);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const keySteps: Record<string, number> = {
+      ArrowDown: -1,
+      ArrowLeft: -1,
+      ArrowRight: 1,
+      ArrowUp: 1,
+      PageDown: -5,
+      PageUp: 5,
+    };
+
+    if (event.key === "Home") {
+      event.preventDefault();
+      onChange(startingValue);
+      return;
+    }
+
+    if (event.key === "End") {
+      event.preventDefault();
+      onChange(maxValue);
+      return;
+    }
+
+    const stepMultiplier = keySteps[event.key];
+    if (stepMultiplier) {
+      event.preventDefault();
+      onChange(clampNumber(value + stepMultiplier * stepSize, startingValue, maxValue));
+    }
+  };
+
+  return (
+    <div>
+      <motion.div
+        animate={{ opacity: isHovered || isActive ? 1 : 0.82 }}
+        className="relative"
+        onHoverEnd={() => setIsHovered(false)}
+        onHoverStart={() => setIsHovered(true)}
+        transition={{ type: "spring", stiffness: 420, damping: 28 }}
+      >
+        <div
+          aria-label={ariaLabel}
+          aria-valuemax={maxValue}
+          aria-valuemin={startingValue}
+          aria-valuenow={value}
+          className="relative flex h-6 cursor-grab touch-none select-none items-center outline-none active:cursor-grabbing"
+          onKeyDown={handleKeyDown}
+          onLostPointerCapture={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          ref={sliderRef}
+          role="slider"
+          tabIndex={0}
+        >
+          <motion.div
+            animate={{
+              height: isHovered || isActive ? 12 : 7,
+            }}
+            className="relative w-full overflow-hidden rounded-full bg-neutral-700/75"
+            transition={{ type: "spring", stiffness: 420, damping: 28 }}
+          >
+            <motion.div
+              animate={{ width: `${percent}%` }}
+              className="h-full rounded-full bg-[#F7D133]"
+              transition={{ type: "spring", stiffness: 520, damping: 38 }}
+            />
+          </motion.div>
+          <motion.div
+            animate={{
+              left: `${percent}%`,
+              scale: isActive ? 1.28 : isHovered ? 1.2 : 1,
+            }}
+            className="absolute top-1/2 z-20 size-4 rounded-full bg-[#F7D133]"
+            style={{ x: "-50%", y: "-50%" }}
+            transition={{ type: "spring", stiffness: 520, damping: 34 }}
+          />
+        </div>
+      </motion.div>
+      {labels ? <div className="mt-0.5">{labels}</div> : null}
+    </div>
+  );
+}
+
 function CampaignCalculator() {
   const [budget, setBudget] = useState(5);
   const [frequency, setFrequency] = useState(5);
   const [standardOpen, setStandardOpen] = useState(false);
+  const [avatarDecks, setAvatarDecks] = useState(() => ({
+    standard: shuffleArray(twitterAvatarUrls),
+    select: shuffleArray(twitterAvatarUrls),
+  }));
 
   const standardRate = 0.12;
   const selectRate = 0.85;
@@ -1115,10 +1280,15 @@ function CampaignCalculator() {
   const selectReachFactor = 0.19 * (1 + (4 - frequency) * 0.06 + budgetLift * 0.015);
   const reach = Math.max(1, Math.round((selectPosts * 3900 * selectReachFactor) / 1000));
   const selectWorking = Math.round(budget * 1000 * selectRate);
-  const selectOffset = (frequency * 7 + budgetLift * 5) % creatorPool.length;
-  const standardOffset = (budget * 2 + frequency) % 4;
   const controlledFrequency = getControlledFrequency(frequency);
   const stage = getFrequencyStage(frequency);
+
+  useEffect(() => {
+    setAvatarDecks({
+      standard: shuffleArray(twitterAvatarUrls),
+      select: shuffleArray(twitterAvatarUrls),
+    });
+  }, [budget]);
 
   return (
     <Section
@@ -1138,13 +1308,12 @@ function CampaignCalculator() {
                   Budget
                   <strong className="text-lg font-medium text-white">${budget}K</strong>
                 </span>
-                <input
-                  className="mt-3 w-full accent-[#F7D133]"
-                  max="50"
-                  min="5"
-                  onChange={(event) => setBudget(Number(event.target.value))}
-                  step="1"
-                  type="range"
+                <ElasticSlider
+                  aria-label="Budget"
+                  maxValue={50}
+                  onChange={setBudget}
+                  startingValue={5}
+                  stepSize={1}
                   value={budget}
                 />
               </label>
@@ -1153,23 +1322,32 @@ function CampaignCalculator() {
                   Audience frequency
                   <strong className="text-lg font-medium text-white">{frequency}×</strong>
                 </span>
-                <input
-                  className="mt-3 w-full accent-[#F7D133]"
-                  max="8"
-                  min="1"
-                  onChange={(event) => setFrequency(Number(event.target.value))}
-                  step="1"
-                  type="range"
+                <ElasticSlider
+                  aria-label="Audience frequency"
+                  labels={
+                    <span className="grid grid-cols-3 items-start font-mono text-[10px] uppercase leading-[1.05] tracking-[0.12em] text-neutral-600">
+                      <span className="text-left">
+                        Max
+                        <br />
+                        reach
+                      </span>
+                      <span>Balanced</span>
+                      <span className="text-right">
+                        Max
+                        <br />
+                        frequency
+                      </span>
+                    </span>
+                  }
+                  maxValue={8}
+                  onChange={setFrequency}
+                  startingValue={1}
+                  stepSize={1}
                   value={frequency}
                 />
-                <span className="mt-2 flex justify-between font-mono text-[10px] uppercase tracking-[0.12em] text-neutral-600">
-                  <span>Max reach</span>
-                  <span>Balanced</span>
-                  <span>Max frequency</span>
-                </span>
               </label>
             </div>
-            <p className="mt-5 rounded-2xl bg-[#F7D133]/10 p-4 text-sm leading-6 text-neutral-300">
+            <p className="mt-5 rounded-2xl bg-neutral-900/70 p-4 text-sm leading-6 text-neutral-300">
               Inside the optimizer there are 20+ unique parameters for selecting
               the best influencer lineup.
             </p>
@@ -1184,13 +1362,13 @@ function CampaignCalculator() {
             Compare to standard approach {standardOpen ? "↑" : "↓"}
           </button>
 
-          <div className="grid gap-3.5 xl:border-l xl:border-neutral-800/80 xl:pl-3.5 xl:grid-cols-2 xl:items-stretch xl:[grid-template-rows:minmax(142px,auto)_56px_56px_minmax(220px,1fr)_78px]">
+          <div className="grid gap-3.5 xl:border-l xl:border-neutral-800/80 xl:pl-3.5 xl:grid-cols-2 xl:items-stretch xl:[grid-template-rows:minmax(142px,auto)_36px_36px_minmax(168px,auto)_auto]">
             <section
-              className={`gap-3.5 rounded-[24px] bg-neutral-950/25 p-3.5 xl:row-span-5 xl:[grid-template-rows:subgrid] ${
+              className={`gap-3.5 rounded-[24px] bg-neutral-950/25 py-3.5 xl:row-span-5 xl:gap-y-0 xl:[grid-template-rows:subgrid] ${
                 standardOpen ? "grid" : "hidden xl:grid"
               }`}
             >
-              <div className="flex h-full flex-col">
+              <div className="flex h-full flex-col px-5">
                 <h3 className="text-2xl font-medium">Standard approach</h3>
                 <div className="mt-3 grid flex-1 grid-cols-2 gap-2 sm:grid-cols-4">
                   <MiniMetric label="Creators" value={<AnimatedNumber fontSize={22} value={agencyCreators} />} />
@@ -1215,36 +1393,50 @@ function CampaignCalculator() {
                   />
                 </div>
               </div>
-              <div className="flex h-full items-center justify-between gap-3.5 border-t border-neutral-800/80 px-3.5 text-sm text-neutral-400">
+              <div className="mx-5 flex h-full items-center justify-between gap-3.5 border-t border-neutral-800/80 py-1.5 leading-none text-sm text-neutral-400">
                 <span>Frequency control</span>
                 <b className="font-medium text-red-200">not controlled</b>
               </div>
-              <div className="flex h-full items-center justify-between gap-3.5 border-t border-neutral-800/80 px-3.5 text-sm text-neutral-400">
+              <div className="mx-5 flex h-full items-center justify-between gap-3.5 border-t border-neutral-800/80 py-1.5 leading-none text-sm text-neutral-400">
                 <span>Overlap</span>
                 <b className="font-medium text-red-200">not measured</b>
               </div>
-              <div className="flex h-full flex-col border-t border-neutral-800/80 p-3.5">
-                <p className="text-sm font-medium text-white">Uncontrolled frequency</p>
-                <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-neutral-500">
-                  Random distribution
-                </p>
-                <div className="mt-3 flex-1">
+              <div className="mx-5 flex h-full flex-col border-t border-neutral-800/80 py-3">
+                <div className="flex items-start justify-between gap-3.5">
+                  <p className="text-sm font-medium text-white">Uncontrolled frequency</p>
+                  <p className="text-sm font-medium text-red-200">Random Distribution</p>
+                </div>
+                <div className="mt-2">
                   <FrequencyChart values={staticStandardFrequency} />
                 </div>
-                <p className="mt-2 font-mono text-xs text-neutral-500">
+                <p className="mt-1 font-mono text-xs text-neutral-500">
                   Frequency happens, but it is not controlled.
                 </p>
               </div>
-              <div className="flex h-full flex-col justify-center border-t border-neutral-800/80 px-3.5">
-                <p className="text-sm font-medium text-neutral-300">Selected creators</p>
+              <div className="flex h-full flex-col justify-center px-5 pt-3.5 pb-0">
+                <p className="whitespace-nowrap text-sm font-medium text-neutral-300">
+                  Selected creators ({agencyCreators})
+                </p>
                 <div className="mt-2">
-                  <AvatarStack offset={standardOffset} total={12} />
+                  <AvatarStack avatars={avatarDecks.standard} total={agencyCreators} />
                 </div>
               </div>
             </section>
 
-            <section className="grid h-full gap-3.5 rounded-[24px] bg-[#F7D133]/10 p-3.5 xl:-my-3.5 xl:-mr-3.5 xl:row-span-5 xl:[grid-template-rows:subgrid] xl:rounded-l-[24px] xl:rounded-r-[28px] xl:pb-7 xl:pt-7">
-              <div className="flex h-full flex-col">
+            <BorderGlow
+              animated
+              backgroundColor="#221f16"
+              borderRadius={28}
+              className="grid h-full gap-3.5 py-3.5 xl:-my-3.5 xl:-mr-3.5 xl:row-span-5 xl:gap-y-0 xl:[grid-template-rows:subgrid] xl:px-1.5 xl:pt-7 xl:pb-5"
+              colors={["#F7D133", "#6FACFF", "#A05FFF"]}
+              coneSpread={16}
+              edgeSensitivity={24}
+              fillOpacity={0}
+              glowColor="48 92 58"
+              glowIntensity={0.9}
+              glowRadius={28}
+            >
+              <div className="flex h-full flex-col px-5">
                 <h3 className="text-2xl font-medium">Wallchain Select</h3>
                 <div className="mt-3 grid flex-1 grid-cols-2 gap-2 sm:grid-cols-4">
                   <MiniMetric className="bg-transparent" label="Optimized creators" value={<AnimatedNumber fontSize={22} value={selectCreators} />} />
@@ -1264,50 +1456,43 @@ function CampaignCalculator() {
                   />
                 </div>
               </div>
-              <div className="flex h-full items-center justify-between gap-3.5 border-t border-[#F7D133]/15 px-3.5 text-sm text-neutral-300">
+              <div className="mx-5 flex h-full items-center justify-between gap-3.5 border-t border-[#F7D133]/15 py-1.5 leading-none text-sm text-neutral-300">
                 <span>Frequency control</span>
                 <b className="font-medium text-[#F7D133]">{stage.label}</b>
               </div>
-              <div className="flex h-full items-center justify-between gap-3.5 border-t border-[#F7D133]/15 px-3.5 text-sm text-neutral-300">
+              <div className="mx-5 flex h-full items-center justify-between gap-3.5 border-t border-[#F7D133]/15 py-1.5 leading-none text-sm text-neutral-300">
                 <span>Overlap</span>
                 <b className="font-medium text-[#F7D133]">{stage.overlap}% controlled</b>
               </div>
-              <div className="flex h-full flex-col border-t border-[#F7D133]/15 p-3.5">
+              <div className="mx-5 flex h-full flex-col border-t border-[#F7D133]/15 py-3">
                 <div className="flex items-start justify-between gap-3.5">
-                  <div>
-                    <p className="text-sm font-medium text-white">Controlled frequency</p>
-                    <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-neutral-500">
-                      Targeted distribution
-                    </p>
-                  </div>
-                  <p className="px-3 py-2 text-center font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[#F7D133]">
-                    {stage.label}
-                  </p>
+                  <p className="text-sm font-medium text-white">Controlled frequency</p>
+                  <p className="text-sm font-medium text-[#F7D133]">Target Distribution</p>
                 </div>
-                <div className="mt-3 flex-1">
+                <div className="mt-2">
                   <FrequencyChart
                     controlled
                     peakIndex={controlledFrequency.peakIndex}
                     values={controlledFrequency.values}
                   />
                 </div>
-                <p className="mt-2 font-mono text-xs text-neutral-500">
+                <p className="mt-1 font-mono text-xs text-neutral-500">
                   Frequency is planned around your target.
                 </p>
               </div>
-              <div className="flex h-full flex-col justify-center border-t border-[#F7D133]/15 px-3.5">
-                <p className="text-sm font-medium text-neutral-300">
+              <div className="flex h-full flex-col justify-center px-5 pt-3.5 pb-0">
+                <p className="whitespace-nowrap text-sm font-medium text-neutral-300">
                   Selected creators ({selectCreators})
                 </p>
                 <div className="mt-2">
-                  <AvatarStack accent offset={selectOffset} total={selectCreators} />
+                  <AvatarStack accent avatars={avatarDecks.select} total={selectCreators} />
                 </div>
               </div>
-            </section>
+            </BorderGlow>
           </div>
         </div>
       </div>
-      <div className="mt-6 flex flex-wrap items-center gap-3">
+      <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-center">
         <ActionLink href="#plan-campaign">Analyze my campaign</ActionLink>
         <ActionLink href="#call" variant="secondary">
           Book a call
@@ -1338,7 +1523,7 @@ function ProofBand() {
       value: 2,
       suffix: "x",
       decimals: 0,
-      label: "cheaper per niche audience member",
+      label: "cheaper per niche audience reader",
       bg: "#f7d133",
       fg: "#1a1400",
     },
@@ -1362,7 +1547,8 @@ function ProofBand() {
   return (
     <Stats10
       ctaHref="#call"
-      ctaLabel="Read the full Prediction Markets analysis"
+      ctaLabel="View report"
+      ctaTitle="Full creator campaign report for Prediction Markets"
       eyebrow="Numbers from real campaigns"
       id="proof"
       stats={stats}

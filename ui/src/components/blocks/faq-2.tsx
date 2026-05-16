@@ -29,8 +29,8 @@ export function FAQ2({
   return (
     <section className="flex w-full items-start bg-neutral-950 px-4 py-12 text-white sm:px-6 lg:px-8">
       <div className="mx-auto w-full max-w-[1400px]">
-        <div className="grid grid-cols-1 justify-start gap-8 lg:grid-cols-[1fr_2fr] lg:gap-12">
-          <div className="flex flex-col space-y-6 lg:sticky lg:top-24 lg:self-start">
+        <div className="grid grid-cols-1 gap-8 lg:gap-12">
+          <div className="flex flex-col items-center space-y-6 text-center">
             <motion.p
               animate={{ opacity: 1, y: 0 }}
               className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500"
@@ -50,7 +50,7 @@ export function FAQ2({
 
           </div>
 
-          <div className="flex flex-col space-y-7">
+          <div className="mx-auto flex w-full max-w-[860px] flex-col space-y-7">
             {faqs.map((faq, index) => (
               <motion.div
                 animate={{ opacity: 1, y: 0 }}

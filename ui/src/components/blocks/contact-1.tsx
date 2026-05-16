@@ -53,7 +53,7 @@ export function Contact1() {
           viewport={{ once: true }}
           whileInView={{ opacity: 1, y: 0 }}
         >
-          Just your data. No deck. 30-min call, direct with the founder.
+          Just your data. No deck. 15-min call, direct with the founder.
         </motion.p>
 
         <div className="mx-auto mt-8 grid max-w-6xl grid-cols-1 gap-4 lg:grid-cols-2">
