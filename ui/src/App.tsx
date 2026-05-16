@@ -1091,7 +1091,7 @@ function CampaignCalculator() {
               <b className="font-medium text-red-200">not measured</b>
             </li>
           </ul>
-          <div className="mt-4 rounded-2xl border border-neutral-800 bg-neutral-950 p-4">
+          <div className="mt-4 flex h-full flex-col rounded-2xl border border-neutral-800 bg-neutral-950 p-4">
             <p className="text-sm font-medium text-white">Uncontrolled frequency</p>
             <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-neutral-500">
               Random distribution
@@ -1136,14 +1136,18 @@ function CampaignCalculator() {
               <b className="font-medium text-[#F7D133]">{stage.overlap}% controlled</b>
             </li>
           </ul>
-          <div className="mt-4 rounded-2xl border border-[#F7D133]/30 bg-neutral-950/70 p-4">
-            <p className="text-sm font-medium text-white">Controlled frequency</p>
-            <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-neutral-500">
-              Targeted distribution
-            </p>
-            <p className="mt-3 rounded-xl border border-[#F7D133]/40 bg-[#F7D133]/10 px-3 py-2 text-center font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[#F7D133]">
-              {stage.label}
-            </p>
+          <div className="mt-4 flex h-full flex-col rounded-2xl border border-[#F7D133]/30 bg-neutral-950/70 p-4">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-sm font-medium text-white">Controlled frequency</p>
+                <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-neutral-500">
+                  Targeted distribution
+                </p>
+              </div>
+              <p className="rounded-xl border border-[#F7D133]/40 bg-[#F7D133]/10 px-3 py-2 text-center font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[#F7D133]">
+                {stage.label}
+              </p>
+            </div>
             <div className="mt-4">
               <FrequencyChart
                 controlled
