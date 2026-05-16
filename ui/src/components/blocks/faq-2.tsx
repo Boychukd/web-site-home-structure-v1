@@ -68,10 +68,10 @@ export function FAQ2({
                     whileTap={{ scale: 0.98 }}
                   >
                     <div
-                      className={`rounded-full border px-4 py-3 transition-all duration-200 sm:px-5 sm:py-3.5 ${
+                      className={`rounded-full px-4 py-3 transition-all duration-200 sm:px-5 sm:py-3.5 ${
                         openIndex === index
-                          ? "border-[#F7D133]/40 bg-[#F7D133]/10"
-                          : "border-transparent bg-neutral-800 hover:bg-neutral-700"
+                          ? "bg-[#F7D133]/10"
+                          : "bg-neutral-800 hover:bg-neutral-700"
                       }`}
                     >
                       <p
@@ -92,10 +92,10 @@ export function FAQ2({
                         ? `Close ${faq.question}`
                         : `Open ${faq.question}`
                     }
-                    className={`mt-3 flex size-6 shrink-0 items-center justify-center rounded-full border transition-colors duration-200 sm:size-7 ${
+                    className={`mt-3 flex size-6 shrink-0 items-center justify-center rounded-full transition-colors duration-200 sm:size-7 ${
                       openIndex === index
-                        ? "border-[#F7D133]/60 hover:border-[#F7D133]"
-                        : "border-neutral-600 hover:border-neutral-400"
+                        ? "bg-[#F7D133]/10"
+                        : "bg-neutral-800 hover:bg-neutral-700"
                     }`}
                     onClick={() => toggleFAQ(index)}
                     type="button"

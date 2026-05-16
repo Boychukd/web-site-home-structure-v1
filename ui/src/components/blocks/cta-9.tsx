@@ -13,14 +13,14 @@ export default function Cta9() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900/90 p-10 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.08)] sm:p-16 lg:p-20"
+          className="relative overflow-hidden rounded-3xl bg-neutral-900/90 p-10 shadow-[0_18px_70px_-42px_rgba(0,0,0,0.9)] sm:p-16 lg:p-20"
         >
           <motion.div
             initial={{ opacity: 0, x: -40, rotate: -8 }}
             whileInView={{ opacity: 1, x: 0, rotate: -12 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="hidden md:block absolute left-0 top-1/2 w-44 -translate-x-[30%] -translate-y-1/2 rounded-2xl border border-neutral-800 bg-neutral-950/80 p-2 shadow-xl lg:w-52 xl:w-56"
+            className="hidden md:block absolute left-0 top-1/2 w-44 -translate-x-[30%] -translate-y-1/2 rounded-2xl bg-neutral-950/80 p-2 shadow-xl lg:w-52 xl:w-56"
           >
             <div className="aspect-4/3 overflow-hidden rounded-lg bg-neutral-800">
               <img
@@ -40,7 +40,7 @@ export default function Cta9() {
             whileInView={{ opacity: 1, x: 0, rotate: 10 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="hidden md:block absolute right-0 top-1/2 w-56 translate-x-[30%] -translate-y-1/2 rounded-2xl border border-neutral-800 bg-neutral-950/80 p-4 shadow-xl lg:w-64 xl:w-72"
+            className="hidden md:block absolute right-0 top-1/2 w-56 translate-x-[30%] -translate-y-1/2 rounded-2xl bg-neutral-950/80 p-4 shadow-xl lg:w-64 xl:w-72"
           >
             <div className="mb-3 flex items-center justify-between text-xs text-neutral-400">
               <span>Real campaign data</span>
@@ -68,12 +68,12 @@ export default function Cta9() {
             </motion.p>
 
             <div className="mb-6 flex items-center gap-3">
-              <div className="flex size-12 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-900 shadow-sm">
+              <div className="flex size-12 items-center justify-center rounded-lg bg-neutral-900 shadow-sm">
                 <Layers className="size-5 text-neutral-300" />
               </div>
               <ArrowRight className="size-4 text-neutral-400" />
-              <div className="flex size-12 items-center justify-center rounded-lg border border-[#F7D133]/40 bg-[#F7D133]/10 shadow-sm">
-                <div className="size-5 rounded-full border border-[#F7D133] bg-[#F7D133]/20" />
+              <div className="flex size-12 items-center justify-center rounded-lg bg-[#F7D133]/10 shadow-sm">
+                <div className="size-5 rounded-full bg-[#F7D133]/30" />
               </div>
             </div>
 

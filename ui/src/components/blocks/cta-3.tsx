@@ -117,7 +117,7 @@ export function CTA3() {
             </div>
 
             <motion.div
-              className="relative right-[-220px] sm:right-[-250px] top-4 w-28 h-28 rounded-3xl bg-neutral-900/70 backdrop-blur-sm border border-neutral-800 flex items-center justify-center z-0"
+              className="relative right-[-220px] sm:right-[-250px] top-4 w-28 h-28 rounded-3xl bg-neutral-900/70 backdrop-blur-sm flex items-center justify-center z-0"
               initial={{ opacity: 0, x: -20, scale: 0.9 }}
               animate={{ opacity: 1, x: 0, scale: 0.9 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -129,7 +129,7 @@ export function CTA3() {
             </motion.div>
 
             <motion.div
-              className="relative z-10 w-40 h-40 rounded-3xl bg-[#F7D133]/10 backdrop-blur-sm border border-[#F7D133]/40 flex flex-col items-center justify-center"
+              className="relative z-10 w-40 h-40 rounded-3xl bg-[#F7D133]/10 backdrop-blur-sm flex flex-col items-center justify-center shadow-[0_18px_70px_-48px_rgba(247,209,51,0.9)]"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
@@ -141,7 +141,7 @@ export function CTA3() {
             </motion.div>
 
             <motion.div
-              className="relative right-[220px] sm:right-[250px] top-4 w-28 h-28 rounded-3xl bg-neutral-900/70 backdrop-blur-sm border border-neutral-800 flex items-center justify-center z-0"
+              className="relative right-[220px] sm:right-[250px] top-4 w-28 h-28 rounded-3xl bg-neutral-900/70 backdrop-blur-sm flex items-center justify-center z-0"
               initial={{ opacity: 0, x: 20, scale: 0.9 }}
               animate={{ opacity: 1, x: 0, scale: 0.9 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -190,7 +190,7 @@ export function CTA3() {
           >
             {links.map((link) => (
               <a
-                className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-neutral-900 px-6 py-3 text-base font-medium text-white duration-200 hover:scale-105 hover:border-[#F7D133]/60 hover:bg-[#F7D133]/10 hover:text-[#F7D133]"
+                className="inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-3 text-base font-medium text-white duration-200 hover:scale-105 hover:bg-[#F7D133]/10 hover:text-[#F7D133]"
                 href={link.href}
                 key={link.label}
               >

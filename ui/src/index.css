@@ -73,15 +73,12 @@
 }
 
 .outline-cta {
-  border-width: 1px;
   border-radius: var(--borderRadius100, 100px);
-  border-color: #404040;
   background: #171717;
   color: #ffffff;
 }
 
 .outline-cta:hover {
-  border-color: rgb(247 209 51 / 0.6);
   background: rgb(247 209 51 / 0.1);
   color: #f7d133;
 }

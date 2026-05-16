@@ -59,7 +59,7 @@ export function Contact1() {
         <div className="mx-auto mt-8 grid max-w-6xl grid-cols-1 gap-4 lg:grid-cols-2">
           {cards.map((card, index) => (
             <motion.a
-              className="group flex min-h-64 flex-col justify-between rounded-3xl border border-neutral-800 bg-neutral-900/70 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-neutral-600 hover:bg-neutral-900 sm:p-7"
+              className="group flex min-h-64 flex-col justify-between rounded-3xl bg-neutral-900/70 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] transition-all duration-300 hover:-translate-y-1 hover:bg-neutral-900 sm:p-7"
               href={card.href}
               initial={{ opacity: 0, y: 20 }}
               key={card.pillText}
@@ -68,7 +68,7 @@ export function Contact1() {
               whileInView={{ opacity: 1, y: 0 }}
             >
               <div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-neutral-950 px-4 py-2">
+                <div className="inline-flex items-center gap-2 rounded-full bg-neutral-950 px-4 py-2">
                   <card.icon className="size-4 text-[#F7D133]" />
                   <span className="text-sm font-medium uppercase tracking-[0.16em] text-neutral-200">
                     {card.pillText}
@@ -83,7 +83,7 @@ export function Contact1() {
                 className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-4 text-base font-medium transition-all duration-300 group-hover:scale-[1.01] ${
                   card.featured
                     ? "bg-[#F7D133] text-neutral-950"
-                    : "border border-neutral-700 text-white group-hover:bg-neutral-800"
+                    : "bg-neutral-950 text-white group-hover:bg-neutral-800"
                 }`}
               >
                 {card.buttonText}

@@ -123,7 +123,7 @@ export default function Stats10({
         {ctaHref && ctaLabel ? (
           <div className="mt-6">
             <a
-              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[#F7D133]/35 bg-[#F7D133]/10 px-5 text-sm font-medium text-[#F7D133] transition duration-200 hover:border-[#F7D133]/60 hover:bg-[#F7D133]/15"
+              className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[#F7D133]/10 px-5 text-sm font-medium text-[#F7D133] transition duration-200 hover:bg-[#F7D133]/15"
               href={ctaHref}
             >
               {ctaLabel}

@@ -206,10 +206,10 @@ function SiteNavigation() {
       <div className="mx-auto w-full max-w-[1280px]">
         <motion.nav
           animate={{ opacity: 1, y: 0 }}
-          className={`relative flex items-center justify-between py-1.5 transition-[background-color,backdrop-filter,border-color,box-shadow,border-radius,padding-left,padding-right] duration-300 ease-out ${
+          className={`relative flex items-center justify-between py-1.5 transition-[background-color,backdrop-filter,box-shadow,border-radius,padding-left,padding-right] duration-300 ease-out ${
             scrolled
-              ? "rounded-2xl border border-neutral-800 bg-neutral-950/70 pl-4 pr-1.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.35)] backdrop-blur-xl"
-              : "rounded-none border border-transparent bg-transparent px-0"
+              ? "rounded-2xl bg-neutral-950/70 pl-4 pr-1.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.35)] backdrop-blur-xl"
+              : "rounded-none bg-transparent px-0"
           }`}
           initial={{ opacity: 0, y: -6 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -237,11 +237,7 @@ function SiteNavigation() {
 
           <div className="flex items-center gap-1.5">
             <a
-              className={`outline-cta hidden items-center gap-2 px-5 py-2.5 text-sm font-medium transition duration-200 sm:inline-flex ${
-                scrolled
-                  ? "border-transparent"
-                  : "border-neutral-700 hover:border-neutral-500"
-              }`}
+              className="outline-cta hidden items-center gap-2 px-5 py-2.5 text-sm font-medium transition duration-200 sm:inline-flex"
               href="#plan-campaign"
             >
               Analyze my campaign
@@ -256,7 +252,7 @@ function SiteNavigation() {
             </a>
             <button
               aria-label="Toggle menu"
-              className="grid size-10 cursor-pointer place-items-center rounded-full border border-neutral-700 text-white md:hidden"
+              className="grid size-10 cursor-pointer place-items-center rounded-full bg-neutral-900 text-white md:hidden"
               onClick={() => setOpen((value) => !value)}
               type="button"
             >
@@ -269,7 +265,7 @@ function SiteNavigation() {
           {open ? (
             <motion.div
               animate={{ opacity: 1, y: 0 }}
-              className="mt-2 flex flex-col gap-1 rounded-2xl border border-neutral-800 bg-neutral-950/85 p-4 backdrop-blur-xl md:hidden"
+              className="mt-2 flex flex-col gap-1 rounded-2xl bg-neutral-950/85 p-4 shadow-[0_18px_45px_-28px_rgba(0,0,0,0.8)] backdrop-blur-xl md:hidden"
               exit={{ opacity: 0, y: -8 }}
               initial={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.25 }}
@@ -395,10 +391,10 @@ function DataTile({
 }) {
   return (
     <div
-      className={`rounded-3xl border p-5 ${
+      className={`rounded-3xl p-5 ${
         tone === "accent"
-          ? "border-[#F7D133]/40 bg-[#F7D133]/10 text-[#F7D133]"
-          : "border-neutral-800 bg-neutral-900/70 text-white"
+          ? "bg-[#F7D133]/12 text-[#F7D133]"
+          : "bg-neutral-900/70 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.035)]"
       }`}
     >
       {children}
@@ -508,7 +504,7 @@ function Pain() {
             {["61% audience overlap", "72% outside target niche", "random frequency distribution"].map(
               (item) => (
                 <div
-                  className="flex items-center gap-3 rounded-2xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-sm text-red-100"
+                  className="flex items-center gap-3 rounded-2xl bg-red-500/10 px-4 py-3 text-sm text-red-100"
                   key={item}
                 >
                   <X className="size-4 text-red-300" />
@@ -559,7 +555,7 @@ function NicheFollowers() {
               active
             />
           </div>
-          <p className="mt-5 rounded-3xl border border-[#F7D133]/40 bg-[#F7D133]/10 p-4 text-sm leading-6 text-neutral-200">
+          <p className="mt-5 rounded-3xl bg-[#F7D133]/10 p-4 text-sm leading-6 text-neutral-200">
             We mapped 3.3M Crypto Twitter accounts so you don't have to.
           </p>
         </DataTile>
@@ -578,17 +574,17 @@ function SignalRow({
   nodes: string[];
 }) {
   return (
-    <div className="rounded-2xl border border-neutral-800 bg-neutral-950 p-4">
+    <div className="rounded-2xl bg-neutral-950 p-4">
       <p className="font-mono text-xs uppercase tracking-[0.16em] text-neutral-500">
         {label}
       </p>
       <div className="mt-3 flex flex-wrap items-center gap-2">
         {nodes.map((node, index) => (
           <span
-            className={`rounded-full border px-3 py-2 text-sm ${
+            className={`rounded-full px-3 py-2 text-sm ${
               active && index === nodes.length - 1
-                ? "border-[#F7D133]/50 bg-[#F7D133]/10 text-[#F7D133]"
-                : "border-neutral-700 bg-neutral-900 text-neutral-200"
+                ? "bg-[#F7D133]/12 text-[#F7D133]"
+                : "bg-neutral-900 text-neutral-200"
             }`}
             key={node}
           >
@@ -707,17 +703,17 @@ function CreatorCard({
 }) {
   return (
     <article
-      className={`flex flex-col items-center justify-center rounded-lg border text-center transition duration-300 ${
+      className={`flex flex-col items-center justify-center rounded-lg text-center transition duration-300 ${
         active
-          ? "z-[2] min-h-[280px] border-[#D8B832]/50 bg-neutral-950 p-5 shadow-[0_18px_60px_-32px_rgba(247,209,51,0.5)] sm:min-h-[300px]"
-          : "min-h-[180px] border-neutral-800 bg-neutral-950/45 p-5 opacity-35"
+          ? "z-[2] min-h-[280px] bg-neutral-950 p-5 shadow-[0_18px_60px_-32px_rgba(247,209,51,0.5)] sm:min-h-[300px]"
+          : "min-h-[180px] bg-neutral-950/45 p-5 opacity-35"
       } ${className}`}
     >
       <div
-        className={`grid place-items-center rounded-full border font-semibold ${
+        className={`grid place-items-center rounded-full font-semibold ${
           active
-            ? "size-14 border-neutral-950 bg-[#F7D133] text-base text-neutral-950"
-            : "size-12 border-neutral-700 bg-[#F7D133]/15 text-sm text-neutral-500"
+            ? "size-14 bg-[#F7D133] text-base text-neutral-950"
+            : "size-12 bg-[#F7D133]/15 text-sm text-neutral-500"
         }`}
       >
         {initials}
@@ -852,17 +848,17 @@ function FrequencyChart({
     <div className="grid h-28 grid-cols-10 items-end gap-1 border-b border-neutral-700 pb-1">
       {frequencyLabels.map((label, index) => {
         const barTone = !controlled
-          ? "border-neutral-600 bg-neutral-600"
+          ? "bg-neutral-600"
           : index === peakIndex
-            ? "border-[#F7D133] bg-[#F7D133]"
+            ? "bg-[#F7D133]"
             : index < peakIndex
-              ? "border-sky-400/60 bg-sky-400/35"
-              : "border-red-300/60 bg-red-300/35";
+              ? "bg-sky-400/35"
+              : "bg-red-300/35";
 
         return (
           <span className="grid h-full grid-rows-[1fr_auto] items-end gap-1" key={label}>
             <i
-              className={`block min-h-2 rounded-t-sm border ${barTone}`}
+              className={`block min-h-2 rounded-t-sm ${barTone}`}
               style={{ height: `${clampNumber(values[index], 8, 92)}%` }}
             />
             <b className="text-center font-mono text-[9px] font-semibold text-neutral-500">
@@ -922,7 +918,7 @@ function AvatarStack({
         );
       })}
       {total > visible ? (
-        <span className="grid size-9 place-items-center rounded-full border border-[#F7D133]/40 bg-[#F7D133]/10 text-xs font-semibold text-[#F7D133]">
+        <span className="grid size-9 place-items-center rounded-full bg-[#F7D133]/10 text-xs font-semibold text-[#F7D133]">
           +{total - visible}
         </span>
       ) : null}
@@ -996,7 +992,7 @@ function CampaignCalculator() {
       id="plan-campaign"
       title="Plan your campaign with real audience data"
     >
-      <div className="mt-7 rounded-3xl border border-neutral-800 bg-neutral-900/40 p-3 sm:p-4">
+      <div className="mt-7 rounded-3xl bg-neutral-900/40 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] sm:p-4">
         <div className="grid gap-4 xl:grid-cols-[0.55fr_1fr_1fr] xl:gap-0">
         <aside className="p-2 xl:p-3 xl:pr-6">
           <h3 className="text-2xl font-medium">Campaign inputs</h3>
@@ -1038,7 +1034,7 @@ function CampaignCalculator() {
               </span>
             </label>
           </div>
-          <p className="mt-6 rounded-2xl border border-[#F7D133]/40 bg-[#F7D133]/10 p-4 text-sm leading-6 text-neutral-300">
+          <p className="mt-6 rounded-2xl bg-[#F7D133]/10 p-4 text-sm leading-6 text-neutral-300">
             Inside the optimizer there are 20+ unique parameters for selecting
             the best influencer lineup.
           </p>
@@ -1046,7 +1042,7 @@ function CampaignCalculator() {
 
         <button
           aria-expanded={standardOpen}
-          className="flex min-h-12 items-center justify-between rounded-2xl border border-neutral-800 bg-neutral-900 px-4 text-left text-sm font-medium text-white xl:hidden"
+          className="flex min-h-12 items-center justify-between rounded-2xl bg-neutral-900 px-4 text-left text-sm font-medium text-white xl:hidden"
           onClick={() => setStandardOpen((value) => !value)}
           type="button"
         >
@@ -1082,16 +1078,16 @@ function CampaignCalculator() {
             />
           </div>
           <ul className="mt-4 grid gap-2 text-sm text-neutral-400">
-            <li className="flex justify-between rounded-2xl border border-neutral-800 bg-neutral-950 px-4 py-3">
+            <li className="flex justify-between rounded-2xl bg-neutral-950 px-4 py-3">
               <span>Frequency control</span>
               <b className="font-medium text-red-200">not controlled</b>
             </li>
-            <li className="flex justify-between rounded-2xl border border-neutral-800 bg-neutral-950 px-4 py-3">
+            <li className="flex justify-between rounded-2xl bg-neutral-950 px-4 py-3">
               <span>Overlap</span>
               <b className="font-medium text-red-200">not measured</b>
             </li>
           </ul>
-          <div className="mt-4 flex h-full flex-col rounded-2xl border border-neutral-800 bg-neutral-950 p-4">
+          <div className="mt-4 flex h-full flex-col rounded-2xl bg-neutral-950 p-4">
             <p className="text-sm font-medium text-white">Uncontrolled frequency</p>
             <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-neutral-500">
               Random distribution
@@ -1109,7 +1105,7 @@ function CampaignCalculator() {
           </div>
         </section>
 
-        <section className="rounded-2xl border border-[#F7D133]/40 bg-[#F7D133]/10 p-4 xl:ml-3">
+        <section className="rounded-2xl bg-[#F7D133]/10 p-4 xl:ml-3">
           <h3 className="text-2xl font-medium">Wallchain Select</h3>
           <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
             <MiniMetric label="Optimized creators" value={<AnimatedNumber fontSize={22} value={selectCreators} />} />
@@ -1127,16 +1123,16 @@ function CampaignCalculator() {
             />
           </div>
           <ul className="mt-4 grid gap-2 text-sm text-neutral-300">
-            <li className="flex justify-between rounded-2xl border border-[#F7D133]/30 bg-neutral-950/70 px-4 py-3">
+            <li className="flex justify-between rounded-2xl bg-neutral-950/70 px-4 py-3">
               <span>Frequency control</span>
               <b className="font-medium text-[#F7D133]">{stage.label}</b>
             </li>
-            <li className="flex justify-between rounded-2xl border border-[#F7D133]/30 bg-neutral-950/70 px-4 py-3">
+            <li className="flex justify-between rounded-2xl bg-neutral-950/70 px-4 py-3">
               <span>Overlap</span>
               <b className="font-medium text-[#F7D133]">{stage.overlap}% controlled</b>
             </li>
           </ul>
-          <div className="mt-4 flex h-full flex-col rounded-2xl border border-[#F7D133]/30 bg-neutral-950/70 p-4">
+          <div className="mt-4 flex h-full flex-col rounded-2xl bg-neutral-950/70 p-4">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-sm font-medium text-white">Controlled frequency</p>
@@ -1144,7 +1140,7 @@ function CampaignCalculator() {
                   Targeted distribution
                 </p>
               </div>
-              <p className="rounded-xl border border-[#F7D133]/40 bg-[#F7D133]/10 px-3 py-2 text-center font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[#F7D133]">
+              <p className="rounded-xl bg-[#F7D133]/10 px-3 py-2 text-center font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[#F7D133]">
                 {stage.label}
               </p>
             </div>
