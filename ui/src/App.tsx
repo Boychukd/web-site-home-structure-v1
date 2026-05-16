@@ -101,9 +101,9 @@ const navigationLinks = [
 ];
 
 const heroBullets = [
-  "3.3M crypto account mapped",
+  "3.3M crypto accounts mapped",
   "150K KOLs scored",
-  "60+ niches analized",
+  "60+ niches analyzed",
 ];
 
 const niches = [
@@ -203,6 +203,10 @@ function SiteNavigation() {
 
   return (
     <div className="sticky top-4 z-50 px-4 py-4 sm:px-6 lg:px-8">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-x-0 top-0 z-[-1] h-36 bg-[linear-gradient(180deg,rgba(0,0,0,0.98)_0%,rgba(0,0,0,0.9)_32%,rgba(0,0,0,0.58)_68%,rgba(0,0,0,0)_100%)]"
+      />
       <div className="mx-auto w-full max-w-[1280px]">
         <motion.nav
           animate={{ opacity: 1, y: 0 }}
@@ -416,13 +420,14 @@ function Hero() {
         </div>
 
         <h1 className="mt-10 max-w-5xl text-5xl font-medium leading-[1.04] tracking-tight sm:text-6xl lg:text-7xl">
-          Get <span className="text-[#F7D133]">3-6x more reach</span>
+          Get <span className="text-[#F7D133]">3-6x more relevant reach</span>
           <br className="hidden sm:block" /> for half the cost.
         </h1>
 
         <p className="mt-6 max-w-3xl text-lg leading-8 text-neutral-300 sm:text-xl">
-          Most KOL campaigns pay multiple creators to reach the same users.
-          We map 3.3M accounts on Crypto Twitter and fix that.
+          Most KOL campaigns reach broad audiences with no control over overlap or
+          frequency. Wallchain targets your niche audience - and gives you control
+          over both.
         </p>
 
         <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -460,7 +465,7 @@ function Hero() {
 
         <div className="hero-logo-zone mt-auto w-full pb-4 sm:pb-8">
           <p className="text-center font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
-            Trusted by Web3 teams
+            Used by teams at
           </p>
           <div className="hero-logo-shell mx-auto mt-5 w-full max-w-[1280px]">
             <div className="hero-logo-track py-7">
@@ -481,9 +486,17 @@ function Pain() {
   return (
     <Section
       className="pt-5"
-      eyebrow="Campaign report"
+      eyebrow="The report didn't tell you."
       id="pain"
-      title="You can spend $50K and still miss your audience."
+      title={
+        <>
+          Your last{" "}
+          <span className="text-[#F7D133]">KOL campaign</span>{" "}
+          <span className="sm:block">
+            was probably <span className="text-[#F7D133]">60% waste.</span>
+          </span>
+        </>
+      }
     >
       <div className="mt-7 grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
         <DataTile>
@@ -516,8 +529,9 @@ function Pain() {
         </DataTile>
         <DataTile tone="accent">
           <p className="text-2xl font-medium leading-snug text-white">
-            Most teams don't know which part of their impressions actually
-            mattered.
+            Standard KOL campaign reports show you impressions because that's
+            all they can measure. Overlap, off-niche reach, random frequency
+            — none of that is tracked, and the report still calls it a win.
           </p>
         </DataTile>
       </div>
@@ -528,71 +542,193 @@ function Pain() {
 function NicheFollowers() {
   return (
     <Section
-      eyebrow="Niche followers"
+      eyebrow="Follower count don’t predict conversion"
       id="niche-followers"
-      title="Follower count doesn't tell you who will convert."
+      title="Most teams don't know which part of their impressions actually mattered."
     >
-      <div className="mt-7 grid gap-4 lg:grid-cols-[0.85fr_1.15fr]">
-        <DataTile>
-          <p className="text-sm text-neutral-500">That is what others see</p>
-          <p className="mt-2 text-4xl font-medium">120K</p>
-          <p className="text-neutral-400">total followers</p>
-          <div className="my-5 h-px bg-neutral-800" />
-          <p className="text-sm text-neutral-500">Relevant to your campaign</p>
-          <p className="mt-2 text-4xl font-medium text-[#F7D133]">584</p>
-          <p className="text-neutral-400">relevant to your campaign</p>
-          <p className="mt-2 text-sm text-neutral-500">(niche followers)</p>
-        </DataTile>
-        <DataTile>
-          <h3 className="text-2xl font-medium">
-            How we know who is actually in your niche:
-          </h3>
-          <div className="mt-5 grid gap-3">
-            <SignalRow label="User A follows" nodes={["Polymarket", "Random crypto user"]} />
-            <SignalRow
-              label="User B follows"
-              nodes={["Polymarket", "Kalshi", "Real prediction markets buyer."]}
-              active
-            />
+      <div className="mt-8">
+        <article className="overflow-hidden rounded-[28px] bg-neutral-900/45 p-5 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] sm:p-6 lg:p-8">
+          <div className="grid gap-8 xl:grid-cols-[1.05fr_0.95fr]">
+            <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
+              <AudienceDiagram compact />
+              <NicheMetricCopy compact />
+            </div>
+            <div className="self-stretch rounded-[24px] bg-[#050505] p-5 sm:p-6">
+              <NicheDiscoveryCard condensed />
+            </div>
           </div>
-          <p className="mt-5 rounded-3xl bg-[#F7D133]/10 p-4 text-sm leading-6 text-neutral-200">
-            We mapped 3.3M Crypto Twitter accounts so you don't have to.
-          </p>
-        </DataTile>
+        </article>
       </div>
     </Section>
   );
 }
 
-function SignalRow({
-  active,
-  label,
-  nodes,
-}: {
-  active?: boolean;
-  label: string;
-  nodes: string[];
-}) {
+function AudienceDiagram({ compact = false }: { compact?: boolean }) {
   return (
-    <div className="rounded-2xl bg-neutral-950 p-4">
-      <p className="font-mono text-xs uppercase tracking-[0.16em] text-neutral-500">
-        {label}
-      </p>
-      <div className="mt-3 flex flex-wrap items-center gap-2">
-        {nodes.map((node, index) => (
-          <span
-            className={`rounded-full px-3 py-2 text-sm ${
-              active && index === nodes.length - 1
-                ? "bg-[#F7D133]/12 text-[#F7D133]"
-                : "bg-neutral-900 text-neutral-200"
-            }`}
-            key={node}
-          >
-            {node}
-          </span>
-        ))}
+    <div className="flex justify-center">
+      <div
+        className={`relative rounded-full border-[2px] border-neutral-300/80 bg-[#050505] ${
+          compact
+            ? "size-[260px] sm:size-[340px] lg:size-[300px]"
+            : "size-[340px] sm:size-[440px]"
+        }`}
+      >
+        <div
+          className={`absolute left-1/2 rounded-full border-[2px] border-[#111] bg-[#F7D133] shadow-[0_0_50px_rgba(247,209,51,0.18),inset_0_1px_0_rgba(255,255,255,0.4)] ${
+            compact
+              ? "bottom-[12%] size-[76px] -translate-x-1/2 sm:size-[92px]"
+              : "bottom-[12%] size-[112px] -translate-x-1/2"
+          }`}
+        />
       </div>
     </div>
+  );
+}
+
+function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
+  return (
+    <div className={compact ? "mx-auto max-w-[420px] lg:mx-0" : ""}>
+      <p className="text-sm font-medium leading-none text-neutral-400 sm:text-base">
+        That is what others see
+      </p>
+      <p
+        className="mt-3 text-3xl font-medium leading-none tracking-tight text-white sm:text-4xl"
+        style={{ fontFamily: titleFontFamily }}
+      >
+        120K followers
+      </p>
+      <p
+        className="my-6 text-5xl font-medium leading-none text-white sm:my-7"
+        style={{ fontFamily: titleFontFamily }}
+      >
+        ↓
+      </p>
+      <p className="text-sm font-medium leading-none text-neutral-400 sm:text-base">
+        This is what Wallchain sees
+      </p>
+      <p
+        className="mt-3 inline-block max-w-none bg-[#F7D133] px-0 text-3xl font-medium leading-[1.08] tracking-tight text-[#080808] sm:text-4xl"
+        style={{ fontFamily: titleFontFamily }}
+      >
+        584 niche followers
+      </p>
+      <p className="mt-2 text-base font-semibold text-neutral-500">
+        This is what matters
+      </p>
+    </div>
+  );
+}
+
+function NicheDiscoveryCard({
+  className = "",
+  condensed = false,
+}: {
+  className?: string;
+  condensed?: boolean;
+}) {
+  return (
+    <div
+      className={`bg-[#050505] p-5 text-white ${
+        condensed ? "flex h-full flex-col justify-between" : ""
+      } ${className}`}
+    >
+      <div
+        className={
+          condensed
+            ? "grid gap-6"
+            : "grid gap-6 lg:grid-cols-[0.95fr_1.45fr_1fr]"
+        }
+      >
+        <h3 className="max-w-[240px] text-2xl font-medium leading-tight tracking-tight sm:text-3xl">
+          How we know who is actually in your niche:
+        </h3>
+        <div className="grid gap-6">
+          <SignalRow label="User A follows:" variant="random" />
+          <SignalRow label="User B follows:" variant="buyer" />
+        </div>
+        {!condensed ? (
+          <div className="grid content-center gap-10 text-base font-medium sm:text-lg">
+            <p className="flex items-center gap-4 text-red-300">
+              <span className="text-white">&gt;</span>
+              <span>× Random crypto user</span>
+            </p>
+            <p className="flex items-center gap-4 text-green-300">
+              <span className="text-white">&gt;</span>
+              <span>✓ Real prediction markets buyer.</span>
+            </p>
+          </div>
+        ) : null}
+      </div>
+      {condensed ? (
+        <div className="mt-7 grid gap-4 text-base font-medium">
+          <p className="flex items-start gap-3 text-red-300">
+            <span className="text-white">&gt;</span>
+            <span>× Random crypto user</span>
+          </p>
+          <p className="flex items-start gap-3 text-green-300">
+            <span className="text-white">&gt;</span>
+            <span>✓ Real prediction markets buyer.</span>
+          </p>
+        </div>
+      ) : null}
+      <p className="mt-7 font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-neutral-500">
+        # We mapped 3.3M Crypto Twitter accounts so you don't have to.
+      </p>
+    </div>
+  );
+}
+
+function SignalRow({
+  label,
+  variant,
+}: {
+  label: string;
+  variant: "random" | "buyer";
+}) {
+  return (
+    <div>
+      <p className="text-sm font-medium leading-none text-neutral-400 sm:text-base">{label}</p>
+      <div className="mt-3 flex flex-wrap items-center gap-2 text-base font-medium text-white sm:text-lg">
+        <PolymarketBadge />
+        {variant === "buyer" ? (
+          <>
+            <KalshiBadge />
+            <span>Polymarket + Kalshi</span>
+          </>
+        ) : (
+          <span>Polymarket</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function PolymarketBadge() {
+  return (
+    <span className="grid size-10 place-items-center overflow-hidden rounded-full bg-[#2555ff]">
+      <svg
+        aria-hidden="true"
+        className="h-6 w-6"
+        viewBox="0 0 100 100"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M23 29L74 17Q80 16 80 22V78Q80 84 74 83L23 71Q19 70 19 65V35Q19 31 23 29ZM30 36V48L70 38V25ZM30 53V64L70 74V61ZM31 51L70 58V42Z"
+          fill="white"
+        />
+      </svg>
+    </span>
+  );
+}
+
+function KalshiBadge() {
+  return (
+    <span className="-ml-2 grid size-10 place-items-center overflow-hidden rounded-full bg-[#18d98c]">
+      <span className="text-[8px] font-semibold tracking-[-0.01em] text-[#07110c]">
+        Kalshi
+      </span>
+    </span>
   );
 }
 
@@ -897,7 +1033,7 @@ function AvatarStack({
   const items = Array.from({ length: visible });
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-1.5">
       {items.map((_, index) => {
         const label = creatorPool[(index + offset) % creatorPool.length];
         const background = accent
@@ -906,7 +1042,7 @@ function AvatarStack({
 
         return (
           <span
-            className="grid size-9 place-items-center rounded-full text-[10px] font-semibold"
+            className="grid size-8 place-items-center rounded-full text-[9px] font-semibold"
             key={`${label}-${index}`}
             style={{
               background,
@@ -918,7 +1054,7 @@ function AvatarStack({
         );
       })}
       {total > visible ? (
-        <span className="grid size-9 place-items-center rounded-full bg-[#F7D133]/10 text-xs font-semibold text-[#F7D133]">
+        <span className="grid size-8 place-items-center rounded-full bg-[#F7D133]/10 text-[11px] font-semibold text-[#F7D133]">
           +{total - visible}
         </span>
       ) : null}
@@ -993,11 +1129,11 @@ function CampaignCalculator() {
       title="Plan your campaign with real audience data"
     >
       <div className="mt-7 rounded-3xl bg-neutral-900/40 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] sm:p-4">
-        <div className="grid gap-4 xl:grid-cols-[0.55fr_1fr_1fr] xl:gap-0">
+        <div className="grid gap-3 xl:grid-cols-[0.55fr_1fr_1fr] xl:gap-0">
         <aside className="p-2 xl:p-3 xl:pr-6">
           <h3 className="text-2xl font-medium">Campaign inputs</h3>
           <p className="mt-1 text-sm text-neutral-500">Play with controls below</p>
-          <div className="mt-6 grid gap-6">
+          <div className="mt-5 grid gap-5">
             <label className="block">
               <span className="flex items-center justify-between gap-4 text-sm text-neutral-400">
                 Budget
@@ -1034,7 +1170,7 @@ function CampaignCalculator() {
               </span>
             </label>
           </div>
-          <p className="mt-6 rounded-2xl bg-[#F7D133]/10 p-4 text-sm leading-6 text-neutral-300">
+          <p className="mt-5 rounded-2xl bg-[#F7D133]/10 p-4 text-sm leading-6 text-neutral-300">
             Inside the optimizer there are 20+ unique parameters for selecting
             the best influencer lineup.
           </p>
@@ -1055,7 +1191,7 @@ function CampaignCalculator() {
           }`}
         >
           <h3 className="text-2xl font-medium">Standard approach</h3>
-          <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
+          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
             <MiniMetric label="Creators" value={<AnimatedNumber fontSize={22} value={agencyCreators} />} />
             <MiniMetric label="Posts" value={<AnimatedNumber fontSize={22} value={agencyPosts} />} />
             <MiniMetric
@@ -1077,7 +1213,7 @@ function CampaignCalculator() {
               value={<AnimatedNumber fontSize={22} prefix="$" value={agencyWaste} />}
             />
           </div>
-          <ul className="mt-4 grid gap-2 text-sm text-neutral-400">
+          <ul className="mt-3 grid gap-2 text-sm text-neutral-400">
             <li className="flex justify-between rounded-2xl bg-neutral-950 px-4 py-3">
               <span>Frequency control</span>
               <b className="font-medium text-red-200">not controlled</b>
@@ -1087,27 +1223,27 @@ function CampaignCalculator() {
               <b className="font-medium text-red-200">not measured</b>
             </li>
           </ul>
-          <div className="mt-4 flex h-full flex-col rounded-2xl bg-neutral-950 p-4">
+          <div className="mt-3 flex flex-col rounded-2xl bg-neutral-950 p-4">
             <p className="text-sm font-medium text-white">Uncontrolled frequency</p>
             <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-neutral-500">
               Random distribution
             </p>
-            <div className="mt-4">
+            <div className="mt-3">
               <FrequencyChart values={staticStandardFrequency} />
             </div>
-            <p className="mt-3 font-mono text-xs text-neutral-500">
+            <p className="mt-2 font-mono text-xs text-neutral-500">
               Frequency happens, but it is not controlled.
             </p>
           </div>
-          <p className="mt-4 text-sm font-medium text-neutral-300">Selected creators</p>
-          <div className="mt-3">
+          <p className="mt-3 text-sm font-medium text-neutral-300">Selected creators</p>
+          <div className="mt-2">
             <AvatarStack offset={standardOffset} total={12} />
           </div>
         </section>
 
         <section className="rounded-2xl bg-[#F7D133]/10 p-4 xl:ml-3">
           <h3 className="text-2xl font-medium">Wallchain Select</h3>
-          <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
+          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
             <MiniMetric label="Optimized creators" value={<AnimatedNumber fontSize={22} value={selectCreators} />} />
             <MiniMetric label="Posts" value={<AnimatedNumber fontSize={22} value={selectPosts} />} />
             <MiniMetric
@@ -1122,7 +1258,7 @@ function CampaignCalculator() {
               value={<AnimatedNumber fontSize={22} prefix="$" value={selectWorking} />}
             />
           </div>
-          <ul className="mt-4 grid gap-2 text-sm text-neutral-300">
+          <ul className="mt-3 grid gap-2 text-sm text-neutral-300">
             <li className="flex justify-between rounded-2xl bg-neutral-950/70 px-4 py-3">
               <span>Frequency control</span>
               <b className="font-medium text-[#F7D133]">{stage.label}</b>
@@ -1132,7 +1268,7 @@ function CampaignCalculator() {
               <b className="font-medium text-[#F7D133]">{stage.overlap}% controlled</b>
             </li>
           </ul>
-          <div className="mt-4 flex h-full flex-col rounded-2xl bg-neutral-950/70 p-4">
+          <div className="mt-3 flex flex-col rounded-2xl bg-neutral-950/70 p-4">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-sm font-medium text-white">Controlled frequency</p>
@@ -1144,21 +1280,21 @@ function CampaignCalculator() {
                 {stage.label}
               </p>
             </div>
-            <div className="mt-4">
+            <div className="mt-3">
               <FrequencyChart
                 controlled
                 peakIndex={controlledFrequency.peakIndex}
                 values={controlledFrequency.values}
               />
             </div>
-            <p className="mt-3 font-mono text-xs text-neutral-500">
+            <p className="mt-2 font-mono text-xs text-neutral-500">
               Frequency is planned around your target.
             </p>
           </div>
-          <p className="mt-4 text-sm font-medium text-neutral-300">
+          <p className="mt-3 text-sm font-medium text-neutral-300">
             Selected creators ({selectCreators})
           </p>
-          <div className="mt-3">
+          <div className="mt-2">
             <AvatarStack accent offset={selectOffset} total={selectCreators} />
           </div>
         </section>
