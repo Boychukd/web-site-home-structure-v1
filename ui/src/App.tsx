@@ -436,9 +436,8 @@ function Hero() {
         </h1>
 
         <p className="mt-6 max-w-3xl text-lg leading-8 text-neutral-300 sm:text-xl">
-          Most KOL campaigns reach broad audiences with no control over overlap or
-          frequency. Wallchain targets your niche audience - and gives you control
-          over both.
+          Standard KOL campaigns reach broad audiences. Wallchain targets your niche
+          - and controls overlap and frequency.
         </p>
 
         <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -540,9 +539,8 @@ function Pain() {
         </DataTile>
         <DataTile tone="accent">
           <p className="text-2xl font-medium leading-snug text-white">
-            Standard KOL campaign reports show you impressions because that's
-            all they can measure. Overlap, off-niche reach, random frequency
-            — none of that is tracked, and the report still calls it a win.
+            We measure overlap and frequency in addition to impressions.
+            Standard KOL campaigns can't do that.
           </p>
         </DataTile>
       </div>
@@ -559,12 +557,14 @@ function NicheFollowers() {
     >
       <div className="mt-8">
         <article className="text-white">
-          <div className="grid gap-12 xl:grid-cols-[minmax(0,1.18fr)_minmax(500px,0.82fr)] xl:items-center">
-            <div className="grid items-center gap-10 lg:grid-cols-[1.12fr_0.88fr]">
-              <AudienceDiagram compact />
-              <NicheMetricCopy compact />
+          <div className="grid gap-10 lg:gap-12">
+            <div className="rounded-[34px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+              <div className="grid items-center gap-4 lg:grid-cols-[minmax(300px,1fr)_minmax(0,1fr)] lg:gap-4">
+                <AudienceDiagram compact />
+                <NicheMetricCopy compact />
+              </div>
             </div>
-            <div className="self-start xl:justify-self-end">
+            <div className="w-full">
               <NicheDiscoveryCard />
             </div>
           </div>
@@ -584,13 +584,11 @@ function AudienceDiagram({ compact = false }: { compact?: boolean }) {
             : "size-[340px] sm:size-[440px]"
         }`}
       >
-        <div className="absolute inset-[18%] rounded-full border border-neutral-700/45" />
-        <div className="absolute inset-[34%] rounded-full border border-[#F7D133]/15 bg-[#F7D133]/[0.025]" />
         <div
-          className={`absolute left-1/2 rounded-full border-[2px] border-[#111] bg-[#F7D133] shadow-[0_0_50px_rgba(247,209,51,0.18),inset_0_1px_0_rgba(255,255,255,0.4)] ${
+          className={`absolute left-1/2 rounded-full border-[2px] border-[#111] bg-[#F7D133] shadow-[0_0_42px_rgba(247,209,51,0.16),inset_0_1px_0_rgba(255,255,255,0.35)] ${
             compact
-              ? "bottom-[12%] size-[82px] -translate-x-1/2 sm:size-[96px]"
-              : "bottom-[12%] size-[112px] -translate-x-1/2"
+              ? "bottom-[13%] size-[62px] -translate-x-1/2 sm:size-[72px]"
+              : "bottom-[13%] size-[84px] -translate-x-1/2"
           }`}
         />
       </div>
@@ -600,33 +598,24 @@ function AudienceDiagram({ compact = false }: { compact?: boolean }) {
 
 function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
   return (
-    <div className={compact ? "mx-auto max-w-[420px] lg:mx-0" : ""}>
+    <div className={compact ? "mx-auto max-w-[400px] lg:mx-0" : ""}>
       <p className="text-sm font-medium leading-none text-neutral-400 sm:text-base">
-        That is what others see
+        This is what you see
       </p>
       <p
-        className="mt-3 text-3xl font-medium leading-none tracking-tight text-white sm:text-4xl"
+        className="mt-2 text-3xl font-medium leading-none tracking-tight text-white sm:text-4xl"
         style={{ fontFamily: titleFontFamily }}
       >
         120K followers
       </p>
-      <p
-        className="my-6 text-5xl font-medium leading-none text-white sm:my-7"
-        style={{ fontFamily: titleFontFamily }}
-      >
-        ↓
-      </p>
-      <p className="text-sm font-medium leading-none text-neutral-400 sm:text-base">
-        This is what Wallchain sees
+      <p className="mt-8 text-sm font-medium leading-none text-neutral-400 sm:mt-10 sm:text-base">
+        This is what matters
       </p>
       <p
-        className="mt-3 inline-block max-w-none text-3xl font-medium leading-[1.08] tracking-tight text-[#F7D133] sm:text-4xl"
+        className="mt-2 inline-block max-w-none text-3xl font-medium leading-[1.08] tracking-tight text-[#F7D133] sm:text-4xl"
         style={{ fontFamily: titleFontFamily }}
       >
         584 niche followers
-      </p>
-      <p className="mt-2 text-base font-semibold text-neutral-500">
-        This is what matters
       </p>
     </div>
   );
@@ -635,28 +624,26 @@ function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
 function NicheDiscoveryCard({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`rounded-[28px] bg-white/[0.045] px-6 py-6 text-white shadow-[0_22px_70px_rgba(0,0,0,0.18)] sm:px-7 sm:py-7 ${className}`}
+      className={`bg-[#13263a]/92 py-6 text-white shadow-[0_22px_70px_rgba(0,0,0,0.18)] lg:py-7 ${className}`}
     >
-      <div className="grid gap-7">
-        <h3 className="max-w-[360px] text-2xl font-medium leading-tight tracking-tight sm:text-3xl">
+      <div className="grid gap-5 lg:grid-cols-[minmax(170px,0.56fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-7">
+        <h3 className="max-w-[11ch] px-0 text-xl font-medium leading-tight tracking-tight text-white/92 sm:text-2xl">
           How we know who is actually in your niche:
         </h3>
-        <div className="grid gap-5">
-          <SignalInsightRow
-            insight="Could be anyone"
-            label="User A follows:"
-            tone="weak"
-            variant="random"
-          />
-          <SignalInsightRow
-            insight="Shows a stronger interest in this niche"
-            label="User B follows:"
-            tone="strong"
-            variant="buyer"
-          />
-        </div>
+        <SignalInsightRow
+          insight="Could be anyone"
+          label="User A follows:"
+          tone="weak"
+          variant="random"
+        />
+        <SignalInsightRow
+          insight="Shows a stronger interest in this niche"
+          label="User B follows:"
+          tone="strong"
+          variant="buyer"
+        />
       </div>
-      <p className="mt-8 flex items-start gap-2.5 font-mono text-[11px] font-semibold leading-relaxed tracking-[0.14em] text-neutral-500">
+      <p className="mt-6 flex items-center justify-center gap-2.5 pt-5 text-center text-[14px] font-normal leading-[1.45] tracking-normal text-neutral-400">
         <BadgeCheck className="size-3.5 shrink-0 text-[#F7D133]" />
         <span>
           We mapped 3.3M Crypto Twitter accounts, apply additional filtering
@@ -680,54 +667,60 @@ function SignalInsightRow({
   variant: "random" | "buyer";
 }) {
   return (
-    <div className="grid items-center gap-3 sm:grid-cols-[minmax(248px,1fr)_auto_minmax(146px,0.75fr)] sm:gap-4">
-      <SignalRow label={label} variant={variant} />
-      <ArrowRight
-        aria-hidden="true"
-        className="hidden size-4 text-neutral-500 sm:block"
-      />
-      <p
-        className={`text-base font-medium leading-snug sm:text-lg ${
-          tone === "strong" ? "text-[#71f0c4]" : "text-red-200"
-        }`}
-      >
-        {insight}
+    <div className="grid gap-2 rounded-[22px] bg-[#161616] px-5 py-5 sm:px-6 sm:py-5.5">
+      <p className="text-sm font-medium leading-none text-neutral-400 sm:text-base">
+        {label}
       </p>
+      <div className="grid gap-2.5">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2.5">
+          <SignalRow variant={variant} />
+          <ArrowRight
+            aria-hidden="true"
+            className="size-4 shrink-0 text-neutral-500"
+          />
+          <p
+            className={`max-w-[16ch] flex-none text-base font-medium leading-snug sm:text-[1.05rem] lg:max-w-[15ch] ${
+            tone === "strong" ? "text-[#71f0c4]" : "text-red-200"
+            }`}
+          >
+            {insight}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
 
 function SignalRow({
-  label,
   variant,
 }: {
-  label: string;
   variant: "random" | "buyer";
 }) {
   return (
-    <div>
-      <p className="text-sm font-medium leading-none text-neutral-400 sm:text-base">{label}</p>
-      <div className="mt-3 flex flex-wrap items-center gap-2 text-base font-medium leading-none text-white sm:text-lg">
-        <PolymarketBadge />
-        {variant === "buyer" ? (
-          <>
-            <KalshiBadge />
-            <span>Polymarket + Kalshi</span>
-          </>
-        ) : (
-          <span>Polymarket</span>
-        )}
-      </div>
+    <div className="inline-flex min-w-0 max-w-full items-center gap-1.5 text-base font-medium leading-none text-white sm:text-[1.05rem]">
+      <PolymarketBadge />
+      {variant === "buyer" ? (
+        <>
+          <KalshiBadge />
+          <span className="min-w-0 max-w-[8.5ch] leading-snug">
+            Polymarket+
+            <br />
+            Kalshi
+          </span>
+        </>
+      ) : (
+        <span className="min-w-0 leading-snug">Polymarket</span>
+      )}
     </div>
   );
 }
 
 function PolymarketBadge() {
   return (
-    <span className="grid size-10 place-items-center overflow-hidden rounded-full bg-[#2555ff]">
+    <span className="grid size-9 shrink-0 place-items-center overflow-hidden rounded-full bg-[#2555ff]">
       <svg
         aria-hidden="true"
-        className="h-6 w-6"
+        className="h-5 w-5"
         viewBox="0 0 100 100"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -743,8 +736,8 @@ function PolymarketBadge() {
 
 function KalshiBadge() {
   return (
-    <span className="-ml-2 grid size-10 place-items-center overflow-hidden rounded-full bg-[#18d98c]">
-      <span className="text-[8px] font-semibold tracking-[-0.01em] text-[#07110c]">
+    <span className="-ml-1.5 grid size-9 shrink-0 place-items-center overflow-hidden rounded-full bg-[#18d98c]">
+      <span className="text-[7px] font-semibold tracking-[-0.01em] text-[#07110c]">
         Kalshi
       </span>
     </span>
