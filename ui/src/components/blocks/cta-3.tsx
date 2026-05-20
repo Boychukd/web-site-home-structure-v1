@@ -1,7 +1,9 @@
 "use client";
 
 import { motion } from "motion/react";
-import { ArrowUpRight, Network, Search, Users } from "lucide-react";
+import { Network, Search, Users } from "lucide-react";
+import { AnimatedArrowIcon } from "@/components/AnimatedArrowIcon";
+import { sectionEyebrowClass, sectionSubtitleClass, sectionTitleClass } from "@/lib/section-typography";
 
 const links = [
   {
@@ -12,17 +14,13 @@ const links = [
     label: "Follow on X",
     href: "#x-placeholder",
   },
-  {
-    label: "Join Telegram",
-    href: "#telegram-placeholder",
-  },
 ];
 
 export function CTA3() {
   return (
     <section className="relative flex w-full items-center justify-center overflow-hidden bg-neutral-950 px-4 py-12 text-white sm:px-6 lg:px-8">
       <div className="max-w-[1400px] mx-auto w-full">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="mx-auto w-full text-center">
           {/* Icon Cards */}
           <div className="flex items-center justify-center mb-4 relative sm:h-40">
             {/* Background SVG Circles */}
@@ -154,7 +152,7 @@ export function CTA3() {
           </div>
 
           <motion.p
-            className="mb-4 font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500"
+            className={`mb-4 ${sectionEyebrowClass}`}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.35 }}
@@ -163,24 +161,24 @@ export function CTA3() {
           </motion.p>
 
           <motion.h1
-            className="mb-6 text-4xl font-medium leading-tight tracking-tight text-white sm:text-5xl"
+            className={`mb-6 ${sectionTitleClass} text-white lg:whitespace-nowrap`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            Wallchain is the audience graph for Web3 marketing.
+            Wallchain runs creator{" "}
+            <span className="text-[#F7D133]">marketing on data.</span>
           </motion.h1>
 
           <motion.p
-            className="text-base text-neutral-400 leading-relaxed mb-8 sm:mb-10 max-w-lg mx-auto"
+            className={`mx-auto mb-8 max-w-lg text-center ${sectionSubtitleClass} sm:mb-10`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
-            We map every account on Crypto Twitter — and use proprietary ML to
-            find which creators actually reach the audience your brand needs.
-            Then we run the campaign end-to-end. No catalog to browse. No ops
-            to staff. Just the right creators and the right audience.
+            We map every Crypto Twitter account and use proprietary ML to pick
+            creators whose audience matches your brand. Then we run the
+            campaign end-to-end — no ops on your side.
           </motion.p>
 
           <motion.div
@@ -191,12 +189,12 @@ export function CTA3() {
           >
             {links.map((link) => (
               <a
-                className="inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-3 text-base font-medium text-white duration-200 hover:scale-105 hover:bg-[#F7D133]/10 hover:text-[#F7D133]"
+                className="stripe-arrow-cta inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-3 text-base font-medium text-white duration-200 hover:scale-105 hover:bg-[#F7D133]/10 hover:text-[#F7D133]"
                 href={link.href}
                 key={link.label}
               >
                 {link.label}
-                <ArrowUpRight className="size-4" />
+                <AnimatedArrowIcon className="size-4" />
               </a>
             ))}
           </motion.div>

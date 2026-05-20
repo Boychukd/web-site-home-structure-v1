@@ -2,7 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import { animate, motion } from "motion/react";
-import { ArrowRight } from "lucide-react";
+import { AnimatedArrowIcon } from "@/components/AnimatedArrowIcon";
+import { sectionEyebrowClass, sectionTitleClass } from "@/lib/section-typography";
 
 type StatItem = {
   value: number;
@@ -81,7 +82,7 @@ export default function Stats10({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.45 }}
-            className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500"
+            className={sectionEyebrowClass}
           >
             {eyebrow}
           </motion.p>
@@ -91,7 +92,7 @@ export default function Stats10({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55 }}
-            className="mt-3 max-w-4xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl lg:text-5xl"
+            className={`mt-3 ${sectionTitleClass} lg:whitespace-nowrap`}
           >
             {title}
           </motion.h2>
@@ -132,11 +133,11 @@ export default function Stats10({
               </p>
             ) : null}
             <a
-              className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-[#F7D133]/10 px-5 text-sm font-medium text-[#F7D133] transition duration-200 hover:bg-[#F7D133]/15"
+              className="stripe-arrow-cta inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-[#F7D133]/10 px-5 text-sm font-medium text-[#F7D133] transition duration-200 hover:bg-[#F7D133]/15"
               href={ctaHref}
             >
               {ctaLabel}
-              <ArrowRight className="size-4" />
+              <AnimatedArrowIcon className="size-4" />
             </a>
           </div>
         ) : null}

@@ -1,16 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowRight, BadgeCheck, Menu, User, X } from "lucide-react";
+import { ArrowRight, BadgeCheck, Menu, MoreHorizontal, User, X } from "lucide-react";
 import Counter from "@/components/Counter";
 import CountUp from "@/components/CountUp";
 import BorderGlow from "@/components/BorderGlow";
+import { AnimatedArrowIcon } from "@/components/AnimatedArrowIcon";
 import { CTA3 } from "@/components/blocks/cta-3";
 import { Contact1 } from "@/components/blocks/contact-1";
 import { FAQ2 } from "@/components/blocks/faq-2";
 import CTA9 from "@/components/blocks/cta-9";
 import SocialProof11 from "@/components/blocks/social-proof-11";
 import Stats10 from "@/components/blocks/stats-10";
+import {
+  sectionEyebrowClass,
+  sectionSubtitleClass,
+  sectionTitleClass,
+} from "@/lib/section-typography";
 
 const titleFontFamily =
   '"Bai Jamjuree", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
@@ -74,6 +80,11 @@ const twitterAvatarModules = import.meta.glob("./assets/twitter-avatars/*.{jpg,j
 const twitterAvatarUrls = Object.entries(twitterAvatarModules)
   .sort(([leftPath], [rightPath]) => leftPath.localeCompare(rightPath))
   .map(([, src]) => src);
+const demoAvatarUrls = {
+  active: new URL("./assets/twitter-avatars/Dimaweb3girl.jpg", import.meta.url).href,
+  next: new URL("./assets/twitter-avatars/web3femme.jpg", import.meta.url).href,
+  previous: new URL("./assets/twitter-avatars/InspiredByWill_.jpg", import.meta.url).href,
+};
 
 const partnerLogos = [
   {
@@ -126,6 +137,8 @@ const niches = [
   "Onchain Trading",
 ];
 
+const creatorNicheRotationMs = 4500;
+
 const creatorValues: Record<string, number> = {
   "Prediction Markets": 4.8,
   DeFi: 8.1,
@@ -135,6 +148,33 @@ const creatorValues: Record<string, number> = {
   GameFi: 5.2,
   Memecoins: 9.7,
   "Onchain Trading": 11.8,
+};
+
+const creatorDemoProfiles = {
+  previous: {
+    avatar: demoAvatarUrls.previous,
+    bio: "Market maps, perp notes, and oddly specific threads.",
+    displayName: "Mina Roe",
+    followersLabel: "120K",
+    handle: "@mina_demo",
+    totalFollowers: 120,
+  },
+  active: {
+    avatar: demoAvatarUrls.active,
+    bio: "Crypto markets, launch notes, and onchain audience reads.",
+    displayName: "Juno K.",
+    followersLabel: "120K",
+    handle: "@juno_demo",
+    totalFollowers: 120,
+  },
+  next: {
+    avatar: demoAvatarUrls.next,
+    bio: "L2 gossip, mint windows, and charts worth saving.",
+    displayName: "Oren Vale",
+    followersLabel: "120K",
+    handle: "@oren_demo",
+    totalFollowers: 120,
+  },
 };
 
 const faqs = [
@@ -186,7 +226,7 @@ function ActionLink({
 }) {
   return (
     <a
-      className={`inline-flex min-h-11 items-center justify-center gap-2 px-5 text-sm font-medium transition duration-200 hover:scale-[1.02] ${
+      className={`stripe-arrow-cta inline-flex min-h-11 items-center justify-center gap-2 px-5 text-sm font-medium transition duration-200 hover:scale-[1.02] ${
         variant === "primary"
           ? "yellow-cta"
           : "outline-cta"
@@ -194,7 +234,7 @@ function ActionLink({
       href={href}
     >
       {children}
-      <ArrowRight className="size-4" />
+      <AnimatedArrowIcon className="size-4" />
     </a>
   );
 }
@@ -250,18 +290,18 @@ function SiteNavigation() {
 
           <div className="flex items-center gap-1.5">
             <a
-              className="outline-cta hidden items-center gap-2 px-5 py-2.5 text-sm font-medium transition duration-200 sm:inline-flex"
+              className="stripe-arrow-cta outline-cta hidden items-center gap-2 px-5 py-2.5 text-sm font-medium transition duration-200 sm:inline-flex"
               href="#plan-campaign"
             >
               Analyze my campaign
-              <ArrowRight className="size-4" />
+              <AnimatedArrowIcon className="size-4" />
             </a>
             <a
-              className="yellow-cta hidden items-center gap-2 px-5 py-2.5 text-sm font-medium transition duration-200 sm:inline-flex"
+              className="stripe-arrow-cta yellow-cta hidden items-center gap-2 px-5 py-2.5 text-sm font-medium transition duration-200 sm:inline-flex"
               href="#call"
             >
               Book a call
-              <ArrowRight className="size-4" />
+              <AnimatedArrowIcon className="size-4" />
             </a>
             <button
               aria-label="Toggle menu"
@@ -294,12 +334,12 @@ function SiteNavigation() {
                 </a>
               ))}
               <a
-                className="yellow-cta mt-2 inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium"
+                className="stripe-arrow-cta yellow-cta mt-2 inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium"
                 href="#call"
                 onClick={() => setOpen(false)}
               >
                 Book a call
-                <ArrowRight className="size-4" />
+                <AnimatedArrowIcon className="size-4" />
               </a>
             </motion.div>
           ) : null}
@@ -367,6 +407,8 @@ function Section({
   id,
   title,
   copy,
+  titleNoWrap = false,
+  copyNoWrap = false,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -374,19 +416,29 @@ function Section({
   id: string;
   title: React.ReactNode;
   copy?: string;
+  titleNoWrap?: boolean;
+  copyNoWrap?: boolean;
 }) {
   return (
     <section className={`bg-[#020202] px-4 py-10 text-white sm:px-6 lg:px-8 ${className}`} id={id}>
       <div className="mx-auto max-w-[1280px]">
         <div className="flex flex-col items-center text-center">
-          <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
+          <p className={sectionEyebrowClass}>
             {eyebrow}
           </p>
-          <h2 className="mt-3 max-w-4xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+          <h2
+            className={`mt-3 ${sectionTitleClass} ${
+              titleNoWrap ? "lg:whitespace-nowrap" : ""
+            }`}
+          >
             {title}
           </h2>
           {copy ? (
-            <p className="mt-4 max-w-2xl text-base leading-7 text-neutral-400 sm:text-lg">
+            <p
+              className={`mt-4 ${sectionSubtitleClass} ${
+                copyNoWrap ? "lg:whitespace-nowrap" : ""
+              }`}
+            >
               {copy}
             </p>
           ) : null}
@@ -746,6 +798,48 @@ function KalshiBadge() {
 
 function CreatorNetwork() {
   const [selectedNiche, setSelectedNiche] = useState(niches[0]);
+  const [autoRotatePaused, setAutoRotatePaused] = useState(false);
+  const selectedIndex = niches.indexOf(selectedNiche);
+  const previousNiche = niches[(selectedIndex - 1 + niches.length) % niches.length];
+  const nextNiche = niches[(selectedIndex + 1) % niches.length];
+  const profileCards = [
+    {
+      niche: previousNiche,
+      position: "previous" as const,
+      profile: creatorDemoProfiles.previous,
+      orderClass:
+        "order-2 lg:absolute lg:left-[3%] lg:top-10 lg:z-0 lg:w-[350px] lg:-rotate-[4deg]",
+    },
+    {
+      niche: selectedNiche,
+      position: "active" as const,
+      profile: creatorDemoProfiles.active,
+      orderClass:
+        "order-1 lg:absolute lg:left-1/2 lg:top-0 lg:z-10 lg:w-[410px] lg:-translate-x-1/2",
+    },
+    {
+      niche: nextNiche,
+      position: "next" as const,
+      profile: creatorDemoProfiles.next,
+      orderClass:
+        "order-3 lg:absolute lg:right-[3%] lg:top-10 lg:z-0 lg:w-[350px] lg:rotate-[4deg]",
+    },
+  ];
+
+  useEffect(() => {
+    if (autoRotatePaused) return;
+
+    const timerId = window.setTimeout(() => {
+      setSelectedNiche((currentNiche) => {
+        const currentIndex = niches.indexOf(currentNiche);
+        const nextIndex = currentIndex >= 0 ? currentIndex + 1 : 1;
+
+        return niches[nextIndex % niches.length];
+      });
+    }, creatorNicheRotationMs);
+
+    return () => window.clearTimeout(timerId);
+  }, [autoRotatePaused, selectedNiche]);
 
   return (
     <section
@@ -754,13 +848,13 @@ function CreatorNetwork() {
     >
       <div className="mx-auto max-w-[1280px]">
         <div className="flex flex-col items-center text-center">
-          <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
+          <p className={sectionEyebrowClass}>
             Creator network
           </p>
-          <h2 className="mt-3 max-w-4xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
+          <h2 className={`mt-3 ${sectionTitleClass} lg:whitespace-nowrap`}>
             Same creator. Different value.
           </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-neutral-400 sm:text-base">
+          <p className={`mt-3 max-w-2xl ${sectionSubtitleClass}`}>
             Switch the niche. The same creator performs differently.
           </p>
         </div>
@@ -771,23 +865,36 @@ function CreatorNetwork() {
               const active = selectedNiche === niche;
               return (
                 <button
-                  className={`relative cursor-pointer whitespace-nowrap rounded-full px-3.5 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors ${
+                  aria-pressed={active}
+                  className={`relative inline-flex cursor-pointer items-center gap-2 whitespace-nowrap rounded-full px-3.5 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors ${
                     active
                       ? "text-[#F7D133]"
                       : "text-neutral-500 hover:text-neutral-200"
                   }`}
                   key={niche}
-                  onClick={() => setSelectedNiche(niche)}
+                  onClick={() => {
+                    setAutoRotatePaused(true);
+                    setSelectedNiche(niche);
+                  }}
                   type="button"
                 >
                   {active && (
-                    <motion.span
-                      layoutId="niche-pill"
-                      className="absolute inset-0 rounded-full bg-[#F7D133]/15"
-                      transition={{ type: "spring", stiffness: 320, damping: 30 }}
-                    />
+                    <>
+                      <motion.span
+                        layoutId="niche-pill"
+                        className="absolute inset-0 rounded-full bg-[#F7D133]/12"
+                        transition={{ type: "spring", stiffness: 320, damping: 30 }}
+                      />
+                      <span
+                        aria-hidden="true"
+                        className={`creator-tab-dash z-[1] ${
+                          autoRotatePaused ? "creator-tab-dash--idle" : ""
+                        }`}
+                        data-testid="niche-auto-timer"
+                      />
+                    </>
                   )}
-                  <span className="relative">{niche}</span>
+                  <span className="relative z-[2]">{niche}</span>
                 </button>
               );
             })}
@@ -800,30 +907,17 @@ function CreatorNetwork() {
           </span>
         </div>
 
-        <div className="mt-4 border-t border-neutral-800" />
-
-        <div className="relative min-h-[300px] overflow-hidden border-b border-neutral-800 py-6 sm:py-8 lg:min-h-[360px]">
-          <CreatorCard
-            className="lg:absolute lg:left-[8%] lg:top-[78px] lg:w-[30%] lg:-rotate-1"
-            handle="@sample_alpha"
-            initials="AA"
-            subline="Sample network"
-          />
-          <CreatorCard
-            active
-            className="mx-auto lg:absolute lg:left-1/2 lg:top-[28px] lg:w-[400px] lg:-translate-x-1/2"
-            handle="@creator_demo"
-            initials="JK"
-            selectedNiche={selectedNiche}
-            subline="120K followers"
-            value={creatorValues[selectedNiche]}
-          />
-          <CreatorCard
-            className="mt-3 lg:absolute lg:right-[8%] lg:top-[78px] lg:mt-0 lg:w-[30%] lg:rotate-1"
-            handle="@sample_beta"
-            initials="BB"
-            subline="Sample network"
-          />
+        <div className="relative mx-auto mt-5 grid max-w-[980px] gap-4 py-5 sm:py-6 lg:h-[350px] lg:block lg:py-3">
+          {profileCards.map((card) => (
+            <CreatorProfileCard
+              className={card.orderClass}
+              key={`${card.position}-${card.niche}`}
+              niche={card.niche}
+              position={card.position}
+              profile={card.profile}
+              value={creatorValues[card.niche]}
+            />
+          ))}
         </div>
 
       </div>
@@ -831,72 +925,148 @@ function CreatorNetwork() {
   );
 }
 
-function CreatorCard({
-  active = false,
+function formatNicheValue(value: number) {
+  return `${value.toFixed(1)}K`;
+}
+
+function CreatorProfileCard({
   className = "",
-  handle,
-  initials,
-  selectedNiche,
-  subline,
+  niche,
+  position,
+  profile,
   value,
 }: {
-  active?: boolean;
   className?: string;
-  handle: string;
-  initials: string;
-  selectedNiche?: string;
-  subline: string;
-  value?: number;
+  niche: string;
+  position: "previous" | "active" | "next";
+  profile: {
+    avatar?: string;
+    bio: string;
+    displayName: string;
+    followersLabel: string;
+    handle: string;
+    totalFollowers: number;
+  };
+  value: number;
 }) {
+  const active = position === "active";
+  const nicheShare = ((value / profile.totalFollowers) * 100).toFixed(1);
+
   return (
     <article
-      className={`flex flex-col items-center justify-center rounded-lg text-center transition duration-300 ${
+      className={`min-w-0 overflow-hidden rounded-[20px] text-left transition duration-300 ${
         active
-          ? "z-[2] min-h-[280px] bg-neutral-950 p-5 shadow-[0_18px_60px_-32px_rgba(247,209,51,0.5)] sm:min-h-[300px]"
-          : "min-h-[180px] bg-neutral-950/45 p-5 opacity-35"
+          ? "bg-[#0b0b0b] shadow-[0_24px_70px_-52px_rgba(255,255,255,0.28)]"
+          : "bg-neutral-950/72 opacity-42 grayscale lg:scale-[0.9]"
       } ${className}`}
     >
-      <div
-        className={`grid place-items-center rounded-full font-semibold ${
-          active
-            ? "size-14 bg-[#F7D133] text-base text-neutral-950"
-            : "size-12 bg-[#F7D133]/15 text-sm text-neutral-500"
-        }`}
-      >
-        {initials}
-      </div>
-      <h3
-        className={`mt-4 font-medium leading-none tracking-tight ${
-          active ? "text-2xl text-white sm:text-3xl" : "text-xl text-neutral-500"
-        }`}
-      >
-        {handle}
-      </h3>
-      <p className="mt-2 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-neutral-500">
-        {subline}
-      </p>
-      {active ? (
-        <div className="mt-3">
-          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-500">
-            Relevant audience
-          </p>
-          <CountUp
-            className="mt-1 block text-5xl font-medium leading-none tracking-tight text-[#F7D133] sm:text-6xl"
-            decimals={1}
-            duration={1}
-            from={0}
-            suffix="K"
-            style={{ fontFamily: titleFontFamily }}
-            to={value ?? 0}
-          />
-          <p className="mt-3 text-base font-medium text-white sm:text-lg">
-            Niche: {selectedNiche}
-          </p>
-          <p className="mt-2 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-500">
-            Sample data
-          </p>
+      <div className="relative">
+        <div
+          className={`h-[68px] ${
+            active ? "bg-neutral-900" : "bg-neutral-900/70"
+          }`}
+        >
+          <div className="flex h-full items-start justify-end px-4 py-3">
+            <span className="grid size-7 place-items-center rounded-full bg-neutral-950/65 text-neutral-500">
+              <MoreHorizontal className="size-3.5" />
+            </span>
+          </div>
         </div>
-      ) : null}
+
+        <div
+          className={`absolute left-4 top-[40px] grid place-items-center overflow-hidden rounded-full bg-neutral-800 text-lg font-semibold text-neutral-300 ring-4 ${
+            active ? "size-[60px] ring-[#0b0b0b]" : "size-[56px] ring-neutral-950"
+          }`}
+        >
+          {profile.avatar ? (
+            <img
+              alt=""
+              className="size-full object-cover"
+              draggable={false}
+              loading="lazy"
+              src={profile.avatar}
+            />
+          ) : (
+            profile.displayName.slice(0, 2)
+          )}
+        </div>
+      </div>
+
+      <div className={`px-4 pb-4 pt-9 ${active ? "sm:px-5 sm:pb-5" : ""}`}>
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <div className="flex min-w-0 items-center gap-1.5">
+              <h3
+                className={`truncate leading-tight ${
+                  active ? "text-[1.32rem] text-white" : "text-base text-neutral-200"
+                }`}
+              >
+                {profile.displayName}
+              </h3>
+              <BadgeCheck
+                aria-label="Verified creator"
+                className="size-4 shrink-0 text-neutral-500"
+              />
+            </div>
+            <p className="mt-0.5 text-sm leading-5 text-neutral-500">
+              {profile.handle}
+            </p>
+          </div>
+          <span
+            className="shrink-0 rounded-full bg-white/[0.055] px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-neutral-400"
+          >
+            Profile
+          </span>
+        </div>
+
+        <p className="mt-2 line-clamp-1 text-sm leading-5 text-neutral-400">
+          {profile.bio}
+        </p>
+
+        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-[13px] text-neutral-500">
+          <span>
+            <strong className="font-semibold text-white">
+              {profile.followersLabel}
+            </strong>{" "}
+            followers
+          </span>
+          <span>
+            <strong className="font-semibold text-white">{nicheShare}%</strong>{" "}
+            in this niche
+          </span>
+        </div>
+
+        <div className="mt-3 rounded-xl bg-white/[0.042] px-3.5 py-2.5">
+          <div className="flex items-center justify-between gap-3">
+            <div className="min-w-0">
+              <p className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-neutral-500">
+                Niche followers
+              </p>
+              <p className="mt-0.5 truncate text-sm font-medium leading-snug text-white">
+                {niche}
+              </p>
+            </div>
+            {active ? (
+              <CountUp
+                className="block shrink-0 text-[2rem] font-medium leading-none text-[#F7D133] sm:text-[2.25rem]"
+                decimals={1}
+                duration={1}
+                from={0}
+                suffix="K"
+                style={{ fontFamily: titleFontFamily }}
+                to={value}
+              />
+            ) : (
+              <span
+                className="block shrink-0 text-xl font-medium leading-none text-neutral-300"
+                style={{ fontFamily: titleFontFamily }}
+              >
+                {formatNicheValue(value)}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
     </article>
   );
 }
@@ -1286,9 +1456,16 @@ function CampaignCalculator() {
   return (
     <Section
       copy="Move the controls. See what you can shape — and what most campaigns leave to chance."
+      copyNoWrap
       eyebrow="Plan campaign"
       id="plan-campaign"
-      title="Plan your campaign with real audience data"
+      title={
+        <>
+          <span className="text-[#F7D133]">Plan your campaign</span> with real
+          audience data
+        </>
+      }
+      titleNoWrap
     >
       <div className="mt-7 overflow-hidden rounded-[28px] bg-neutral-900/40 p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.035)]">
         <div className="grid gap-3.5 xl:grid-cols-[0.52fr_2fr] xl:items-stretch">

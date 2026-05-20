@@ -1,7 +1,9 @@
 "use client";
 
 import { motion } from "motion/react";
-import { ArrowRight, ChartNoAxesCombined, Sparkles } from "lucide-react";
+import { ChartNoAxesCombined, Sparkles } from "lucide-react";
+import { AnimatedArrowIcon } from "@/components/AnimatedArrowIcon";
+import { sectionEyebrowClass, sectionSubtitleClass, sectionTitleClass } from "@/lib/section-typography";
 
 const cards = [
   {
@@ -27,7 +29,7 @@ export function Contact1() {
     <section className="w-full bg-neutral-950 py-12 text-white sm:py-14">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
         <motion.p
-          className="mb-4 text-center font-mono text-xs font-medium uppercase tracking-[0.28em] text-neutral-500 sm:text-sm"
+          className={`mb-4 text-center ${sectionEyebrowClass}`}
           initial={{ opacity: 0, y: 16 }}
           transition={{ duration: 0.4 }}
           viewport={{ once: true }}
@@ -37,7 +39,7 @@ export function Contact1() {
         </motion.p>
 
         <motion.h2
-          className="mx-auto max-w-5xl text-center text-5xl font-medium leading-tight tracking-tighter text-white"
+          className={`mx-auto text-center ${sectionTitleClass} text-white lg:whitespace-nowrap`}
           initial={{ opacity: 0, y: 20 }}
           transition={{ duration: 0.4 }}
           viewport={{ once: true }}
@@ -47,7 +49,7 @@ export function Contact1() {
         </motion.h2>
 
         <motion.p
-          className="mx-auto mt-6 max-w-3xl text-center text-xl leading-8 text-neutral-400 sm:text-2xl"
+          className={`mx-auto mt-6 max-w-3xl text-center ${sectionSubtitleClass}`}
           initial={{ opacity: 0, y: 20 }}
           transition={{ delay: 0.05, duration: 0.4 }}
           viewport={{ once: true }}
@@ -59,7 +61,7 @@ export function Contact1() {
         <div className="mx-auto mt-8 grid max-w-6xl grid-cols-1 gap-4 lg:grid-cols-2">
           {cards.map((card, index) => (
             <motion.a
-              className="group flex min-h-64 flex-col justify-between rounded-3xl bg-neutral-900/70 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] transition-all duration-300 hover:-translate-y-1 hover:bg-neutral-900 sm:p-7"
+              className="stripe-arrow-cta group flex min-h-64 flex-col justify-between rounded-3xl bg-neutral-900/70 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] transition-all duration-300 hover:-translate-y-1 hover:bg-neutral-900 sm:p-7"
               href={card.href}
               initial={{ opacity: 0, y: 20 }}
               key={card.pillText}
@@ -87,7 +89,7 @@ export function Contact1() {
                 }`}
               >
                 {card.buttonText}
-                <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+                <AnimatedArrowIcon className="size-4" />
               </div>
             </motion.a>
           ))}

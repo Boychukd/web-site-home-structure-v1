@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Minus, Plus } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import { sectionEyebrowClass, sectionTitleClass } from "@/lib/section-typography";
 
 type FAQItem = {
   question: string;
@@ -33,7 +34,7 @@ export function FAQ2({
           <div className="flex flex-col items-center space-y-6 text-center">
             <motion.p
               animate={{ opacity: 1, y: 0 }}
-              className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500"
+              className={sectionEyebrowClass}
               initial={{ opacity: 0, y: 14 }}
               transition={{ duration: 0.45 }}
             >
@@ -41,7 +42,7 @@ export function FAQ2({
             </motion.p>
             <motion.h1
               animate={{ opacity: 1, y: 0 }}
-              className="text-5xl font-medium leading-tight tracking-tighter text-white"
+              className={`${sectionTitleClass} text-white lg:whitespace-nowrap`}
               initial={{ opacity: 0, y: 20 }}
               transition={{ duration: 0.5 }}
             >

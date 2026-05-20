@@ -225,8 +225,52 @@
   }
 }
 
+@property --creator-tab-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.creator-tab-dash {
+  --creator-tab-angle: 0deg;
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  padding: 1px;
+  pointer-events: none;
+  background: repeating-conic-gradient(
+    from var(--creator-tab-angle),
+    rgb(198 173 84 / 0.48) 0deg 7deg,
+    transparent 7deg 14deg
+  );
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  animation: creator-tab-dash 1.35s linear infinite;
+}
+
+.creator-tab-dash--idle {
+  animation: none;
+  opacity: 0.48;
+}
+
+@keyframes creator-tab-dash {
+  to {
+    --creator-tab-angle: 360deg;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-logo-track {
+    animation: none;
+  }
+
+  .creator-tab-dash {
     animation: none;
   }
 }

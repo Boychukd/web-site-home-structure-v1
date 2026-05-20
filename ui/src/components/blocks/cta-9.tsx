@@ -2,6 +2,8 @@
 
 import { motion } from "motion/react";
 import { ArrowRight, Copy, Layers, Send } from "lucide-react";
+import { AnimatedArrowIcon } from "@/components/AnimatedArrowIcon";
+import { sectionEyebrowClass, sectionSubtitleClass, sectionTitleClass } from "@/lib/section-typography";
 
 export default function Cta9() {
   return (
@@ -58,7 +60,7 @@ export default function Cta9() {
 
           <div className="relative z-10 mx-auto flex max-w-[760px] flex-col items-center text-center">
             <motion.p
-              className="mb-3 font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-400"
+              className={`mb-3 ${sectionEyebrowClass} text-neutral-400`}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -77,21 +79,21 @@ export default function Cta9() {
               </div>
             </div>
 
-            <h2 className="text-3xl font-medium tracking-tight text-white sm:text-4xl md:text-[3.1rem] md:whitespace-nowrap">
+            <h2 className={`${sectionTitleClass} text-white md:whitespace-nowrap`}>
               $6.9M already paid to creators
             </h2>
-            <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-neutral-400 sm:text-base">
+            <p className={`mx-auto mt-3 max-w-lg ${sectionSubtitleClass}`}>
               Across dozens of campaigns, we&apos;ve turned budgets into right
               creator lineups. Let&apos;s do the same for your one.
             </p>
             <motion.a
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="yellow-cta mt-5 inline-flex min-h-11 items-center justify-center gap-2 px-6 text-sm font-medium transition duration-200 hover:scale-[1.02]"
+              className="stripe-arrow-cta yellow-cta mt-5 inline-flex min-h-11 items-center justify-center gap-2 px-6 text-sm font-medium transition duration-200 hover:scale-[1.02]"
               href="#call"
             >
               Set this up for me
-              <ArrowRight className="size-4" />
+              <AnimatedArrowIcon className="size-4" />
             </motion.a>
             <p className="mt-5 font-mono text-xs font-medium uppercase tracking-[0.16em] text-neutral-500">
               15-minute call. Real campaign data on the screen.

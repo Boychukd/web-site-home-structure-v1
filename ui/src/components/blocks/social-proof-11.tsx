@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { sectionEyebrowClass, sectionSubtitleClass, sectionTitleClass } from "@/lib/section-typography";
 
 const avatarSoje = new URL("../../assets/twitter-avatars/0xSoje.jpg", import.meta.url).href;
 const avatarTowhid = new URL("../../assets/twitter-avatars/0xTowhid.jpg", import.meta.url).href;
@@ -42,14 +43,12 @@ export default function SocialProof11() {
           className="flex flex-col items-center gap-5 text-center"
         >
           <div className="flex flex-col items-center gap-3">
-            <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
-              Testimonials
-            </p>
-            <h2 className="max-w-4xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+            <p className={sectionEyebrowClass}>Testimonials</p>
+            <h2 className={`${sectionTitleClass} lg:whitespace-nowrap`}>
               What teams notice after the first campaign.
             </h2>
           </div>
-          <p className="max-w-2xl text-base leading-7 text-neutral-400 sm:text-lg">
+          <p className={`max-w-2xl ${sectionSubtitleClass}`}>
             These are the patterns clients bring up once the creator lineup is
             optimized around audience fit instead of surface-level follower
             counts.
