@@ -47,7 +47,7 @@ function CountUp({
     });
 
     return () => controls.stop();
-  }, [prefix, suffix, to, duration]);
+  }, [decimals, duration, prefix, suffix, to]);
 
   const initial = (0).toLocaleString("en-US", {
     maximumFractionDigits: decimals,

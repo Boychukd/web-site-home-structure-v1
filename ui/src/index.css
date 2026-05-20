@@ -83,6 +83,123 @@
   color: #f7d133;
 }
 
+.linear-panel {
+  position: relative;
+  isolation: isolate;
+  border: 1px solid transparent;
+  border-radius: inherit;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.045), rgb(255 255 255 / 0.014)),
+    #101010;
+  box-shadow:
+    0 18px 60px rgb(0 0 0 / 0.26),
+    inset 0 1px 0 rgb(255 255 255 / 0.055);
+}
+
+.linear-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 0.24) 0%,
+    rgb(214 214 214 / 0.14) 18%,
+    rgb(118 118 118 / 0.08) 38%,
+    rgb(30 30 30 / 0.28) 72%,
+    rgb(0 0 0 / 0.82) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 1;
+}
+
+.linear-panel::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  padding: 1px;
+  background: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 0.14) 0%,
+    rgb(164 164 164 / 0.06) 28%,
+    rgb(10 10 10 / 0.12) 62%,
+    transparent 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0.8;
+}
+
+.signal-gray-panel,
+.signal-gray-panel-frame {
+  position: relative;
+  isolation: isolate;
+  border-radius: 24px;
+}
+
+.signal-gray-panel {
+  background: #161616;
+  box-shadow:
+    0 16px 48px rgb(0 0 0 / 0.22),
+    inset 0 1px 0 rgb(255 255 255 / 0.025);
+}
+
+.signal-gray-panel::before,
+.signal-gray-panel-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 0.5px;
+  pointer-events: none;
+  background: linear-gradient(180deg, #383838 0%, #2a2a2a 24%, #1d1d1d 58%, #161616 100%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+.signal-gray-panel::after,
+.signal-gray-panel-frame::after {
+  content: "";
+  position: absolute;
+  inset: -0.5px;
+  border-radius: inherit;
+  padding: 0.5px;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.16) 0%, rgb(92 92 92 / 0.08) 26%, transparent 72%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0.9;
+}
+
 .hero-meta-text {
   font-family:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
@@ -225,43 +342,50 @@
   }
 }
 
-@property --creator-tab-angle {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-
-.creator-tab-dash {
-  --creator-tab-angle: 0deg;
-  position: absolute;
-  inset: 0;
+.creator-tab-track {
+  position: relative;
+  display: block;
+  height: 3px;
+  width: 100%;
+  overflow: hidden;
   border-radius: 9999px;
-  padding: 1px;
-  pointer-events: none;
-  background: repeating-conic-gradient(
-    from var(--creator-tab-angle),
-    rgb(198 173 84 / 0.48) 0deg 7deg,
-    transparent 7deg 14deg
-  );
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  animation: creator-tab-dash 1.35s linear infinite;
+  background: rgb(255 255 255 / 0.13);
 }
 
-.creator-tab-dash--idle {
+.creator-tab-progress {
+  --creator-tab-duration: 4500ms;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  top: 0;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #f7d133 0%, #ffe16b 86%, #fff2a8 100%);
+  box-shadow: 0 0 12px rgb(247 209 51 / 0.28);
+  animation: creator-tab-progress var(--creator-tab-duration) linear forwards;
+}
+
+.creator-tab-progress::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: #f7d133;
+  box-shadow: 0 0 10px rgb(247 209 51 / 0.44);
+  transform: translate(50%, -50%);
+}
+
+.creator-tab-progress--idle {
   animation: none;
-  opacity: 0.48;
+  width: 100%;
 }
 
-@keyframes creator-tab-dash {
+@keyframes creator-tab-progress {
   to {
-    --creator-tab-angle: 360deg;
+    width: 100%;
   }
 }
 
@@ -270,7 +394,8 @@
     animation: none;
   }
 
-  .creator-tab-dash {
+  .creator-tab-progress {
     animation: none;
+    width: 100%;
   }
 }

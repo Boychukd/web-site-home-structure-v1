@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, BadgeCheck, Menu, MoreHorizontal, User, X } from "lucide-react";
 import Counter from "@/components/Counter";
@@ -136,6 +136,11 @@ const niches = [
   "Memecoins",
   "Onchain Trading",
 ];
+
+const nicheTabLabels: Record<string, string> = {
+  "Prediction Markets": "Predictions",
+  "Onchain Trading": "Onchain",
+};
 
 const creatorNicheRotationMs = 4500;
 
@@ -458,10 +463,10 @@ function DataTile({
 }) {
   return (
     <div
-      className={`rounded-3xl p-5 ${
+      className={`linear-panel rounded-3xl p-5 ${
         tone === "accent"
-          ? "bg-[#F7D133]/12 text-[#F7D133]"
-          : "bg-neutral-900/70 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.035)]"
+          ? "text-[#F7D133]"
+          : "text-white"
       }`}
     >
       {children}
@@ -610,8 +615,8 @@ function NicheFollowers() {
       <div className="mt-8">
         <article className="text-white">
           <div className="grid gap-10 lg:gap-12">
-            <div className="rounded-[34px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
-              <div className="grid items-center gap-4 lg:grid-cols-[minmax(300px,1fr)_minmax(0,1fr)] lg:gap-4">
+            <div className="relative overflow-hidden py-6 sm:py-8 lg:py-12">
+              <div className="grid items-center gap-6 lg:min-h-[440px] lg:grid-cols-[minmax(420px,0.88fr)_minmax(360px,0.72fr)] lg:gap-8">
                 <AudienceDiagram compact />
                 <NicheMetricCopy compact />
               </div>
@@ -628,21 +633,17 @@ function NicheFollowers() {
 
 function AudienceDiagram({ compact = false }: { compact?: boolean }) {
   return (
-    <div className="flex justify-center">
+    <div className="relative flex min-h-[290px] items-center justify-center overflow-visible sm:min-h-[380px] lg:min-h-[460px] lg:justify-start">
       <div
-        className={`relative rounded-full border-[2px] border-neutral-300/80 bg-[#050505] ${
+        className={`relative shrink-0 ${
           compact
-            ? "size-[260px] sm:size-[340px] lg:size-[320px]"
-            : "size-[340px] sm:size-[440px]"
+            ? "size-[290px] sm:size-[380px] lg:size-[520px]"
+            : "size-[440px] sm:size-[560px]"
         }`}
+        aria-hidden="true"
       >
-        <div
-          className={`absolute left-1/2 rounded-full border-[2px] border-[#111] bg-[#F7D133] shadow-[0_0_42px_rgba(247,209,51,0.16),inset_0_1px_0_rgba(255,255,255,0.35)] ${
-            compact
-              ? "bottom-[13%] size-[62px] -translate-x-1/2 sm:size-[72px]"
-              : "bottom-[13%] size-[84px] -translate-x-1/2"
-          }`}
-        />
+        <span className="absolute inset-[2%] rounded-full border border-white/[0.22] bg-[#050505] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]" />
+        <span className="absolute bottom-[16%] left-1/2 size-[26%] -translate-x-1/2 rounded-full border border-[#F7D133]/80 bg-[#F7D133]/10 shadow-[0_0_62px_rgba(247,209,51,0.18),inset_0_1px_0_rgba(255,255,255,0.12)]" />
       </div>
     </div>
   );
@@ -650,25 +651,43 @@ function AudienceDiagram({ compact = false }: { compact?: boolean }) {
 
 function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
   return (
-    <div className={compact ? "mx-auto max-w-[400px] lg:mx-0" : ""}>
-      <p className="text-sm font-medium leading-none text-neutral-400 sm:text-base">
-        This is what you see
-      </p>
-      <p
-        className="mt-2 text-3xl font-medium leading-none tracking-tight text-white sm:text-4xl"
-        style={{ fontFamily: titleFontFamily }}
-      >
-        120K followers
-      </p>
-      <p className="mt-8 text-sm font-medium leading-none text-neutral-400 sm:mt-10 sm:text-base">
-        This is what matters
-      </p>
-      <p
-        className="mt-2 inline-block max-w-none text-3xl font-medium leading-[1.08] tracking-tight text-[#F7D133] sm:text-4xl"
-        style={{ fontFamily: titleFontFamily }}
-      >
-        584 niche followers
-      </p>
+    <div className={compact ? "mx-auto w-full max-w-[430px] lg:mx-0" : ""}>
+      <div className="grid gap-8 sm:gap-12">
+        <div>
+          <div className="flex items-center gap-3">
+            <span className="size-4 rounded-full border border-white/30 bg-white/[0.03]" />
+            <p className="font-mono text-[12px] font-medium uppercase leading-none tracking-[0.18em] text-neutral-500">
+              This is what you see
+            </p>
+          </div>
+          <p
+            className="mt-4 text-4xl font-medium leading-none tracking-tight text-white sm:text-5xl"
+            style={{ fontFamily: titleFontFamily }}
+          >
+            120K
+          </p>
+          <p className="mt-2 text-sm font-medium leading-none text-neutral-500">
+            followers
+          </p>
+        </div>
+        <div>
+          <div className="flex items-center gap-3">
+            <span className="size-4 rounded-full border border-[#F7D133]/80 bg-[#F7D133]/20 shadow-[0_0_22px_rgba(247,209,51,0.24)]" />
+            <p className="font-mono text-[12px] font-medium uppercase leading-none tracking-[0.18em] text-[#F7D133]/75">
+              This is what matters
+            </p>
+          </div>
+          <p
+            className="mt-4 text-5xl font-medium leading-none tracking-tight text-[#F7D133] sm:text-6xl"
+            style={{ fontFamily: titleFontFamily }}
+          >
+            584
+          </p>
+          <p className="mt-2 text-sm font-medium leading-none text-neutral-300">
+            niche followers
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -719,7 +738,7 @@ function SignalInsightRow({
   variant: "random" | "buyer";
 }) {
   return (
-    <div className="grid gap-2 rounded-[22px] bg-[#161616] px-5 py-5 sm:px-6 sm:py-5.5">
+    <div className="signal-gray-panel grid gap-2 px-5 py-5 sm:px-6 sm:py-5.5">
       <p className="text-sm font-medium leading-none text-neutral-400 sm:text-base">
         {label}
       </p>
@@ -859,49 +878,49 @@ function CreatorNetwork() {
           </p>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-          <div className="relative flex items-center gap-1 overflow-x-auto rounded-full p-1">
+        <div className="mt-6 flex items-start justify-center gap-4 overflow-x-auto pb-2">
+          <div className="relative flex shrink-0 items-start gap-2.5 pb-1">
             {niches.map((niche) => {
               const active = selectedNiche === niche;
               return (
                 <button
                   aria-pressed={active}
-                  className={`relative inline-flex cursor-pointer items-center gap-2 whitespace-nowrap rounded-full px-3.5 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors ${
+                  className={`relative inline-flex w-[108px] cursor-pointer flex-col items-start gap-2 whitespace-nowrap pb-2 pt-1 text-left font-mono text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors sm:w-[118px] ${
                     active
                       ? "text-[#F7D133]"
                       : "text-neutral-500 hover:text-neutral-200"
                   }`}
                   key={niche}
                   onClick={() => {
-                    setAutoRotatePaused(true);
+                    setAutoRotatePaused(false);
                     setSelectedNiche(niche);
                   }}
                   type="button"
                 >
-                  {active && (
-                    <>
-                      <motion.span
-                        layoutId="niche-pill"
-                        className="absolute inset-0 rounded-full bg-[#F7D133]/12"
-                        transition={{ type: "spring", stiffness: 320, damping: 30 }}
-                      />
+                  <span className="relative z-[2]">{nicheTabLabels[niche] ?? niche}</span>
+                  <span aria-hidden="true" className="creator-tab-track">
+                    {active && (
                       <span
-                        aria-hidden="true"
-                        className={`creator-tab-dash z-[1] ${
-                          autoRotatePaused ? "creator-tab-dash--idle" : ""
+                        className={`creator-tab-progress ${
+                          autoRotatePaused ? "creator-tab-progress--idle" : ""
                         }`}
                         data-testid="niche-auto-timer"
+                        key={niche}
+                        style={
+                          {
+                            "--creator-tab-duration": `${creatorNicheRotationMs}ms`,
+                          } as CSSProperties
+                        }
                       />
-                    </>
-                  )}
-                  <span className="relative z-[2]">{niche}</span>
+                    )}
+                  </span>
                 </button>
               );
             })}
           </div>
           <span
             aria-disabled="true"
-            className="rounded-full bg-neutral-950 px-3.5 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-neutral-600"
+            className="relative inline-flex min-w-[112px] shrink-0 pb-2 pt-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-neutral-600 after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:bg-white/10"
           >
             + 45 more niches
           </span>
@@ -954,7 +973,7 @@ function CreatorProfileCard({
 
   return (
     <article
-      className={`min-w-0 overflow-hidden rounded-[20px] text-left transition duration-300 ${
+      className={`signal-gray-panel-frame min-w-0 overflow-hidden text-left transition duration-300 ${
         active
           ? "bg-[#0b0b0b] shadow-[0_24px_70px_-52px_rgba(255,255,255,0.28)]"
           : "bg-neutral-950/72 opacity-42 grayscale lg:scale-[0.9]"
@@ -1467,9 +1486,9 @@ function CampaignCalculator() {
       }
       titleNoWrap
     >
-      <div className="mt-7 overflow-hidden rounded-[28px] bg-neutral-900/40 p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.035)]">
+      <div className="signal-gray-panel mt-7 overflow-hidden p-3.5">
         <div className="grid gap-3.5 xl:grid-cols-[0.52fr_2fr] xl:items-stretch">
-          <aside className="rounded-2xl bg-neutral-950/30 p-3.5">
+          <aside className="rounded-2xl bg-transparent p-3.5">
             <h3 className="text-2xl font-medium">Campaign inputs</h3>
             <p className="mt-1 text-sm text-neutral-500">Play with controls below</p>
             <div className="mt-5 grid gap-4">
@@ -1534,7 +1553,7 @@ function CampaignCalculator() {
 
           <div className="grid gap-3.5 xl:border-l xl:border-neutral-800/80 xl:pl-3.5 xl:grid-cols-2 xl:items-stretch xl:[grid-template-rows:minmax(142px,auto)_36px_36px_minmax(168px,auto)_auto]">
             <section
-              className={`gap-3.5 rounded-[24px] bg-neutral-950/25 py-3.5 xl:row-span-5 xl:gap-y-0 xl:[grid-template-rows:subgrid] ${
+              className={`gap-3.5 rounded-[24px] bg-transparent py-3.5 xl:row-span-5 xl:gap-y-0 xl:[grid-template-rows:subgrid] ${
                 standardOpen ? "grid" : "hidden xl:grid"
               }`}
             >

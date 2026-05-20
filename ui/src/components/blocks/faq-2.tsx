@@ -72,7 +72,7 @@ export function FAQ2({
                       className={`rounded-full px-4 py-3 transition-all duration-200 sm:px-5 sm:py-3.5 ${
                         openIndex === index
                           ? "bg-[#F7D133]/10"
-                          : "bg-neutral-800 hover:bg-neutral-700"
+                          : "signal-gray-panel hover:bg-neutral-700"
                       }`}
                     >
                       <p
@@ -96,7 +96,7 @@ export function FAQ2({
                     className={`mt-3 flex size-6 shrink-0 items-center justify-center rounded-full transition-colors duration-200 sm:size-7 ${
                       openIndex === index
                         ? "bg-[#F7D133]/10"
-                        : "bg-neutral-800 hover:bg-neutral-700"
+                        : "signal-gray-panel hover:bg-neutral-700"
                     }`}
                     onClick={() => toggleFAQ(index)}
                     type="button"

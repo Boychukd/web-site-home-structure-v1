@@ -63,7 +63,7 @@ export default function SocialProof11() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.3, delay: i * 0.08 }}
-              className="relative flex flex-col gap-6 rounded-3xl bg-neutral-900/60 p-6 sm:p-7"
+              className="signal-gray-panel relative flex flex-col gap-6 p-6 sm:p-7"
             >
               <div className="size-14 overflow-hidden rounded-full bg-neutral-800">
                 <img src={s.avatar} alt="" className="size-full object-cover" />

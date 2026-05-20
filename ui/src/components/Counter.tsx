@@ -51,7 +51,13 @@ interface DigitProps {
 }
 
 function Digit({ place, value, height, digitStyle }: DigitProps) {
-  // Decimal point digit
+  const valueRoundedToPlace = place === '.' ? 0 : getValueRoundedToPlace(value, place);
+  const animatedValue = useSpring(valueRoundedToPlace);
+
+  useEffect(() => {
+    animatedValue.set(valueRoundedToPlace);
+  }, [animatedValue, valueRoundedToPlace]);
+
   if (place === '.') {
     return (
       <span
@@ -62,14 +68,6 @@ function Digit({ place, value, height, digitStyle }: DigitProps) {
       </span>
     );
   }
-
-  // Numeric digit
-  const valueRoundedToPlace = getValueRoundedToPlace(value, place);
-  const animatedValue = useSpring(valueRoundedToPlace);
-
-  useEffect(() => {
-    animatedValue.set(valueRoundedToPlace);
-  }, [animatedValue, valueRoundedToPlace]);
 
   const defaultStyle: React.CSSProperties = {
     height,
