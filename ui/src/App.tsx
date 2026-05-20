@@ -120,6 +120,25 @@ const navigationLinks = [
   { label: "FAQ", href: "#faq" },
 ];
 
+const footerLinkGroups = [
+  {
+    title: "Product",
+    links: [
+      { label: "How it works", href: "#niche-followers" },
+      { label: "Campaign planner", href: "#plan-campaign" },
+      { label: "Results", href: "#proof" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "Book a call", href: "#call" },
+      { label: "Contact", href: "#call" },
+      { label: "FAQ", href: "#faq" },
+    ],
+  },
+];
+
 const heroBullets = [
   "3.3M crypto accounts mapped",
   "150K KOLs scored",
@@ -1268,16 +1287,14 @@ function AvatarStack({
   );
 }
 
-function MiniMetric({
+function CalculatorMetric({
   className = "",
   label,
-  note,
   tone = "default",
   value,
 }: {
   className?: string;
   label: string;
-  note?: string;
   tone?: "default" | "primary" | "warning" | "good";
   value: React.ReactNode;
 }) {
@@ -1291,14 +1308,13 @@ function MiniMetric({
           : "text-white";
 
   return (
-    <div className={`grid min-h-[92px] min-w-0 grid-rows-[2.35rem_1.65rem_1fr] rounded-xl bg-neutral-950/60 px-3 py-2.5 ${className}`}>
-      <span className="block max-w-[11ch] text-[11px] leading-[1.15] text-neutral-500">{label}</span>
-      <strong className={`block self-start ${valueColorClass}`}>{value}</strong>
-      {note ? (
-        <span className="block self-end font-mono text-[8px] uppercase leading-[1.25] tracking-[0.12em] text-neutral-500">
-          {note}
-        </span>
-      ) : null}
+    <div className={`grid min-w-0 h-full content-start grid-rows-[2.15rem_auto] px-3 py-1.5 sm:grid-rows-[2.3rem_auto] sm:px-4 ${className}`}>
+      <span className="block overflow-hidden text-[10px] leading-[1.1] text-neutral-500 sm:text-[11px]">
+        {label}
+      </span>
+      <strong className={`mt-1 block text-[2rem] leading-none sm:mt-1.5 sm:text-[2.1rem] ${valueColorClass}`}>
+        {value}
+      </strong>
     </div>
   );
 }
@@ -1486,7 +1502,7 @@ function CampaignCalculator() {
       }
       titleNoWrap
     >
-      <div className="signal-gray-panel mt-7 overflow-hidden p-3.5">
+      <div className="signal-gray-panel mt-7 overflow-hidden p-3.5 xl:pr-0">
         <div className="grid gap-3.5 xl:grid-cols-[0.52fr_2fr] xl:items-stretch">
           <aside className="rounded-2xl bg-transparent p-3.5">
             <h3 className="text-2xl font-medium">Campaign inputs</h3>
@@ -1551,18 +1567,18 @@ function CampaignCalculator() {
             Compare to standard approach {standardOpen ? "↑" : "↓"}
           </button>
 
-          <div className="grid gap-3.5 xl:border-l xl:border-neutral-800/80 xl:pl-3.5 xl:grid-cols-2 xl:items-stretch xl:[grid-template-rows:minmax(142px,auto)_36px_36px_minmax(168px,auto)_auto]">
+          <div className="grid gap-3.5 xl:border-l xl:border-neutral-800/80 xl:pl-3.5 xl:grid-cols-2 xl:items-stretch xl:[grid-template-rows:minmax(118px,auto)_32px_32px_minmax(148px,auto)_auto]">
             <section
-              className={`gap-3.5 rounded-[24px] bg-transparent py-3.5 xl:row-span-5 xl:gap-y-0 xl:[grid-template-rows:subgrid] ${
+              className={`gap-3 rounded-[24px] bg-transparent py-2.5 xl:row-span-5 xl:gap-y-0 xl:[grid-template-rows:subgrid] ${
                 standardOpen ? "grid" : "hidden xl:grid"
               }`}
             >
               <div className="flex h-full flex-col px-5">
                 <h3 className="text-2xl font-medium">Standard approach</h3>
-                <div className="mt-3 grid flex-1 grid-cols-2 gap-2 sm:grid-cols-4">
-                  <MiniMetric label="Creators" value={<AnimatedNumber fontSize={22} value={agencyCreators} />} />
-                  <MiniMetric label="Posts" value={<AnimatedNumber fontSize={22} value={agencyPosts} />} />
-                  <MiniMetric
+                <div className="mt-3 grid flex-1 grid-cols-2 gap-y-2 sm:grid-cols-[0.72fr_0.72fr_1fr_1fr] sm:gap-y-0">
+                  <CalculatorMetric label="Creators" value={<AnimatedNumber fontSize={22} value={agencyCreators} />} />
+                  <CalculatorMetric label="Posts" value={<AnimatedNumber fontSize={22} value={agencyPosts} />} />
+                  <CalculatorMetric
                     label="Estimated relevant audience"
                     tone="primary"
                     value={
@@ -1574,23 +1590,22 @@ function CampaignCalculator() {
                       />
                     }
                   />
-                  <MiniMetric
+                  <CalculatorMetric
                     label="Wasted budget"
-                    note="Budget not reaching your niche"
                     tone="warning"
                     value={<AnimatedNumber fontSize={22} prefix="$" value={agencyWaste} />}
                   />
                 </div>
               </div>
-              <div className="mx-5 flex h-full items-center justify-between gap-3.5 border-t border-neutral-800/80 py-1.5 leading-none text-sm text-neutral-400">
+              <div className="mx-5 flex h-full items-center justify-between gap-3.5 border-t border-neutral-800/80 py-1 leading-none text-sm text-neutral-400">
                 <span>Frequency control</span>
                 <b className="font-medium text-red-200">not controlled</b>
               </div>
-              <div className="mx-5 flex h-full items-center justify-between gap-3.5 border-t border-neutral-800/80 py-1.5 leading-none text-sm text-neutral-400">
+              <div className="mx-5 flex h-full items-center justify-between gap-3.5 border-t border-neutral-800/80 py-1 leading-none text-sm text-neutral-400">
                 <span>Overlap</span>
                 <b className="font-medium text-red-200">not measured</b>
               </div>
-              <div className="mx-5 flex h-full flex-col border-t border-neutral-800/80 py-3">
+              <div className="mx-5 flex h-full flex-col border-t border-neutral-800/80 py-2.5">
                 <div className="flex items-start justify-between gap-3.5">
                   <p className="text-sm font-medium text-white">Uncontrolled frequency</p>
                   <p className="text-sm font-medium text-red-200">Random Distribution</p>
@@ -1602,7 +1617,7 @@ function CampaignCalculator() {
                   Frequency happens, but it is not controlled.
                 </p>
               </div>
-              <div className="flex h-full flex-col justify-center px-5 pt-3.5 pb-0">
+              <div className="flex h-full flex-col justify-center px-5 pt-2 pb-0">
                 <p className="whitespace-nowrap text-sm font-medium text-neutral-300">
                   Selected creators ({agencyCreators})
                 </p>
@@ -1616,7 +1631,7 @@ function CampaignCalculator() {
               animated
               backgroundColor="#221f16"
               borderRadius={28}
-              className="grid h-full gap-3.5 py-3.5 xl:-my-3.5 xl:-mr-3.5 xl:row-span-5 xl:gap-y-0 xl:[grid-template-rows:subgrid] xl:px-1.5 xl:pt-7 xl:pb-5"
+              className="grid h-full gap-3 xl:row-span-5 xl:gap-y-0 xl:[grid-template-rows:subgrid] xl:py-2.5"
               colors={["#F7D133", "#6FACFF", "#A05FFF"]}
               coneSpread={16}
               edgeSensitivity={24}
@@ -1627,33 +1642,30 @@ function CampaignCalculator() {
             >
               <div className="flex h-full flex-col px-5">
                 <h3 className="text-2xl font-medium">Wallchain Select</h3>
-                <div className="mt-3 grid flex-1 grid-cols-2 gap-2 sm:grid-cols-4">
-                  <MiniMetric className="bg-transparent" label="Optimized creators" value={<AnimatedNumber fontSize={22} value={selectCreators} />} />
-                  <MiniMetric className="bg-transparent" label="Posts" value={<AnimatedNumber fontSize={22} value={selectPosts} />} />
-                  <MiniMetric
-                    className="bg-transparent"
+                <div className="mt-3 grid flex-1 grid-cols-2 gap-y-2 sm:grid-cols-[0.72fr_0.72fr_1fr_1fr] sm:gap-y-0">
+                  <CalculatorMetric label="Optimized creators" value={<AnimatedNumber fontSize={22} value={selectCreators} />} />
+                  <CalculatorMetric label="Posts" value={<AnimatedNumber fontSize={22} value={selectPosts} />} />
+                  <CalculatorMetric
                     label="Relevant audience"
                     tone="primary"
                     value={<AnimatedNumber fontSize={22} suffix="K" value={Math.max(1, reach)} />}
                   />
-                  <MiniMetric
-                    className="bg-transparent"
+                  <CalculatorMetric
                     label="Working budget"
-                    note="Budget hitting your niche"
                     tone="good"
                     value={<AnimatedNumber fontSize={22} prefix="$" value={selectWorking} />}
                   />
                 </div>
               </div>
-              <div className="mx-5 flex h-full items-center justify-between gap-3.5 border-t border-[#F7D133]/15 py-1.5 leading-none text-sm text-neutral-300">
+              <div className="mx-5 flex h-full items-center justify-between gap-3.5 border-t border-[#F7D133]/15 py-1 leading-none text-sm text-neutral-300">
                 <span>Frequency control</span>
                 <b className="font-medium text-[#F7D133]">{stage.label}</b>
               </div>
-              <div className="mx-5 flex h-full items-center justify-between gap-3.5 border-t border-[#F7D133]/15 py-1.5 leading-none text-sm text-neutral-300">
+              <div className="mx-5 flex h-full items-center justify-between gap-3.5 border-t border-[#F7D133]/15 py-1 leading-none text-sm text-neutral-300">
                 <span>Overlap</span>
                 <b className="font-medium text-[#F7D133]">{stage.overlap}% controlled</b>
               </div>
-              <div className="mx-5 flex h-full flex-col border-t border-[#F7D133]/15 py-3">
+              <div className="mx-5 flex h-full flex-col border-t border-[#F7D133]/15 py-2.5">
                 <div className="flex items-start justify-between gap-3.5">
                   <p className="text-sm font-medium text-white">Controlled frequency</p>
                   <p className="text-sm font-medium text-[#F7D133]">Target Distribution</p>
@@ -1669,7 +1681,7 @@ function CampaignCalculator() {
                   Frequency is planned around your target.
                 </p>
               </div>
-              <div className="flex h-full flex-col justify-center px-5 pt-3.5 pb-0">
+              <div className="flex h-full flex-col justify-center px-5 pt-2 pb-0">
                 <p className="whitespace-nowrap text-sm font-medium text-neutral-300">
                   Selected creators ({selectCreators})
                 </p>
@@ -1746,11 +1758,66 @@ function ProofBand() {
   );
 }
 
+function Footer() {
+  const year = new Date().getFullYear();
+
+  return (
+    <footer className="bg-neutral-950 text-white">
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-[1280px] border-t border-white/10" />
+      </div>
+      <div className="px-4 py-10 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-[1280px] gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start">
+          <div className="flex max-w-md flex-col lg:min-h-[108px] lg:justify-between">
+          <a
+            aria-label="Wallchain home"
+            className="inline-flex items-center transition-opacity duration-200 hover:opacity-100"
+            href="#top"
+          >
+            <img
+              alt="Wallchain"
+              className="h-8 w-auto opacity-90"
+              decoding="async"
+              src={wallchainLogoUrl}
+            />
+          </a>
+          <p className="mt-4 text-sm leading-6 text-neutral-400 lg:mt-0">
+            © {year} Wallchain. Precision creator campaigns for crypto teams.
+          </p>
+          </div>
+
+          <div className="grid gap-8 sm:grid-cols-2 sm:gap-12">
+            {footerLinkGroups.map((group) => (
+              <div key={group.title}>
+                <h3 className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
+                  {group.title}
+                </h3>
+                <ul className="mt-4 grid gap-3">
+                  {group.links.map((link) => (
+                    <li key={link.label}>
+                      <a
+                        className="text-sm text-neutral-300 transition-colors duration-200 hover:text-white"
+                        href={link.href}
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
 export function App() {
   useSmoothAnchorScroll();
 
   return (
-    <main className="min-h-screen bg-neutral-950 text-white">
+    <main className="min-h-screen bg-neutral-950 text-white" id="top">
       <SiteNavigation />
       <Hero />
       <Pain />
@@ -1765,6 +1832,7 @@ export function App() {
       <div id="faq">
         <FAQ2 faqs={faqs} />
       </div>
+      <Footer />
     </main>
   );
 }
