@@ -633,9 +633,9 @@ function NicheFollowers() {
     >
       <div className="mt-8">
         <article className="text-white">
-          <div className="grid gap-10 lg:gap-12">
-            <div className="relative overflow-hidden py-6 sm:py-8 lg:py-12">
-              <div className="grid items-center gap-6 lg:min-h-[440px] lg:grid-cols-[minmax(420px,0.88fr)_minmax(360px,0.72fr)] lg:gap-8">
+          <div className="grid gap-8 lg:gap-10">
+            <div className="relative overflow-hidden py-6 sm:py-8 lg:py-8">
+              <div className="grid items-center gap-5 lg:min-h-[390px] lg:max-w-[930px] lg:grid-cols-[minmax(340px,0.9fr)_minmax(280px,0.56fr)] lg:gap-4 xl:max-w-[980px] xl:grid-cols-[minmax(380px,0.94fr)_minmax(300px,0.58fr)]">
                 <AudienceDiagram compact />
                 <NicheMetricCopy compact />
               </div>
@@ -652,17 +652,17 @@ function NicheFollowers() {
 
 function AudienceDiagram({ compact = false }: { compact?: boolean }) {
   return (
-    <div className="relative flex min-h-[290px] items-center justify-center overflow-visible sm:min-h-[380px] lg:min-h-[460px] lg:justify-start">
+    <div className="relative flex min-h-[250px] items-center justify-center overflow-visible sm:min-h-[320px] lg:min-h-[390px] lg:justify-start">
       <div
         className={`relative shrink-0 ${
           compact
-            ? "size-[290px] sm:size-[380px] lg:size-[520px]"
+            ? "size-[250px] sm:size-[320px] lg:size-[420px]"
             : "size-[440px] sm:size-[560px]"
         }`}
         aria-hidden="true"
       >
         <span className="absolute inset-[2%] rounded-full border border-white/[0.22] bg-[#050505] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]" />
-        <span className="absolute bottom-[16%] left-1/2 size-[26%] -translate-x-1/2 rounded-full border border-[#F7D133]/80 bg-[#F7D133]/10 shadow-[0_0_62px_rgba(247,209,51,0.18),inset_0_1px_0_rgba(255,255,255,0.12)]" />
+        <span className="absolute bottom-[17%] left-1/2 size-[31%] -translate-x-1/2 rounded-full border border-[#F7D133]/80 bg-[#F7D133]/10 shadow-[0_0_62px_rgba(247,209,51,0.18),inset_0_1px_0_rgba(255,255,255,0.12)]" />
       </div>
     </div>
   );
@@ -670,39 +670,39 @@ function AudienceDiagram({ compact = false }: { compact?: boolean }) {
 
 function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
   return (
-    <div className={compact ? "mx-auto w-full max-w-[430px] lg:mx-0" : ""}>
-      <div className="grid gap-8 sm:gap-12">
+    <div className={compact ? "mx-auto w-full max-w-[360px] lg:mx-0 lg:-ml-3" : ""}>
+      <div className="grid gap-7 sm:gap-9">
         <div>
-          <div className="flex items-center gap-3">
-            <span className="size-4 rounded-full border border-white/30 bg-white/[0.03]" />
+          <div className="flex items-center gap-2.5">
+            <span className="size-3.5 rounded-full border border-white/30 bg-white/[0.03]" />
             <p className="font-mono text-[12px] font-medium uppercase leading-none tracking-[0.18em] text-neutral-500">
               This is what you see
             </p>
           </div>
           <p
-            className="mt-4 text-4xl font-medium leading-none tracking-tight text-white sm:text-5xl"
+            className="mt-3 text-4xl font-medium leading-none tracking-tight text-white sm:text-5xl"
             style={{ fontFamily: titleFontFamily }}
           >
             120K
           </p>
-          <p className="mt-2 text-sm font-medium leading-none text-neutral-500">
+          <p className="mt-1.5 text-sm font-medium leading-none text-neutral-500">
             followers
           </p>
         </div>
         <div>
-          <div className="flex items-center gap-3">
-            <span className="size-4 rounded-full border border-[#F7D133]/80 bg-[#F7D133]/20 shadow-[0_0_22px_rgba(247,209,51,0.24)]" />
+          <div className="flex items-center gap-2.5">
+            <span className="size-3.5 rounded-full border border-[#F7D133]/80 bg-[#F7D133]/20 shadow-[0_0_22px_rgba(247,209,51,0.24)]" />
             <p className="font-mono text-[12px] font-medium uppercase leading-none tracking-[0.18em] text-[#F7D133]/75">
               This is what matters
             </p>
           </div>
           <p
-            className="mt-4 text-5xl font-medium leading-none tracking-tight text-[#F7D133] sm:text-6xl"
+            className="mt-3 text-5xl font-medium leading-none tracking-tight text-[#F7D133] sm:text-6xl"
             style={{ fontFamily: titleFontFamily }}
           >
             584
           </p>
-          <p className="mt-2 text-sm font-medium leading-none text-neutral-300">
+          <p className="mt-1.5 text-sm font-medium leading-none text-neutral-300">
             niche followers
           </p>
         </div>
@@ -1504,12 +1504,16 @@ function CampaignCalculator() {
     >
       <div className="signal-gray-panel mt-7 overflow-hidden p-3.5 xl:pr-0">
         <div className="grid gap-3.5 xl:grid-cols-[0.52fr_2fr] xl:items-stretch">
-          <aside className="rounded-2xl bg-transparent p-3.5">
-            <h3 className="text-2xl font-medium">Campaign inputs</h3>
-            <p className="mt-1 text-sm text-neutral-500">Play with controls below</p>
-            <div className="mt-5 grid gap-4">
+          <aside className="rounded-2xl bg-transparent px-5 py-2.5 xl:grid xl:grid-rows-[96px_auto]">
+            <div>
+              <h3 className="text-2xl font-medium">Campaign inputs</h3>
+              <p className="mt-3 font-mono text-xs text-neutral-500">
+                Play with controls below
+              </p>
+            </div>
+            <div className="mt-4 grid content-start gap-4 xl:mt-0">
               <label className="block">
-                <span className="flex items-center justify-between gap-4 text-sm text-neutral-400">
+                <span className="flex items-baseline justify-between gap-4 text-sm text-neutral-400">
                   Budget
                   <strong className="text-lg font-medium text-white">${budget}K</strong>
                 </span>
@@ -1523,7 +1527,7 @@ function CampaignCalculator() {
                 />
               </label>
               <label className="block">
-                <span className="flex items-center justify-between gap-4 text-sm text-neutral-400">
+                <span className="flex items-baseline justify-between gap-4 text-sm text-neutral-400">
                   Audience frequency
                   <strong className="text-lg font-medium text-white">{frequency}×</strong>
                 </span>
@@ -1551,11 +1555,11 @@ function CampaignCalculator() {
                   value={frequency}
                 />
               </label>
+              <p className="mt-5 text-sm leading-6 text-neutral-300">
+                Inside the optimizer there are 20+ unique parameters for selecting
+                the best influencer lineup.
+              </p>
             </div>
-            <p className="mt-5 rounded-2xl bg-neutral-900/70 p-4 text-sm leading-6 text-neutral-300">
-              Inside the optimizer there are 20+ unique parameters for selecting
-              the best influencer lineup.
-            </p>
           </aside>
 
           <button
@@ -1567,7 +1571,7 @@ function CampaignCalculator() {
             Compare to standard approach {standardOpen ? "↑" : "↓"}
           </button>
 
-          <div className="grid gap-3.5 xl:border-l xl:border-neutral-800/80 xl:pl-3.5 xl:grid-cols-2 xl:items-stretch xl:[grid-template-rows:minmax(118px,auto)_32px_32px_minmax(148px,auto)_auto]">
+          <div className="grid gap-3.5 xl:border-l xl:border-neutral-800/80 xl:pl-3.5 xl:grid-cols-2 xl:items-stretch xl:[grid-template-rows:minmax(132px,auto)_32px_32px_minmax(148px,auto)_auto]">
             <section
               className={`gap-3 rounded-[24px] bg-transparent py-2.5 xl:row-span-5 xl:gap-y-0 xl:[grid-template-rows:subgrid] ${
                 standardOpen ? "grid" : "hidden xl:grid"
@@ -1631,7 +1635,7 @@ function CampaignCalculator() {
               animated
               backgroundColor="#221f16"
               borderRadius={28}
-              className="grid h-full gap-3 xl:row-span-5 xl:gap-y-0 xl:[grid-template-rows:subgrid] xl:py-2.5"
+              className="grid h-full gap-3 xl:-my-3.5 xl:row-span-5 xl:gap-y-0 xl:[grid-template-rows:subgrid] xl:py-2.5"
               colors={["#F7D133", "#6FACFF", "#A05FFF"]}
               coneSpread={16}
               edgeSensitivity={24}
@@ -1640,7 +1644,7 @@ function CampaignCalculator() {
               glowIntensity={0.9}
               glowRadius={28}
             >
-              <div className="flex h-full flex-col px-5">
+              <div className="flex h-full flex-col px-5 xl:pt-3.5">
                 <h3 className="text-2xl font-medium">Wallchain Select</h3>
                 <div className="mt-3 grid flex-1 grid-cols-2 gap-y-2 sm:grid-cols-[0.72fr_0.72fr_1fr_1fr] sm:gap-y-0">
                   <CalculatorMetric label="Optimized creators" value={<AnimatedNumber fontSize={22} value={selectCreators} />} />
