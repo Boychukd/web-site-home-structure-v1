@@ -162,6 +162,7 @@ const nicheTabLabels: Record<string, string> = {
 };
 
 const creatorNicheRotationMs = 4500;
+const creatorTabFadeMs = 840;
 
 const creatorValues: Record<string, number> = {
   "Prediction Markets": 4.8,
@@ -424,6 +425,46 @@ function useSmoothAnchorScroll() {
   }, []);
 }
 
+function useSignalPanelPointerGlow() {
+  useEffect(() => {
+    const panels = Array.from(
+      document.querySelectorAll<HTMLElement>(".signal-gray-panel, .signal-gray-panel-frame"),
+    );
+
+    if (!panels.length) {
+      return;
+    }
+
+    const cleanups = panels.map((panel) => {
+      const handlePointerMove = (event: PointerEvent) => {
+        const rect = panel.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * 100;
+        const y = ((event.clientY - rect.top) / rect.height) * 100;
+
+        panel.style.setProperty("--signal-panel-pointer-x", `${x.toFixed(2)}%`);
+        panel.style.setProperty("--signal-panel-pointer-y", `${y.toFixed(2)}%`);
+        panel.style.setProperty("--signal-panel-hover", "1");
+      };
+
+      const handlePointerLeave = () => {
+        panel.style.setProperty("--signal-panel-hover", "0");
+      };
+
+      panel.addEventListener("pointermove", handlePointerMove);
+      panel.addEventListener("pointerleave", handlePointerLeave);
+
+      return () => {
+        panel.removeEventListener("pointermove", handlePointerMove);
+        panel.removeEventListener("pointerleave", handlePointerLeave);
+      };
+    });
+
+    return () => {
+      cleanups.forEach((cleanup) => cleanup());
+    };
+  }, []);
+}
+
 function Section({
   children,
   className = "",
@@ -635,7 +676,7 @@ function NicheFollowers() {
         <article className="text-white">
           <div className="grid gap-8 lg:gap-10">
             <div className="relative overflow-hidden py-6 sm:py-8 lg:py-8">
-              <div className="grid items-center gap-5 lg:min-h-[390px] lg:max-w-[930px] lg:grid-cols-[minmax(340px,0.9fr)_minmax(280px,0.56fr)] lg:gap-4 xl:max-w-[980px] xl:grid-cols-[minmax(380px,0.94fr)_minmax(300px,0.58fr)]">
+              <div className="grid items-center gap-5 lg:mx-auto lg:min-h-[390px] lg:max-w-[930px] lg:grid-cols-[minmax(340px,0.88fr)_minmax(260px,0.52fr)] lg:gap-2 xl:max-w-[980px] xl:grid-cols-[minmax(380px,0.92fr)_minmax(280px,0.54fr)]">
                 <AudienceDiagram compact />
                 <NicheMetricCopy compact />
               </div>
@@ -652,7 +693,7 @@ function NicheFollowers() {
 
 function AudienceDiagram({ compact = false }: { compact?: boolean }) {
   return (
-    <div className="relative flex min-h-[250px] items-center justify-center overflow-visible sm:min-h-[320px] lg:min-h-[390px] lg:justify-start">
+    <div className="relative flex min-h-[250px] items-center justify-center overflow-visible sm:min-h-[320px] lg:min-h-[390px]">
       <div
         className={`relative shrink-0 ${
           compact
@@ -670,7 +711,7 @@ function AudienceDiagram({ compact = false }: { compact?: boolean }) {
 
 function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
   return (
-    <div className={compact ? "mx-auto w-full max-w-[360px] lg:mx-0 lg:-ml-3" : ""}>
+    <div className={compact ? "mx-auto w-full max-w-[320px] lg:mx-0 lg:-ml-8" : ""}>
       <div className="grid gap-7 sm:gap-9">
         <div>
           <div className="flex items-center gap-2.5">
@@ -836,7 +877,9 @@ function KalshiBadge() {
 
 function CreatorNetwork() {
   const [selectedNiche, setSelectedNiche] = useState(niches[0]);
+  const [exitingNiche, setExitingNiche] = useState<string | null>(null);
   const [autoRotatePaused, setAutoRotatePaused] = useState(false);
+  const previousSelectedNicheRef = useRef(selectedNiche);
   const selectedIndex = niches.indexOf(selectedNiche);
   const previousNiche = niches[(selectedIndex - 1 + niches.length) % niches.length];
   const nextNiche = niches[(selectedIndex + 1) % niches.length];
@@ -879,6 +922,23 @@ function CreatorNetwork() {
     return () => window.clearTimeout(timerId);
   }, [autoRotatePaused, selectedNiche]);
 
+  useEffect(() => {
+    const previousSelectedNiche = previousSelectedNicheRef.current;
+
+    if (previousSelectedNiche === selectedNiche) return;
+
+    setExitingNiche(previousSelectedNiche);
+    previousSelectedNicheRef.current = selectedNiche;
+
+    const timerId = window.setTimeout(() => {
+      setExitingNiche((currentNiche) =>
+        currentNiche === previousSelectedNiche ? null : currentNiche,
+      );
+    }, creatorTabFadeMs);
+
+    return () => window.clearTimeout(timerId);
+  }, [selectedNiche]);
+
   return (
     <section
       className="overflow-hidden bg-[#020202] px-4 py-10 text-white sm:px-6 lg:px-8"
@@ -897,17 +957,20 @@ function CreatorNetwork() {
           </p>
         </div>
 
-        <div className="mt-6 flex items-start justify-center gap-4 overflow-x-auto pb-2">
-          <div className="relative flex shrink-0 items-start gap-2.5 pb-1">
+        <div className="mt-8 overflow-x-auto pb-3">
+          <div className="creator-fora-tabs mx-auto">
             {niches.map((niche) => {
               const active = selectedNiche === niche;
+              const exiting = exitingNiche === niche;
               return (
                 <button
                   aria-pressed={active}
-                  className={`relative inline-flex w-[108px] cursor-pointer flex-col items-start gap-2 whitespace-nowrap pb-2 pt-1 text-left font-mono text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors sm:w-[118px] ${
+                  className={`creator-fora-tab ${
                     active
-                      ? "text-[#F7D133]"
-                      : "text-neutral-500 hover:text-neutral-200"
+                      ? "creator-fora-tab--active text-[#F7D133]"
+                      : exiting
+                        ? "creator-fora-tab--exiting text-[#c9ad35]"
+                        : "text-neutral-400 hover:text-neutral-100"
                   }`}
                   key={niche}
                   onClick={() => {
@@ -916,33 +979,35 @@ function CreatorNetwork() {
                   }}
                   type="button"
                 >
+                  <span
+                    aria-hidden="true"
+                    className={`creator-fora-tab-surface ${
+                      active ? "creator-fora-tab-surface--active" : ""
+                    } ${exiting ? "creator-fora-tab-surface--exiting" : ""}`}
+                  />
+                  {active && (
+                    <span
+                      aria-hidden="true"
+                      className={`creator-tab-progress ${
+                        autoRotatePaused ? "creator-tab-progress--idle" : ""
+                      }`}
+                      data-testid="niche-auto-timer"
+                      key={niche}
+                      style={
+                        {
+                          "--creator-tab-duration": `${creatorNicheRotationMs}ms`,
+                        } as CSSProperties
+                      }
+                    />
+                  )}
                   <span className="relative z-[2]">{nicheTabLabels[niche] ?? niche}</span>
-                  <span aria-hidden="true" className="creator-tab-track">
-                    {active && (
-                      <span
-                        className={`creator-tab-progress ${
-                          autoRotatePaused ? "creator-tab-progress--idle" : ""
-                        }`}
-                        data-testid="niche-auto-timer"
-                        key={niche}
-                        style={
-                          {
-                            "--creator-tab-duration": `${creatorNicheRotationMs}ms`,
-                          } as CSSProperties
-                        }
-                      />
-                    )}
-                  </span>
                 </button>
               );
             })}
+            <span aria-disabled="true" className="creator-fora-tab text-neutral-600">
+              + 45 more niches
+            </span>
           </div>
-          <span
-            aria-disabled="true"
-            className="relative inline-flex min-w-[112px] shrink-0 pb-2 pt-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-neutral-600 after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:bg-white/10"
-          >
-            + 45 more niches
-          </span>
         </div>
 
         <div className="relative mx-auto mt-5 grid max-w-[980px] gap-4 py-5 sm:py-6 lg:h-[350px] lg:block lg:py-3">
@@ -997,6 +1062,11 @@ function CreatorProfileCard({
           ? "bg-[#0b0b0b] shadow-[0_24px_70px_-52px_rgba(255,255,255,0.28)]"
           : "bg-neutral-950/72 opacity-42 grayscale lg:scale-[0.9]"
       } ${className}`}
+      style={
+        {
+          "--signal-panel-fill": active ? "#0f1011" : "rgb(12 12 13 / 0.78)",
+        } as CSSProperties
+      }
     >
       <div className="relative">
         <div
@@ -1308,13 +1378,13 @@ function CalculatorMetric({
           : "text-white";
 
   return (
-    <div className={`grid min-w-0 h-full content-start grid-rows-[2.15rem_auto] px-3 py-1.5 sm:grid-rows-[2.3rem_auto] sm:px-4 ${className}`}>
-      <span className="block overflow-hidden text-[10px] leading-[1.1] text-neutral-500 sm:text-[11px]">
-        {label}
-      </span>
-      <strong className={`mt-1 block text-[2rem] leading-none sm:mt-1.5 sm:text-[2.1rem] ${valueColorClass}`}>
+    <div className={`grid h-full min-w-0 content-start ${className}`}>
+      <strong className={`block leading-none ${valueColorClass}`}>
         {value}
       </strong>
+      <span className="mt-1.5 block min-h-[1.7rem] overflow-hidden text-[10px] leading-[1.1] text-neutral-500 sm:min-h-[1.85rem] sm:text-[11px]">
+        {label}
+      </span>
     </div>
   );
 }
@@ -1571,7 +1641,7 @@ function CampaignCalculator() {
             Compare to standard approach {standardOpen ? "↑" : "↓"}
           </button>
 
-          <div className="grid gap-3.5 xl:border-l xl:border-neutral-800/80 xl:pl-3.5 xl:grid-cols-2 xl:items-stretch xl:[grid-template-rows:minmax(132px,auto)_32px_32px_minmax(148px,auto)_auto]">
+          <div className="grid gap-3.5 xl:border-l xl:border-neutral-800/80 xl:pl-3.5 xl:grid-cols-2 xl:items-stretch xl:[grid-template-rows:minmax(112px,auto)_32px_32px_minmax(148px,auto)_auto]">
             <section
               className={`gap-3 rounded-[24px] bg-transparent py-2.5 xl:row-span-5 xl:gap-y-0 xl:[grid-template-rows:subgrid] ${
                 standardOpen ? "grid" : "hidden xl:grid"
@@ -1579,15 +1649,15 @@ function CampaignCalculator() {
             >
               <div className="flex h-full flex-col px-5">
                 <h3 className="text-2xl font-medium">Standard approach</h3>
-                <div className="mt-3 grid flex-1 grid-cols-2 gap-y-2 sm:grid-cols-[0.72fr_0.72fr_1fr_1fr] sm:gap-y-0">
-                  <CalculatorMetric label="Creators" value={<AnimatedNumber fontSize={22} value={agencyCreators} />} />
-                  <CalculatorMetric label="Posts" value={<AnimatedNumber fontSize={22} value={agencyPosts} />} />
+                <div className="mt-5 grid flex-1 grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-[0.72fr_0.72fr_1fr_1fr] sm:gap-y-0">
+                  <CalculatorMetric label="Creators" value={<AnimatedNumber fontSize={28} value={agencyCreators} />} />
+                  <CalculatorMetric label="Posts" value={<AnimatedNumber fontSize={28} value={agencyPosts} />} />
                   <CalculatorMetric
                     label="Estimated relevant audience"
                     tone="primary"
                     value={
                       <AnimatedNumber
-                        fontSize={22}
+                        fontSize={28}
                         prefix="~"
                         suffix="K"
                         value={Math.max(1, agencyRelevant)}
@@ -1597,7 +1667,7 @@ function CampaignCalculator() {
                   <CalculatorMetric
                     label="Wasted budget"
                     tone="warning"
-                    value={<AnimatedNumber fontSize={22} prefix="$" value={agencyWaste} />}
+                    value={<AnimatedNumber fontSize={28} prefix="$" value={agencyWaste} />}
                   />
                 </div>
               </div>
@@ -1646,18 +1716,18 @@ function CampaignCalculator() {
             >
               <div className="flex h-full flex-col px-5 xl:pt-3.5">
                 <h3 className="text-2xl font-medium">Wallchain Select</h3>
-                <div className="mt-3 grid flex-1 grid-cols-2 gap-y-2 sm:grid-cols-[0.72fr_0.72fr_1fr_1fr] sm:gap-y-0">
-                  <CalculatorMetric label="Optimized creators" value={<AnimatedNumber fontSize={22} value={selectCreators} />} />
-                  <CalculatorMetric label="Posts" value={<AnimatedNumber fontSize={22} value={selectPosts} />} />
+                <div className="mt-5 grid flex-1 grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-[0.72fr_0.72fr_1fr_1fr] sm:gap-y-0">
+                  <CalculatorMetric label="Optimized creators" value={<AnimatedNumber fontSize={28} value={selectCreators} />} />
+                  <CalculatorMetric label="Posts" value={<AnimatedNumber fontSize={28} value={selectPosts} />} />
                   <CalculatorMetric
                     label="Relevant audience"
                     tone="primary"
-                    value={<AnimatedNumber fontSize={22} suffix="K" value={Math.max(1, reach)} />}
+                    value={<AnimatedNumber fontSize={28} suffix="K" value={Math.max(1, reach)} />}
                   />
                   <CalculatorMetric
                     label="Working budget"
                     tone="good"
-                    value={<AnimatedNumber fontSize={22} prefix="$" value={selectWorking} />}
+                    value={<AnimatedNumber fontSize={28} prefix="$" value={selectWorking} />}
                   />
                 </div>
               </div>
@@ -1819,6 +1889,7 @@ function Footer() {
 
 export function App() {
   useSmoothAnchorScroll();
+  useSignalPanelPointerGlow();
 
   return (
     <main className="min-h-screen bg-neutral-950 text-white" id="top">
