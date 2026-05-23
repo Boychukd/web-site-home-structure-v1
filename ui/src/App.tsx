@@ -448,6 +448,8 @@ function useSignalPanelPointerGlow() {
       };
 
       const handlePointerLeave = () => {
+        panel.style.setProperty("--signal-panel-pointer-x", "50%");
+        panel.style.setProperty("--signal-panel-pointer-y", "50%");
         panel.style.setProperty("--signal-panel-hover", "0");
       };
 
@@ -755,9 +757,7 @@ function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
 
 function NicheDiscoveryCard({ className = "" }: { className?: string }) {
   return (
-    <div
-      className={`bg-surface-muted py-6 text-white shadow-card lg:py-7 ${className}`}
-    >
+    <div className={`py-6 text-white lg:py-7 ${className}`}>
       <div className="grid gap-5 lg:grid-cols-[minmax(170px,0.56fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-7">
         <h3 className="max-w-[11ch] px-0 text-xl font-medium leading-tight tracking-tight text-white/92 sm:text-2xl">
           How we know who is actually in your niche:

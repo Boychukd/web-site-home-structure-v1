@@ -1,7 +1,7 @@
 export const ui = {
   colors: {
     accent: "#f7d133",
-    accentHover: "#ffe36b",
+    accentHover: "#ffdc4d",
     background: "#020202",
     surface: "#101010",
     surfaceMuted: "#171717",

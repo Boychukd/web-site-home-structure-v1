@@ -19,19 +19,19 @@
     --card-foreground: 0 0% 7%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 7%;
-    --primary: 58 88% 50%;
+    --primary: 48.37 92.45% 58.43%;
     --primary-foreground: 0 0% 5%;
     --secondary: 0 0% 97%;
     --secondary-foreground: 0 0% 7%;
     --muted: 0 0% 96%;
     --muted-foreground: 0 0% 43%;
-    --accent: 58 88% 50%;
+    --accent: 48.37 92.45% 58.43%;
     --accent-foreground: 0 0% 5%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 88%;
     --input: 0 0% 88%;
-    --ring: 58 88% 50%;
+    --ring: 48.37 92.45% 58.43%;
     --success: 159 78% 69%;
     --warning: 38 92% 50%;
     --error: 0 92% 80%;
@@ -87,7 +87,7 @@
 
 .yellow-cta {
   border-radius: var(--radius-cta);
-  background: linear-gradient(180deg, hsl(var(--primary) / 1) 0%, #d6b52c 100%);
+  background: linear-gradient(180deg, #ffdc4d 0%, #d6b52c 100%);
   box-shadow: 0 1px 0 0 rgb(137 115 21 / 1);
   color: hsl(var(--primary-foreground));
 }
@@ -174,12 +174,12 @@
 .signal-gray-panel,
 .signal-gray-panel-frame {
   --signal-panel-radius: 24px;
-  --signal-panel-gap: 2px;
+  --signal-panel-gap: 1px;
   --signal-panel-inner-radius: calc(var(--signal-panel-radius) - var(--signal-panel-gap));
-  --signal-panel-outer-gap: 6px;
+  --signal-panel-outer-gap: 7px;
   --signal-panel-outer-radius: calc(var(--signal-panel-radius) + var(--signal-panel-outer-gap));
-  --signal-panel-outer-border: 1px;
-  --signal-panel-fill: #151516;
+  --signal-panel-outer-border: 0.5px;
+  --signal-panel-fill: #161616;
   --signal-panel-pointer-x: 50%;
   --signal-panel-pointer-y: 50%;
   --signal-panel-hover: 0;
@@ -188,17 +188,21 @@
   isolation: isolate;
   overflow: visible;
   border-radius: var(--signal-panel-radius);
+  border: 0.5px solid #383838;
   background:
-    linear-gradient(180deg, rgb(255 255 255 / 0.038) 0%, rgb(255 255 255 / 0.012) 22%, rgb(255 255 255 / 0.004) 100%),
-    linear-gradient(180deg, #191a1b 0%, #151516 58%, #121213 100%);
+    linear-gradient(180deg, rgb(255 255 255 / 0.022) 0%, rgb(255 255 255 / 0.008) 22%, rgb(255 255 255 / 0.003) 100%),
+    linear-gradient(180deg, #191919 0%, #161616 58%, #141414 100%);
   box-shadow:
     0 18px 50px rgb(0 0 0 / 0.28),
-    0 0 0 0.5px rgb(255 255 255 / 0.028),
-    inset 0 1px 0 rgb(255 255 255 / 0.022);
+    inset 0 1px 0 rgb(255 255 255 / 0.012);
   transition:
     transform 220ms ease,
     box-shadow 220ms ease,
     background-color 220ms ease;
+}
+
+.signal-gray-panel-frame {
+  overflow: hidden;
 }
 
 .signal-gray-panel > *,
@@ -217,16 +221,16 @@
   background:
     radial-gradient(
       420px circle at var(--signal-panel-pointer-x) var(--signal-panel-pointer-y),
-      rgb(255 255 255 / calc(0.018 + (var(--signal-panel-hover) * 0.072))) 0%,
-      rgb(255 255 255 / calc(0.008 + (var(--signal-panel-hover) * 0.03))) 28%,
+      rgb(255 255 255 / calc(0.01 + (var(--signal-panel-hover) * 0.018))) 0%,
+      rgb(255 255 255 / calc(0.004 + (var(--signal-panel-hover) * 0.0075))) 28%,
       transparent 58%
     ),
-    radial-gradient(circle at 50% 0%, rgb(255 255 255 / 0.018), transparent 42%),
-    linear-gradient(180deg, rgb(255 255 255 / 0.008) 0%, rgb(255 255 255 / 0) 100%),
+    radial-gradient(circle at 50% 0%, rgb(255 255 255 / 0.012), transparent 42%),
+    linear-gradient(180deg, rgb(255 255 255 / 0.006) 0%, rgb(255 255 255 / 0) 100%),
     var(--signal-panel-fill);
   box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.018),
-    inset 0 0 0 0.5px rgb(255 255 255 / 0.014);
+    inset 0 1px 0 rgb(255 255 255 / 0.01),
+    inset 0 0 0 0.5px rgb(255 255 255 / 0.008);
   transition: background 140ms ease;
 }
 
@@ -242,12 +246,17 @@
   background:
     radial-gradient(
       320px circle at var(--signal-panel-pointer-x) var(--signal-panel-pointer-y),
-      rgb(255 255 255 / 0.34) 0%,
-      rgb(255 255 255 / 0.13) 18%,
-      rgb(255 255 255 / 0.032) 36%,
+      rgb(255 255 255 / calc(var(--signal-panel-hover) * 0.34)) 0%,
+      rgb(255 255 255 / calc(var(--signal-panel-hover) * 0.13)) 18%,
+      rgb(255 255 255 / calc(var(--signal-panel-hover) * 0.032)) 36%,
       transparent 58%
     ),
-    linear-gradient(180deg, rgb(255 255 255 / 0.045) 0%, rgb(255 255 255 / 0.01) 28%, transparent 76%);
+    linear-gradient(
+      180deg,
+      rgb(255 255 255 / calc(var(--signal-panel-hover) * 0.048)) 0%,
+      rgb(255 255 255 / calc(var(--signal-panel-hover) * 0.012)) 28%,
+      transparent 76%
+    );
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
@@ -256,9 +265,8 @@
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
   mask-composite: exclude;
-  opacity: calc(0.16 + (var(--signal-panel-hover) * 0.62));
   transition:
-    opacity 180ms ease,
+    background 180ms ease,
     background-position 120ms ease;
 }
 
