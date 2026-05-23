@@ -12,6 +12,7 @@ import { FAQ2 } from "@/components/blocks/faq-2";
 import CTA9 from "@/components/blocks/cta-9";
 import SocialProof11 from "@/components/blocks/social-proof-11";
 import Stats10 from "@/components/blocks/stats-10";
+import { SignalPanel } from "@/components/ui/SignalPanel";
 import {
   sectionEyebrowClass,
   sectionSubtitleClass,
@@ -613,58 +614,119 @@ function Hero() {
 }
 
 function Pain() {
+  const reportedMetrics = [
+    ["01", "creators", "10"],
+    ["02", "impressions", "240K"],
+  ];
+  const missedSignals = [
+    ["03", "audience_overlap", "61% audience overlap"],
+    ["04", "off_niche", "72% outside target niche"],
+    ["05", "frequency_dist", "random frequency distribution"],
+  ];
+
   return (
-    <Section
-      className="pt-5"
-      eyebrow="The report didn't tell you."
-      id="pain"
-      title={
-        <>
-          Your last{" "}
-          <span className="text-accent">KOL campaign</span>{" "}
-          <span className="sm:block">
-            was probably <span className="text-accent">60% waste.</span>
-          </span>
-        </>
-      }
-    >
-      <div className="mt-7 grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
-        <DataTile>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <p className="text-sm text-neutral-500">Creators</p>
-              <p className="mt-2 text-3xl font-medium">10</p>
-            </div>
-            <div>
-              <p className="text-sm text-neutral-500">Impressions</p>
-              <p className="mt-2 text-3xl font-medium">240K</p>
-            </div>
+    <section className={`${ui.layout.sectionCompact} pt-5`} id="pain">
+      <div className={ui.layout.container}>
+        <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1.02fr)_minmax(390px,0.98fr)] lg:gap-16 xl:gap-20">
+          <div className="max-w-[650px]">
+            <p className={sectionEyebrowClass}>
+              The report didn't tell you.
+            </p>
+            <h2 className={`${sectionTitleClass} mt-5 text-left`}>
+              Your last{" "}
+              <span className="text-accent">KOL campaign</span>{" "}
+              <span className="sm:block">
+                was probably <span className="text-accent">60% waste.</span>
+              </span>
+            </h2>
+            <p className="mt-9 max-w-[560px] text-body-lg leading-body text-text-secondary">
+              We measure overlap and frequency in addition to impressions.
+              Standard KOL campaigns can't do that.
+            </p>
           </div>
-          <p className={`my-5 text-center ${sectionEyebrowClass}`}>
-            - but -
-          </p>
-          <div className="grid gap-3">
-            {["61% audience overlap", "72% outside target niche", "random frequency distribution"].map(
-              (item) => (
-                <div
-                  className="flex items-center gap-3 rounded-2xl bg-red-500/10 px-4 py-3 text-sm text-red-100"
-                  key={item}
-                >
-                  <X className="size-4 text-red-300" />
-                  {item}
-                </div>
-              ),
-            )}
-          </div>
-        </DataTile>
-        <DataTile tone="accent">
-          <p className="text-2xl font-medium leading-snug text-white">
-            We measure overlap and frequency in addition to impressions.
-            Standard KOL campaigns can't do that.
-          </p>
-        </DataTile>
+
+          <SignalPanel
+            aria-label="Campaign audit log showing reported metrics and missed signals"
+            className="w-full rounded-[28px] font-mono text-[12px] text-text-secondary sm:text-[13px]"
+            innerClassName="rounded-[27px]"
+            role="img"
+          >
+            <div className="flex items-center gap-2 border-b border-white/[0.07] bg-white/[0.018] px-4 py-3 text-[10px] uppercase tracking-[0.22em] text-text-muted sm:px-5">
+              <span className="size-2 rounded-full bg-white/18" />
+              <span className="size-2 rounded-full bg-white/18" />
+              <span className="size-2 rounded-full bg-white/18" />
+              <span className="ml-auto truncate">audit_q4 · campaign_026.log</span>
+            </div>
+
+            <div className="px-4 py-5 sm:px-6 sm:py-6">
+              <AuditTerminalHeading>Reported metrics</AuditTerminalHeading>
+              <div className="grid gap-2">
+                {reportedMetrics.map(([number, label, value]) => (
+                  <AuditTerminalRow key={label} label={label} number={number} value={value} />
+                ))}
+              </div>
+
+              <div className="my-5">
+                <AuditTerminalHeading>But</AuditTerminalHeading>
+              </div>
+
+              <div className="grid gap-2">
+                {missedSignals.map(([number, label, value]) => (
+                  <AuditTerminalRow
+                    key={label}
+                    label={label}
+                    number={number}
+                    tone="error"
+                    value={value}
+                  />
+                ))}
+              </div>
+
+              <div className="mt-6 border-t border-dashed border-white/10 pt-5 text-sm leading-none">
+                <span className="text-text-muted">verdict :: </span>
+                <span className="font-medium text-accent">~60% waste</span>
+                <span className="text-text-muted"> · standard tools miss this</span>
+              </div>
+            </div>
+          </SignalPanel>
+        </div>
       </div>
-    </Section>
+    </section>
+  );
+}
+
+function AuditTerminalHeading({ children }: { children: ReactNode }) {
+  return (
+    <div className="mb-3 flex items-center gap-3 text-[10px] uppercase tracking-[0.22em] text-text-muted">
+      <span>{children}</span>
+      <span className="h-px flex-1 bg-white/[0.07]" />
+    </div>
+  );
+}
+
+function AuditTerminalRow({
+  label,
+  number,
+  value,
+  tone = "default",
+}: {
+  label: string;
+  number: string;
+  value: string;
+  tone?: "default" | "error";
+}) {
+  const isError = tone === "error";
+
+  return (
+    <div
+      className={`grid grid-cols-[28px_minmax(112px,0.72fr)_minmax(0,1fr)] items-baseline gap-3 py-1.5 ${
+        isError ? "text-red-200" : "text-text-secondary"
+      }`}
+    >
+      <span className="text-right text-white/22">{number}</span>
+      <span className={isError ? "text-red-300" : "text-text-muted"}>{label}</span>
+      <span className={isError ? "text-red-200" : "text-text-primary"}>{">"} {value}</span>
+    </div>
   );
 }
 
@@ -799,7 +861,7 @@ function SignalInsightRow({
   variant: "random" | "buyer";
 }) {
   return (
-    <div className="signal-gray-panel grid gap-2 px-5 py-5 sm:px-6 sm:py-5.5">
+    <SignalPanel className="grid gap-2 rounded-[28px] px-5 py-5 sm:px-6 sm:py-5.5">
       <p className="text-sm font-medium leading-none text-neutral-400 sm:text-base">
         {label}
       </p>
@@ -819,7 +881,7 @@ function SignalInsightRow({
           </p>
         </div>
       </div>
-    </div>
+    </SignalPanel>
   );
 }
 
@@ -1561,6 +1623,7 @@ function CampaignCalculator() {
 
   return (
     <Section
+      className="relative z-[2] overflow-visible bg-transparent"
       copy="Move the controls. See what you can shape — and what most campaigns leave to chance."
       copyNoWrap
       eyebrow="Plan campaign"
