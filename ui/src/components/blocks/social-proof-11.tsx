@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { sectionEyebrowClass, sectionSubtitleClass, sectionTitleClass } from "@/lib/section-typography";
+import { ui } from "@/lib/ui-system";
 
 const avatarSoje = new URL("../../assets/twitter-avatars/0xSoje.jpg", import.meta.url).href;
 const avatarTowhid = new URL("../../assets/twitter-avatars/0xTowhid.jpg", import.meta.url).href;
@@ -31,18 +32,18 @@ const studies = [
 export default function SocialProof11() {
   return (
     <section
-      className="w-full bg-[#020202] px-4 py-10 text-white sm:px-6 lg:px-8"
+      className={ui.layout.sectionCompact}
       id="testimonials"
     >
-      <div className="mx-auto w-full max-w-[1280px]">
+      <div className={ui.layout.container}>
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3 }}
-          className="flex flex-col items-center gap-5 text-center"
+          className={ui.layout.headerWithCopy}
         >
-          <div className="flex flex-col items-center gap-3">
+          <div className={ui.layout.header}>
             <p className={sectionEyebrowClass}>Testimonials</p>
             <h2 className={`${sectionTitleClass} lg:whitespace-nowrap`}>
               What teams notice after the first campaign.
@@ -55,7 +56,7 @@ export default function SocialProof11() {
           </p>
         </motion.div>
 
-        <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3 sm:mt-14 sm:gap-6">
+        <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
           {studies.map((s, i) => (
             <motion.article
               key={i}
@@ -63,14 +64,14 @@ export default function SocialProof11() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.3, delay: i * 0.08 }}
-              className="signal-gray-panel relative flex flex-col gap-6 p-6 sm:p-7"
+              className={`${ui.component.panel} relative flex flex-col gap-6`}
             >
               <div className="size-14 overflow-hidden rounded-full bg-neutral-800">
                 <img src={s.avatar} alt="" className="size-full object-cover" />
               </div>
 
               <div className="flex flex-col gap-2">
-                <span className="text-xs uppercase tracking-[0.18em] text-neutral-500">
+                <span className={sectionEyebrowClass}>
                   {s.category}
                 </span>
                 <h3 className="text-lg font-medium leading-snug text-white sm:text-xl">

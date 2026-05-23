@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { Network, Search, Users } from "lucide-react";
 import { AnimatedArrowIcon } from "@/components/AnimatedArrowIcon";
 import { sectionEyebrowClass, sectionSubtitleClass, sectionTitleClass } from "@/lib/section-typography";
+import { ui } from "@/lib/ui-system";
 
 const links = [
   {
@@ -18,11 +19,11 @@ const links = [
 
 export function CTA3() {
   return (
-    <section className="relative flex w-full items-center justify-center overflow-hidden bg-neutral-950 px-4 py-12 text-white sm:px-6 lg:px-8">
-      <div className="max-w-[1400px] mx-auto w-full">
+    <section className={`${ui.layout.sectionAlt} relative flex w-full items-center justify-center overflow-hidden`}>
+      <div className={ui.layout.container}>
         <div className="mx-auto w-full text-center">
           {/* Icon Cards */}
-          <div className="flex items-center justify-center mb-4 relative sm:h-40">
+          <div className="relative mb-6 flex items-center justify-center sm:h-40">
             {/* Background SVG Circles */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none -top-24">
               <div className="relative w-[260px] h-[260px] sm:w-[310px] sm:h-[310px]">
@@ -110,7 +111,7 @@ export function CTA3() {
                   />
                 </svg>
                 {/* Gradient overlay to fade bottom half */}
-                <div className="absolute inset-0 bg-linear-to-b from-transparent from-30% via-neutral-950/50 via-60% to-neutral-950 pointer-events-none" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent from-30% via-neutral-950/50 via-60% to-neutral-950" />
               </div>
             </div>
 
@@ -127,14 +128,14 @@ export function CTA3() {
             </motion.div>
 
             <motion.div
-              className="relative z-10 w-40 h-40 rounded-3xl bg-[#F7D133]/10 backdrop-blur-sm flex flex-col items-center justify-center shadow-[0_18px_70px_-48px_rgba(247,209,51,0.9)]"
+              className="relative z-10 w-40 h-40 rounded-3xl bg-accent/10 backdrop-blur-sm flex flex-col items-center justify-center shadow-[0_18px_70px_-48px_rgba(247,209,51,0.9)]"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
               <Network
                 strokeWidth={1}
-                className="w-16 h-16 text-[#F7D133]"
+                className="w-16 h-16 text-accent"
               />
             </motion.div>
 
@@ -152,7 +153,7 @@ export function CTA3() {
           </div>
 
           <motion.p
-            className={`mb-4 ${sectionEyebrowClass}`}
+            className={`mb-3 ${sectionEyebrowClass}`}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.35 }}
@@ -161,17 +162,17 @@ export function CTA3() {
           </motion.p>
 
           <motion.h1
-            className={`mb-6 ${sectionTitleClass} text-white lg:whitespace-nowrap`}
+            className={`mb-4 ${sectionTitleClass} text-white lg:whitespace-nowrap`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             Wallchain runs creator{" "}
-            <span className="text-[#F7D133]">marketing on data.</span>
+            <span className="text-accent">marketing on data.</span>
           </motion.h1>
 
           <motion.p
-            className={`mx-auto mb-8 max-w-lg text-center ${sectionSubtitleClass} sm:mb-10`}
+            className={`mx-auto mb-8 max-w-readable text-center ${sectionSubtitleClass}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
@@ -189,7 +190,7 @@ export function CTA3() {
           >
             {links.map((link) => (
               <a
-                className="stripe-arrow-cta inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-3 text-base font-medium text-white duration-200 hover:scale-105 hover:bg-[#F7D133]/10 hover:text-[#F7D133]"
+                className={`${ui.component.ctaBase} bg-surface-muted px-6 py-3 text-white hover:scale-[1.02] hover:bg-accent/10 hover:text-accent`}
                 href={link.href}
                 key={link.label}
               >

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Minus, Plus } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { sectionEyebrowClass, sectionTitleClass } from "@/lib/section-typography";
+import { ui } from "@/lib/ui-system";
 
 type FAQItem = {
   question: string;
@@ -28,10 +29,10 @@ export function FAQ2({
   };
 
   return (
-    <section className="flex w-full items-start bg-neutral-950 px-4 py-12 text-white sm:px-6 lg:px-8">
-      <div className="mx-auto w-full max-w-[1400px]">
-        <div className="grid grid-cols-1 gap-8 lg:gap-12">
-          <div className="flex flex-col items-center space-y-6 text-center">
+    <section className={`${ui.layout.sectionAlt} flex w-full items-start`}>
+      <div className={ui.layout.container}>
+        <div className="grid grid-cols-1 gap-10 lg:gap-12">
+          <div className={ui.layout.header}>
             <motion.p
               animate={{ opacity: 1, y: 0 }}
               className={sectionEyebrowClass}
@@ -51,7 +52,7 @@ export function FAQ2({
 
           </div>
 
-          <div className="mx-auto flex w-full max-w-[860px] flex-col space-y-7">
+          <div className="mx-auto flex w-full max-w-readable flex-col gap-5">
             {faqs.map((faq, index) => (
               <motion.div
                 animate={{ opacity: 1, y: 0 }}
@@ -71,14 +72,14 @@ export function FAQ2({
                     <div
                       className={`rounded-full px-4 py-3 transition-all duration-200 sm:px-5 sm:py-3.5 ${
                         openIndex === index
-                          ? "bg-[#F7D133]/10"
+                          ? "bg-accent/10"
                           : "signal-gray-panel hover:bg-neutral-700"
                       }`}
                     >
                       <p
                         className={`text-sm leading-relaxed transition-colors duration-200 sm:text-base ${
                           openIndex === index
-                            ? "text-[#F7D133]"
+                            ? "text-accent"
                             : "text-white"
                         }`}
                       >
@@ -93,16 +94,16 @@ export function FAQ2({
                         ? `Close ${faq.question}`
                         : `Open ${faq.question}`
                     }
-                    className={`mt-3 flex size-6 shrink-0 items-center justify-center rounded-full transition-colors duration-200 sm:size-7 ${
+                    className={`mt-3 flex size-7 shrink-0 items-center justify-center rounded-full transition-colors duration-200 ${
                       openIndex === index
-                        ? "bg-[#F7D133]/10"
+                        ? "bg-accent/10"
                         : "signal-gray-panel hover:bg-neutral-700"
                     }`}
                     onClick={() => toggleFAQ(index)}
                     type="button"
                   >
                     {openIndex === index ? (
-                      <Minus className="size-3 text-[#F7D133] sm:size-3.5" />
+                      <Minus className="size-3 text-accent sm:size-3.5" />
                     ) : (
                       <Plus className="size-3 text-neutral-400 sm:size-3.5" />
                     )}
@@ -128,7 +129,7 @@ export function FAQ2({
                         initial={{ scale: 0.2, y: -10 }}
                         transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
                       >
-                        <div className="rounded-[20px] bg-[#F7D133] px-4 py-3 sm:px-5 sm:py-3.5">
+                        <div className="rounded-card bg-accent px-4 py-3 sm:px-5 sm:py-3.5">
                           <p className="text-sm leading-relaxed text-neutral-950 sm:text-base">
                             {faq.answer}
                           </p>

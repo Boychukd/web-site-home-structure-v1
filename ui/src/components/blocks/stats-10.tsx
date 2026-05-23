@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { animate, motion } from "motion/react";
 import { AnimatedArrowIcon } from "@/components/AnimatedArrowIcon";
 import { sectionEyebrowClass, sectionTitleClass } from "@/lib/section-typography";
+import { ui } from "@/lib/ui-system";
 
 type StatItem = {
   value: number;
@@ -74,9 +75,9 @@ export default function Stats10({
   ctaTitle?: string;
 }) {
   return (
-    <section className="w-full bg-[#020202] px-4 py-10 text-white sm:px-6 sm:py-12 lg:px-8" id={id}>
-      <div className="mx-auto max-w-[1280px]">
-        <div className="flex flex-col items-center text-center">
+    <section className={ui.layout.sectionCompact} id={id}>
+      <div className={ui.layout.container}>
+        <div className={ui.layout.header}>
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -92,13 +93,13 @@ export default function Stats10({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55 }}
-            className={`mt-3 ${sectionTitleClass} lg:whitespace-nowrap`}
+            className={`${sectionTitleClass} lg:whitespace-nowrap`}
           >
             {title}
           </motion.h2>
         </div>
 
-        <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -107,7 +108,7 @@ export default function Stats10({
               viewport={{ once: true }}
               transition={{ duration: 0.45, delay: 0.08 * index }}
               whileHover={{ y: -4 }}
-              className="group flex min-h-[250px] flex-col justify-between rounded-2xl p-6 shadow-[0_16px_40px_-28px_rgba(0,0,0,0.75)] transition-transform sm:min-h-[285px] sm:p-7"
+              className="group flex min-h-64 flex-col justify-between rounded-card p-card shadow-card transition-transform sm:min-h-72"
               style={{ backgroundColor: stat.bg, color: stat.fg }}
             >
               <p className="text-4xl font-medium leading-none tracking-tight tabular-nums sm:text-5xl lg:text-6xl">
@@ -126,14 +127,14 @@ export default function Stats10({
         </div>
 
         {ctaHref && ctaLabel ? (
-          <div className="mt-6 flex flex-col items-center gap-3 text-center sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4">
+          <div className="mt-8 flex flex-col items-center gap-4 text-center sm:flex-row sm:flex-wrap sm:justify-center">
             {ctaTitle ? (
               <p className="max-w-xl text-sm font-medium leading-6 text-neutral-400 sm:text-base">
                 {ctaTitle}
               </p>
             ) : null}
             <a
-              className="stripe-arrow-cta inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-[#F7D133]/10 px-5 text-sm font-medium text-[#F7D133] transition duration-200 hover:bg-[#F7D133]/15"
+              className={`${ui.component.ctaBase} shrink-0 bg-accent/10 text-accent hover:bg-accent/15`}
               href={ctaHref}
             >
               {ctaLabel}

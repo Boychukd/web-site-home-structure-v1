@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { ui } from "@/lib/ui-system";
 
 type Category = "ALL" | "APPAREL" | "OBJECTS";
 
@@ -78,8 +79,8 @@ export default function Ecommerce6() {
   }, [active]);
 
   return (
-    <section className="w-full min-h-screen py-10 px-4 sm:px-6 lg:px-8 bg-white dark:bg-neutral-950">
-      <div className="max-w-[1400px] mx-auto w-full">
+    <section className={`${ui.layout.section} min-h-screen bg-white text-neutral-950 dark:bg-surface-page dark:text-white`}>
+      <div className={ui.layout.container}>
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <motion.h1
             initial={{ opacity: 0, y: 8 }}
@@ -96,7 +97,7 @@ export default function Ecommerce6() {
               <button
                 key={t}
                 onClick={() => setActive(t)}
-                className={`relative px-4 py-1.5 rounded-full text-xs tracking-[0.15em] transition-colors cursor-pointer ${
+                className={`relative cursor-pointer rounded-cta px-4 py-1.5 text-label tracking-label transition-colors ${
                   active === t ? "text-neutral-900 dark:text-white" : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
                 }`}
               >
@@ -136,7 +137,7 @@ export default function Ecommerce6() {
                     className="absolute inset-0 h-full w-full object-cover group-hover:scale-[1.05] transition-transform duration-500"
                   />
                   {p.soldOut && (
-                    <span className="absolute inset-0 bg-neutral-950/30 grid place-items-center text-white text-[11px] tracking-[0.25em] font-medium">
+                    <span className="absolute inset-0 grid place-items-center bg-neutral-950/30 text-label font-medium tracking-label text-white">
                       SOLD OUT
                     </span>
                   )}

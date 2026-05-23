@@ -17,6 +17,7 @@ import {
   sectionSubtitleClass,
   sectionTitleClass,
 } from "@/lib/section-typography";
+import { ui } from "@/lib/ui-system";
 
 const titleFontFamily =
   '"Bai Jamjuree", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
@@ -251,10 +252,10 @@ function ActionLink({
 }) {
   return (
     <a
-      className={`stripe-arrow-cta inline-flex min-h-11 items-center justify-center gap-2 px-5 text-sm font-medium transition duration-200 hover:scale-[1.02] ${
+      className={`${ui.component.ctaBase} hover:scale-[1.02] ${
         variant === "primary"
-          ? "yellow-cta"
-          : "outline-cta"
+          ? ui.component.ctaPrimary
+          : ui.component.ctaSecondary
       }`}
       href={href}
     >
@@ -281,12 +282,12 @@ function SiteNavigation() {
         aria-hidden="true"
         className="pointer-events-none fixed inset-x-0 top-0 z-[-1] h-36 bg-[linear-gradient(180deg,rgba(0,0,0,0.98)_0%,rgba(0,0,0,0.9)_32%,rgba(0,0,0,0.58)_68%,rgba(0,0,0,0)_100%)]"
       />
-      <div className="mx-auto w-full max-w-[1280px]">
+      <div className={ui.layout.container}>
         <motion.nav
           animate={{ opacity: 1, y: 0 }}
           className={`relative flex items-center justify-between py-1.5 transition-[background-color,backdrop-filter,box-shadow,border-radius,padding-left,padding-right] duration-300 ease-out ${
             scrolled
-              ? "rounded-2xl bg-neutral-950/70 pl-4 pr-1.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.35)] backdrop-blur-xl"
+              ? "rounded-lg bg-surface-strong/70 pl-4 pr-1.5 shadow-nav backdrop-blur-xl"
               : "rounded-none bg-transparent px-0"
           }`}
           initial={{ opacity: 0, y: -6 }}
@@ -315,14 +316,14 @@ function SiteNavigation() {
 
           <div className="flex items-center gap-1.5">
             <a
-              className="stripe-arrow-cta outline-cta hidden items-center gap-2 px-5 py-2.5 text-sm font-medium transition duration-200 sm:inline-flex"
+              className={`${ui.component.ctaBase} ${ui.component.ctaSecondary} hidden py-2.5 sm:inline-flex`}
               href="#plan-campaign"
             >
               Analyze my campaign
               <AnimatedArrowIcon className="size-4" />
             </a>
             <a
-              className="stripe-arrow-cta yellow-cta hidden items-center gap-2 px-5 py-2.5 text-sm font-medium transition duration-200 sm:inline-flex"
+              className={`${ui.component.ctaBase} ${ui.component.ctaPrimary} hidden py-2.5 sm:inline-flex`}
               href="#call"
             >
               Book a call
@@ -343,7 +344,7 @@ function SiteNavigation() {
           {open ? (
             <motion.div
               animate={{ opacity: 1, y: 0 }}
-              className="mt-2 flex flex-col gap-1 rounded-2xl bg-neutral-950/85 p-4 shadow-[0_18px_45px_-28px_rgba(0,0,0,0.8)] backdrop-blur-xl md:hidden"
+              className="mt-2 flex flex-col gap-1 rounded-lg bg-surface-strong/85 p-4 shadow-card backdrop-blur-xl md:hidden"
               exit={{ opacity: 0, y: -8 }}
               initial={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.25 }}
@@ -359,7 +360,7 @@ function SiteNavigation() {
                 </a>
               ))}
               <a
-                className="stripe-arrow-cta yellow-cta mt-2 inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium"
+                className={`${ui.component.ctaBase} ${ui.component.ctaPrimary} mt-2 w-full py-2.5`}
                 href="#call"
                 onClick={() => setOpen(false)}
               >
@@ -485,14 +486,14 @@ function Section({
   copyNoWrap?: boolean;
 }) {
   return (
-    <section className={`bg-[#020202] px-4 py-10 text-white sm:px-6 lg:px-8 ${className}`} id={id}>
-      <div className="mx-auto max-w-[1280px]">
-        <div className="flex flex-col items-center text-center">
+    <section className={`${ui.layout.sectionCompact} ${className}`} id={id}>
+      <div className={ui.layout.container}>
+        <div className={ui.layout.headerWithCopy}>
           <p className={sectionEyebrowClass}>
             {eyebrow}
           </p>
           <h2
-            className={`mt-3 ${sectionTitleClass} ${
+            className={`${sectionTitleClass} ${
               titleNoWrap ? "lg:whitespace-nowrap" : ""
             }`}
           >
@@ -500,7 +501,7 @@ function Section({
           </h2>
           {copy ? (
             <p
-              className={`mt-4 ${sectionSubtitleClass} ${
+              className={`${sectionSubtitleClass} ${
                 copyNoWrap ? "lg:whitespace-nowrap" : ""
               }`}
             >
@@ -523,9 +524,9 @@ function DataTile({
 }) {
   return (
     <div
-      className={`linear-panel rounded-3xl p-5 ${
+      className={`linear-panel rounded-card p-card ${
         tone === "accent"
-          ? "text-[#F7D133]"
+          ? "text-accent"
           : "text-white"
       }`}
     >
@@ -536,23 +537,23 @@ function DataTile({
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden bg-neutral-950 px-4 pb-14 pt-10 text-white sm:px-6 lg:px-8" id="hero">
+    <section className="relative overflow-hidden bg-surface-page px-4 pb-16 pt-10 text-text-primary sm:px-6 lg:px-8" id="hero">
       <div className="hero-aurora" />
       <div className="hero-dome" />
 
-      <div className="relative z-10 mx-auto flex min-h-[760px] max-w-[1280px] flex-col items-center justify-start pt-10 text-center sm:min-h-[820px] sm:pt-14 lg:min-h-[850px] lg:pt-16">
-        <div className="hero-stat-row hero-meta-text text-neutral-400">
+      <div className={`${ui.layout.container} relative z-10 flex min-h-[760px] flex-col items-center justify-start pt-10 text-center sm:min-h-[820px] sm:pt-14 lg:min-h-[850px] lg:pt-16`}>
+        <div className="hero-stat-row hero-meta-text text-text-secondary">
           {heroBullets.map((bullet) => (
             <span key={bullet}>{bullet}</span>
           ))}
         </div>
 
-        <h1 className="mt-10 max-w-5xl text-5xl font-medium leading-[1.04] tracking-tight sm:text-6xl lg:text-7xl">
-          Get <span className="text-[#F7D133]">3-6x more relevant reach</span>
+        <h1 className="mt-10 max-w-5xl text-hero-title font-medium tracking-normal">
+          Get <span className="text-accent">3-6x more relevant reach</span>
           <br className="hidden sm:block" /> for half the cost.
         </h1>
 
-        <p className="mt-6 max-w-3xl text-lg leading-8 text-neutral-300 sm:text-xl">
+        <p className="mt-6 max-w-readable text-body-lg leading-body text-text-secondary sm:text-xl">
           Standard KOL campaigns reach broad audiences. Wallchain targets your niche
           - and controls overlap and frequency.
         </p>
@@ -591,10 +592,10 @@ function Hero() {
         </div>
 
         <div className="hero-logo-zone mt-auto w-full pb-4 sm:pb-8">
-          <p className="text-center font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
+          <p className={sectionEyebrowClass}>
             Used by teams at
           </p>
-          <div className="hero-logo-shell mx-auto mt-5 w-full max-w-[1280px]">
+          <div className="hero-logo-shell mx-auto mt-5 w-full max-w-container">
             <div className="hero-logo-track py-7">
               {[...partnerLogos, ...partnerLogos, ...partnerLogos].map((logo, index) => (
                 <div className="hero-logo-item" key={`${logo.name}-${index}`}>
@@ -618,9 +619,9 @@ function Pain() {
       title={
         <>
           Your last{" "}
-          <span className="text-[#F7D133]">KOL campaign</span>{" "}
+          <span className="text-accent">KOL campaign</span>{" "}
           <span className="sm:block">
-            was probably <span className="text-[#F7D133]">60% waste.</span>
+            was probably <span className="text-accent">60% waste.</span>
           </span>
         </>
       }
@@ -637,7 +638,7 @@ function Pain() {
               <p className="mt-2 text-3xl font-medium">240K</p>
             </div>
           </div>
-          <p className="my-5 text-center font-mono text-xs uppercase tracking-[0.18em] text-neutral-500">
+          <p className={`my-5 text-center ${sectionEyebrowClass}`}>
             - but -
           </p>
           <div className="grid gap-3">
@@ -702,8 +703,8 @@ function AudienceDiagram({ compact = false }: { compact?: boolean }) {
         }`}
         aria-hidden="true"
       >
-        <span className="absolute inset-[2%] rounded-full border border-white/[0.22] bg-[#050505] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]" />
-        <span className="absolute bottom-[17%] left-1/2 size-[31%] -translate-x-1/2 rounded-full border border-[#F7D133]/80 bg-[#F7D133]/10 shadow-[0_0_62px_rgba(247,209,51,0.18),inset_0_1px_0_rgba(255,255,255,0.12)]" />
+        <span className="absolute inset-[2%] rounded-full border border-white/[0.22] bg-surface-page shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]" />
+        <span className="absolute bottom-[17%] left-1/2 size-[31%] -translate-x-1/2 rounded-full border border-accent/80 bg-accent/10 shadow-[0_0_62px_rgba(247,209,51,0.18),inset_0_1px_0_rgba(255,255,255,0.12)]" />
       </div>
     </div>
   );
@@ -716,7 +717,7 @@ function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
         <div>
           <div className="flex items-center gap-2.5">
             <span className="size-3.5 rounded-full border border-white/30 bg-white/[0.03]" />
-            <p className="font-mono text-[12px] font-medium uppercase leading-none tracking-[0.18em] text-neutral-500">
+            <p className={sectionEyebrowClass}>
               This is what you see
             </p>
           </div>
@@ -732,13 +733,13 @@ function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
         </div>
         <div>
           <div className="flex items-center gap-2.5">
-            <span className="size-3.5 rounded-full border border-[#F7D133]/80 bg-[#F7D133]/20 shadow-[0_0_22px_rgba(247,209,51,0.24)]" />
-            <p className="font-mono text-[12px] font-medium uppercase leading-none tracking-[0.18em] text-[#F7D133]/75">
+            <span className="size-3.5 rounded-full border border-accent/80 bg-accent/20 shadow-[0_0_22px_rgba(247,209,51,0.24)]" />
+            <p className={`${sectionEyebrowClass} text-accent/75`}>
               This is what matters
             </p>
           </div>
           <p
-            className="mt-3 text-5xl font-medium leading-none tracking-tight text-[#F7D133] sm:text-6xl"
+            className="mt-3 text-5xl font-medium leading-none tracking-tight text-accent sm:text-6xl"
             style={{ fontFamily: titleFontFamily }}
           >
             584
@@ -755,7 +756,7 @@ function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
 function NicheDiscoveryCard({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`bg-[#13263a]/92 py-6 text-white shadow-[0_22px_70px_rgba(0,0,0,0.18)] lg:py-7 ${className}`}
+      className={`bg-surface-muted py-6 text-white shadow-card lg:py-7 ${className}`}
     >
       <div className="grid gap-5 lg:grid-cols-[minmax(170px,0.56fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-7">
         <h3 className="max-w-[11ch] px-0 text-xl font-medium leading-tight tracking-tight text-white/92 sm:text-2xl">
@@ -774,8 +775,8 @@ function NicheDiscoveryCard({ className = "" }: { className?: string }) {
           variant="buyer"
         />
       </div>
-      <p className="mt-6 flex items-center justify-center gap-2.5 pt-5 text-center text-[14px] font-normal leading-[1.45] tracking-normal text-neutral-400">
-        <BadgeCheck className="size-3.5 shrink-0 text-[#F7D133]" />
+      <p className="mt-6 flex items-center justify-center gap-2.5 pt-5 text-center text-body font-normal text-text-secondary">
+        <BadgeCheck className="size-3.5 shrink-0 text-accent" />
         <span>
           We mapped 3.3M Crypto Twitter accounts, apply additional filtering
           based on X score, ML prediction models, & more, so you don&apos;t
@@ -811,7 +812,7 @@ function SignalInsightRow({
           />
           <p
             className={`max-w-[16ch] flex-none text-base font-medium leading-snug sm:text-[1.05rem] lg:max-w-[15ch] ${
-            tone === "strong" ? "text-[#71f0c4]" : "text-red-200"
+            tone === "strong" ? "text-success" : "text-red-200"
             }`}
           >
             {insight}
@@ -868,7 +869,7 @@ function PolymarketBadge() {
 function KalshiBadge() {
   return (
     <span className="-ml-1.5 grid size-9 shrink-0 place-items-center overflow-hidden rounded-full bg-[#18d98c]">
-      <span className="text-[7px] font-semibold tracking-[-0.01em] text-[#07110c]">
+      <span className="text-[7px] font-semibold tracking-[-0.01em] text-neutral-950">
         Kalshi
       </span>
     </span>
@@ -941,18 +942,18 @@ function CreatorNetwork() {
 
   return (
     <section
-      className="overflow-hidden bg-[#020202] px-4 py-10 text-white sm:px-6 lg:px-8"
+      className="overflow-hidden bg-surface-page px-4 py-10 text-white sm:px-6 lg:px-8"
       id="creator-network"
     >
-      <div className="mx-auto max-w-[1280px]">
-        <div className="flex flex-col items-center text-center">
+      <div className={ui.layout.container}>
+        <div className={ui.layout.headerWithCopy}>
           <p className={sectionEyebrowClass}>
             Creator network
           </p>
           <h2 className={`mt-3 ${sectionTitleClass} lg:whitespace-nowrap`}>
             Same creator. Different value.
           </h2>
-          <p className={`mt-3 max-w-2xl ${sectionSubtitleClass}`}>
+          <p className={`max-w-2xl ${sectionSubtitleClass}`}>
             Switch the niche. The same creator performs differently.
           </p>
         </div>
@@ -967,9 +968,9 @@ function CreatorNetwork() {
                   aria-pressed={active}
                   className={`creator-fora-tab ${
                     active
-                      ? "creator-fora-tab--active text-[#F7D133]"
+                      ? "creator-fora-tab--active text-accent"
                       : exiting
-                        ? "creator-fora-tab--exiting text-[#c9ad35]"
+                        ? "creator-fora-tab--exiting text-accent/80"
                         : "text-neutral-400 hover:text-neutral-100"
                   }`}
                   key={niche}
@@ -1059,7 +1060,7 @@ function CreatorProfileCard({
     <article
       className={`signal-gray-panel-frame min-w-0 overflow-hidden text-left transition duration-300 ${
         active
-          ? "bg-[#0b0b0b] shadow-[0_24px_70px_-52px_rgba(255,255,255,0.28)]"
+          ? "bg-surface shadow-card"
           : "bg-neutral-950/72 opacity-42 grayscale lg:scale-[0.9]"
       } ${className}`}
       style={
@@ -1083,7 +1084,7 @@ function CreatorProfileCard({
 
         <div
           className={`absolute left-4 top-[40px] grid place-items-center overflow-hidden rounded-full bg-neutral-800 text-lg font-semibold text-neutral-300 ring-4 ${
-            active ? "size-[60px] ring-[#0b0b0b]" : "size-[56px] ring-neutral-950"
+            active ? "size-[60px] ring-surface" : "size-[56px] ring-neutral-950"
           }`}
         >
           {profile.avatar ? (
@@ -1121,7 +1122,7 @@ function CreatorProfileCard({
             </p>
           </div>
           <span
-            className="shrink-0 rounded-full bg-white/[0.055] px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-neutral-400"
+            className="shrink-0 rounded-full bg-white/[0.055] px-3 py-1.5 font-mono text-label font-semibold uppercase tracking-label text-neutral-400"
           >
             Profile
           </span>
@@ -1147,7 +1148,7 @@ function CreatorProfileCard({
         <div className="mt-3 rounded-xl bg-white/[0.042] px-3.5 py-2.5">
           <div className="flex items-center justify-between gap-3">
             <div className="min-w-0">
-              <p className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-neutral-500">
+              <p className="font-mono text-label font-semibold uppercase tracking-label text-neutral-500">
                 Niche followers
               </p>
               <p className="mt-0.5 truncate text-sm font-medium leading-snug text-white">
@@ -1156,7 +1157,7 @@ function CreatorProfileCard({
             </div>
             {active ? (
               <CountUp
-                className="block shrink-0 text-[2rem] font-medium leading-none text-[#F7D133] sm:text-[2.25rem]"
+                className="block shrink-0 text-[2rem] font-medium leading-none text-accent sm:text-[2.25rem]"
                 decimals={1}
                 duration={1}
                 from={0}
@@ -1255,7 +1256,7 @@ function FrequencyChart({
         const barTone = !controlled
           ? "bg-neutral-600"
           : index === peakIndex
-            ? "bg-[#F7D133]"
+            ? "bg-accent"
             : index < peakIndex
               ? "bg-sky-400/35"
               : "bg-red-300/35";
@@ -1266,7 +1267,7 @@ function FrequencyChart({
               className={`block min-h-2 rounded-t-sm ${barTone}`}
               style={{ height: `${clampNumber(values[index], 8, 92)}%` }}
             />
-            <b className="text-center font-mono text-[9px] font-semibold text-neutral-500">
+            <b className="text-center font-mono text-label font-semibold text-neutral-500">
               {label}
             </b>
           </span>
@@ -1319,7 +1320,7 @@ function AvatarStack({
         if (!accent) {
           return (
             <span
-              className="grid size-8 place-items-center rounded-full border border-white/10 bg-[#C9C9C9] text-[#626262]"
+              className="grid size-8 place-items-center rounded-full border border-white/10 bg-neutral-300 text-neutral-500"
               key={`standard-avatar-${index}`}
             >
               <User className="size-4 stroke-[2.1]" />
@@ -1329,7 +1330,7 @@ function AvatarStack({
 
         return (
           <span
-            className="block size-8 overflow-hidden rounded-full border border-[#F7D133]/20 bg-neutral-950/40"
+            className="block size-8 overflow-hidden rounded-full border border-accent/20 bg-neutral-950/40"
             key={`${avatar}-${index}`}
           >
             <img
@@ -1346,8 +1347,8 @@ function AvatarStack({
         <span
           className={`grid size-8 place-items-center rounded-full text-[11px] font-semibold ${
             accent
-              ? "bg-[#F7D133]/10 text-[#F7D133]"
-              : "bg-[#C9C9C9] text-[#626262]"
+              ? "bg-accent/10 text-accent"
+              : "bg-neutral-300 text-neutral-500"
           }`}
         >
           +{total - visible}
@@ -1370,7 +1371,7 @@ function CalculatorMetric({
 }) {
   const valueColorClass =
     tone === "primary"
-      ? "text-[#F7D133]"
+      ? "text-accent"
       : tone === "warning"
         ? "text-red-300"
         : tone === "good"
@@ -1382,7 +1383,7 @@ function CalculatorMetric({
       <strong className={`block leading-none ${valueColorClass}`}>
         {value}
       </strong>
-      <span className="mt-1.5 block min-h-[1.7rem] overflow-hidden text-[10px] leading-[1.1] text-neutral-500 sm:min-h-[1.85rem] sm:text-[11px]">
+      <span className="mt-1.5 block min-h-7 overflow-hidden text-label leading-tight text-neutral-500">
         {label}
       </span>
     </div>
@@ -1503,7 +1504,7 @@ function ElasticSlider({
           >
             <motion.div
               animate={{ width: `${percent}%` }}
-              className="h-full rounded-full bg-[#F7D133]"
+              className="h-full rounded-full bg-accent"
               transition={{ type: "spring", stiffness: 520, damping: 38 }}
             />
           </motion.div>
@@ -1512,7 +1513,7 @@ function ElasticSlider({
               left: `${percent}%`,
               scale: isActive ? 1.28 : isHovered ? 1.2 : 1,
             }}
-            className="absolute top-1/2 z-20 size-4 rounded-full bg-[#F7D133]"
+            className="absolute top-1/2 z-20 size-4 rounded-full bg-accent"
             style={{ x: "-50%", y: "-50%" }}
             transition={{ type: "spring", stiffness: 520, damping: 34 }}
           />
@@ -1566,22 +1567,22 @@ function CampaignCalculator() {
       id="plan-campaign"
       title={
         <>
-          <span className="text-[#F7D133]">Plan your campaign</span> with real
+          <span className="text-accent">Plan your campaign</span> with real
           audience data
         </>
       }
       titleNoWrap
     >
-      <div className="signal-gray-panel mt-7 overflow-hidden p-3.5 xl:pr-0">
-        <div className="grid gap-3.5 xl:grid-cols-[0.52fr_2fr] xl:items-stretch">
-          <aside className="rounded-2xl bg-transparent px-5 py-2.5 xl:grid xl:grid-rows-[96px_auto]">
+      <div className="signal-gray-panel mt-8 max-w-full overflow-hidden p-3.5 xl:pr-0">
+        <div className="grid min-w-0 gap-3.5 xl:grid-cols-[0.52fr_2fr] xl:items-stretch">
+          <aside className="min-w-0 rounded-2xl bg-transparent px-5 py-2.5 xl:grid xl:grid-rows-[96px_auto]">
             <div>
               <h3 className="text-2xl font-medium">Campaign inputs</h3>
               <p className="mt-3 font-mono text-xs text-neutral-500">
                 Play with controls below
               </p>
             </div>
-            <div className="mt-4 grid content-start gap-4 xl:mt-0">
+            <div className="mt-4 grid min-w-0 content-start gap-4 xl:mt-0">
               <label className="block">
                 <span className="flex items-baseline justify-between gap-4 text-sm text-neutral-400">
                   Budget
@@ -1604,7 +1605,7 @@ function CampaignCalculator() {
                 <ElasticSlider
                   aria-label="Audience frequency"
                   labels={
-                    <span className="grid grid-cols-3 items-start font-mono text-[10px] uppercase leading-[1.05] tracking-[0.12em] text-neutral-600">
+                    <span className="grid grid-cols-3 items-start font-mono text-label uppercase leading-tight tracking-label text-neutral-600">
                       <span className="text-left">
                         Max
                         <br />
@@ -1641,13 +1642,13 @@ function CampaignCalculator() {
             Compare to standard approach {standardOpen ? "↑" : "↓"}
           </button>
 
-          <div className="grid gap-3.5 xl:border-l xl:border-neutral-800/80 xl:pl-3.5 xl:grid-cols-2 xl:items-stretch xl:[grid-template-rows:minmax(112px,auto)_32px_32px_minmax(148px,auto)_auto]">
+          <div className="grid min-w-0 gap-3.5 xl:border-l xl:border-neutral-800/80 xl:pl-3.5 xl:grid-cols-2 xl:items-stretch xl:[grid-template-rows:minmax(112px,auto)_32px_32px_minmax(148px,auto)_auto]">
             <section
-              className={`gap-3 rounded-[24px] bg-transparent py-2.5 xl:row-span-5 xl:gap-y-0 xl:[grid-template-rows:subgrid] ${
+              className={`min-w-0 gap-3 rounded-card bg-transparent py-2.5 xl:row-span-5 xl:gap-y-0 xl:[grid-template-rows:subgrid] ${
                 standardOpen ? "grid" : "hidden xl:grid"
               }`}
             >
-              <div className="flex h-full flex-col px-5">
+              <div className="flex h-full min-w-0 flex-col px-5">
                 <h3 className="text-2xl font-medium">Standard approach</h3>
                 <div className="mt-5 grid flex-1 grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-[0.72fr_0.72fr_1fr_1fr] sm:gap-y-0">
                   <CalculatorMetric label="Creators" value={<AnimatedNumber fontSize={28} value={agencyCreators} />} />
@@ -1671,15 +1672,15 @@ function CampaignCalculator() {
                   />
                 </div>
               </div>
-              <div className="mx-5 flex h-full items-center justify-between gap-3.5 border-t border-neutral-800/80 py-1 leading-none text-sm text-neutral-400">
+              <div className="mx-5 flex h-full min-w-0 items-center justify-between gap-3.5 border-t border-neutral-800/80 py-1 leading-none text-sm text-neutral-400">
                 <span>Frequency control</span>
                 <b className="font-medium text-red-200">not controlled</b>
               </div>
-              <div className="mx-5 flex h-full items-center justify-between gap-3.5 border-t border-neutral-800/80 py-1 leading-none text-sm text-neutral-400">
+              <div className="mx-5 flex h-full min-w-0 items-center justify-between gap-3.5 border-t border-neutral-800/80 py-1 leading-none text-sm text-neutral-400">
                 <span>Overlap</span>
                 <b className="font-medium text-red-200">not measured</b>
               </div>
-              <div className="mx-5 flex h-full flex-col border-t border-neutral-800/80 py-2.5">
+              <div className="mx-5 flex h-full min-w-0 flex-col border-t border-neutral-800/80 py-2.5">
                 <div className="flex items-start justify-between gap-3.5">
                   <p className="text-sm font-medium text-white">Uncontrolled frequency</p>
                   <p className="text-sm font-medium text-red-200">Random Distribution</p>
@@ -1691,7 +1692,7 @@ function CampaignCalculator() {
                   Frequency happens, but it is not controlled.
                 </p>
               </div>
-              <div className="flex h-full flex-col justify-center px-5 pt-2 pb-0">
+              <div className="flex h-full min-w-0 flex-col justify-center px-5 pt-2 pb-0">
                 <p className="whitespace-nowrap text-sm font-medium text-neutral-300">
                   Selected creators ({agencyCreators})
                 </p>
@@ -1705,8 +1706,8 @@ function CampaignCalculator() {
               animated
               backgroundColor="#221f16"
               borderRadius={28}
-              className="grid h-full gap-3 xl:-my-3.5 xl:row-span-5 xl:gap-y-0 xl:[grid-template-rows:subgrid] xl:py-2.5"
-              colors={["#F7D133", "#6FACFF", "#A05FFF"]}
+              className="grid h-full min-w-0 gap-3 xl:-my-3.5 xl:row-span-5 xl:gap-y-0 xl:[grid-template-rows:subgrid] xl:py-2.5"
+              colors={[ui.colors.accent, "#6FACFF", "#A05FFF"]}
               coneSpread={16}
               edgeSensitivity={24}
               fillOpacity={0}
@@ -1714,7 +1715,7 @@ function CampaignCalculator() {
               glowIntensity={0.9}
               glowRadius={28}
             >
-              <div className="flex h-full flex-col px-5 xl:pt-3.5">
+              <div className="flex h-full min-w-0 flex-col px-5 xl:pt-3.5">
                 <h3 className="text-2xl font-medium">Wallchain Select</h3>
                 <div className="mt-5 grid flex-1 grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-[0.72fr_0.72fr_1fr_1fr] sm:gap-y-0">
                   <CalculatorMetric label="Optimized creators" value={<AnimatedNumber fontSize={28} value={selectCreators} />} />
@@ -1731,18 +1732,18 @@ function CampaignCalculator() {
                   />
                 </div>
               </div>
-              <div className="mx-5 flex h-full items-center justify-between gap-3.5 border-t border-[#F7D133]/15 py-1 leading-none text-sm text-neutral-300">
+              <div className="mx-5 flex h-full min-w-0 items-center justify-between gap-3.5 border-t border-accent/15 py-1 leading-none text-sm text-neutral-300">
                 <span>Frequency control</span>
-                <b className="font-medium text-[#F7D133]">{stage.label}</b>
+                <b className="min-w-0 text-right font-medium leading-tight text-accent">{stage.label}</b>
               </div>
-              <div className="mx-5 flex h-full items-center justify-between gap-3.5 border-t border-[#F7D133]/15 py-1 leading-none text-sm text-neutral-300">
+              <div className="mx-5 flex h-full min-w-0 items-center justify-between gap-3.5 border-t border-accent/15 py-1 leading-none text-sm text-neutral-300">
                 <span>Overlap</span>
-                <b className="font-medium text-[#F7D133]">{stage.overlap}% controlled</b>
+                <b className="min-w-0 text-right font-medium leading-tight text-accent">{stage.overlap}% controlled</b>
               </div>
-              <div className="mx-5 flex h-full flex-col border-t border-[#F7D133]/15 py-2.5">
-                <div className="flex items-start justify-between gap-3.5">
+              <div className="mx-5 flex h-full min-w-0 flex-col border-t border-accent/15 py-2.5">
+                <div className="flex min-w-0 items-start justify-between gap-3.5">
                   <p className="text-sm font-medium text-white">Controlled frequency</p>
-                  <p className="text-sm font-medium text-[#F7D133]">Target Distribution</p>
+                  <p className="min-w-0 text-right text-sm font-medium leading-tight text-accent">Target Distribution</p>
                 </div>
                 <div className="mt-2">
                   <FrequencyChart
@@ -1755,7 +1756,7 @@ function CampaignCalculator() {
                   Frequency is planned around your target.
                 </p>
               </div>
-              <div className="flex h-full flex-col justify-center px-5 pt-2 pb-0">
+              <div className="flex h-full min-w-0 flex-col justify-center px-5 pt-2 pb-0">
                 <p className="whitespace-nowrap text-sm font-medium text-neutral-300">
                   Selected creators ({selectCreators})
                 </p>
@@ -1772,7 +1773,7 @@ function CampaignCalculator() {
         <ActionLink href="#call" variant="secondary">
           Book a call
         </ActionLink>
-        <p className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-neutral-500">
+        <p className={sectionEyebrowClass}>
           15-minute call. No slides. Just your campaign data.
         </p>
       </div>
@@ -1838,10 +1839,10 @@ function Footer() {
   return (
     <footer className="bg-neutral-950 text-white">
       <div className="px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto w-full max-w-[1280px] border-t border-white/10" />
+        <div className={`${ui.layout.container} border-t border-white/10`} />
       </div>
       <div className="px-4 py-10 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-[1280px] gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start">
+        <div className={`${ui.layout.container} grid gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start`}>
           <div className="flex max-w-md flex-col lg:min-h-[108px] lg:justify-between">
           <a
             aria-label="Wallchain home"
@@ -1863,7 +1864,7 @@ function Footer() {
           <div className="grid gap-8 sm:grid-cols-2 sm:gap-12">
             {footerLinkGroups.map((group) => (
               <div key={group.title}>
-                <h3 className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
+                <h3 className={sectionEyebrowClass}>
                   {group.title}
                 </h3>
                 <ul className="mt-4 grid gap-3">

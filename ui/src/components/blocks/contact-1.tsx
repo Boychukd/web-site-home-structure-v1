@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { ChartNoAxesCombined, Sparkles } from "lucide-react";
 import { AnimatedArrowIcon } from "@/components/AnimatedArrowIcon";
 import { sectionEyebrowClass, sectionSubtitleClass, sectionTitleClass } from "@/lib/section-typography";
+import { ui } from "@/lib/ui-system";
 
 const cards = [
   {
@@ -26,10 +27,10 @@ const cards = [
 
 export function Contact1() {
   return (
-    <section className="w-full bg-neutral-950 py-12 text-white sm:py-14">
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+    <section className={ui.layout.sectionAlt} id="call">
+      <div className={ui.layout.container}>
         <motion.p
-          className={`mb-4 text-center ${sectionEyebrowClass}`}
+          className={`text-center ${sectionEyebrowClass}`}
           initial={{ opacity: 0, y: 16 }}
           transition={{ duration: 0.4 }}
           viewport={{ once: true }}
@@ -49,7 +50,7 @@ export function Contact1() {
         </motion.h2>
 
         <motion.p
-          className={`mx-auto mt-6 max-w-3xl text-center ${sectionSubtitleClass}`}
+          className={`mx-auto mt-4 max-w-readable text-center ${sectionSubtitleClass}`}
           initial={{ opacity: 0, y: 20 }}
           transition={{ delay: 0.05, duration: 0.4 }}
           viewport={{ once: true }}
@@ -58,10 +59,10 @@ export function Contact1() {
           Just your data. No deck. 15-min call, direct with the founder.
         </motion.p>
 
-        <div className="mx-auto mt-8 grid max-w-6xl grid-cols-1 gap-4 lg:grid-cols-2">
+        <div className="mx-auto mt-10 grid max-w-6xl grid-cols-1 gap-6 lg:grid-cols-2">
           {cards.map((card, index) => (
             <motion.a
-              className="signal-gray-panel stripe-arrow-cta group flex min-h-64 flex-col justify-between p-5 transition-all duration-300 hover:-translate-y-1 sm:p-7"
+              className={`${ui.component.panel} stripe-arrow-cta group flex min-h-64 flex-col justify-between transition-all duration-300 hover:-translate-y-1`}
               href={card.href}
               initial={{ opacity: 0, y: 20 }}
               key={card.pillText}
@@ -70,8 +71,8 @@ export function Contact1() {
               whileInView={{ opacity: 1, y: 0 }}
             >
               <div>
-                <div className="inline-flex items-center gap-2 rounded-full bg-neutral-950 px-3.5 py-1.5">
-                  <card.icon className="size-4 text-[#F7D133]" />
+                <div className={ui.component.labelPill}>
+                  <card.icon className="size-4 text-accent" />
                   <span className="font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-neutral-300">
                     {card.pillText}
                   </span>
@@ -82,10 +83,10 @@ export function Contact1() {
               </div>
 
               <div
-                className={`stripe-arrow-cta mt-8 inline-flex min-h-11 w-full items-center justify-center gap-2 px-5 text-sm font-medium transition duration-200 ${
+                className={`${ui.component.ctaBase} mt-8 w-full ${
                   card.featured
-                    ? "yellow-cta"
-                    : "outline-cta"
+                    ? ui.component.ctaPrimary
+                    : ui.component.ctaSecondary
                 }`}
               >
                 {card.buttonText}
