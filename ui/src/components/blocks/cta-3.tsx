@@ -13,7 +13,9 @@ const links = [
   },
   {
     label: "Follow on X",
-    href: "#x-placeholder",
+    href: "https://x.com/wallchain",
+    target: "_blank",
+    rel: "noreferrer",
   },
 ];
 
@@ -193,6 +195,8 @@ export function CTA3() {
                 className={`${ui.component.ctaBase} bg-surface-muted px-6 py-3 text-white hover:scale-[1.02] hover:bg-accent/10 hover:text-accent`}
                 href={link.href}
                 key={link.label}
+                rel={link.rel}
+                target={link.target}
               >
                 {link.label}
                 <AnimatedArrowIcon className="size-4" />

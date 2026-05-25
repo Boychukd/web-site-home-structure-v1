@@ -65,6 +65,7 @@ export default function Stats10({
   ctaHref,
   ctaLabel,
   ctaTitle,
+  ctaTarget,
 }: {
   id?: string;
   eyebrow: string;
@@ -73,6 +74,7 @@ export default function Stats10({
   ctaHref?: string;
   ctaLabel?: string;
   ctaTitle?: string;
+  ctaTarget?: React.HTMLAttributeAnchorTarget;
 }) {
   return (
     <section className={ui.layout.sectionCompact} id={id}>
@@ -99,7 +101,7 @@ export default function Stats10({
           </motion.h2>
         </div>
 
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -108,10 +110,10 @@ export default function Stats10({
               viewport={{ once: true }}
               transition={{ duration: 0.45, delay: 0.08 * index }}
               whileHover={{ y: -4 }}
-              className="group flex min-h-64 flex-col justify-between rounded-card p-card shadow-card transition-transform sm:min-h-72"
+              className="group flex min-h-[13rem] flex-col justify-between rounded-card p-4 shadow-card transition-transform sm:min-h-72 sm:p-card"
               style={{ backgroundColor: stat.bg, color: stat.fg }}
             >
-              <p className="text-4xl font-medium leading-none tracking-tight tabular-nums sm:text-5xl lg:text-6xl">
+              <p className="text-5xl font-medium leading-[0.88] tracking-[-0.04em] tabular-nums sm:text-5xl lg:text-6xl">
                 <CountUp
                   to={stat.value}
                   prefix={stat.prefix}
@@ -119,7 +121,7 @@ export default function Stats10({
                   decimals={stat.decimals}
                 />
               </p>
-              <p className="max-w-[14rem] text-sm leading-6 text-current/80 sm:text-base">
+              <p className="max-w-[10ch] text-sm leading-5 text-current/80 sm:max-w-[14rem] sm:text-base sm:leading-6">
                 {stat.label}
               </p>
             </motion.div>
@@ -136,6 +138,8 @@ export default function Stats10({
             <a
               className={`${ui.component.ctaBase} shrink-0 bg-accent/10 text-accent hover:bg-accent/15`}
               href={ctaHref}
+              rel={ctaTarget === "_blank" ? "noreferrer" : undefined}
+              target={ctaTarget}
             >
               {ctaLabel}
               <AnimatedArrowIcon className="size-4" />

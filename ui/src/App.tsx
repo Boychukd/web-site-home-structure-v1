@@ -10,7 +10,6 @@ import { CTA3 } from "@/components/blocks/cta-3";
 import { Contact1 } from "@/components/blocks/contact-1";
 import { FAQ2 } from "@/components/blocks/faq-2";
 import CTA9 from "@/components/blocks/cta-9";
-import SocialProof11 from "@/components/blocks/social-proof-11";
 import Stats10 from "@/components/blocks/stats-10";
 import { SignalPanel } from "@/components/ui/SignalPanel";
 import {
@@ -142,7 +141,7 @@ const footerLinkGroups = [
 ];
 
 const heroBullets = [
-  "3.3M crypto accounts mapped",
+  "56M crypto accounts mapped",
   "150K KOLs scored",
   "60+ niches analyzed",
 ];
@@ -206,39 +205,34 @@ const creatorDemoProfiles = {
 
 const faqs = [
   {
-    question: "What's the minimum campaign budget?",
+    question: "What are the main benefits?",
     answer:
-      "We work with campaigns starting from $5,000. Below that, the optimization gains do not outweigh the coordination overhead.",
+      "We pick the creators who actually reach your target audience, and we run the campaign for you. That saves you the ops work of sourcing, contracting, and reporting. More importantly, it puts your spend on creators whose audiences can be defined as your targeted ones.",
+  },
+  {
+    question: "What results have you already achieved?",
+    answer:
+      "Wallchain has run dozens of campaigns delivering 110M+ monthly impressions across active client projects and has already paid $6.9M to creators. For specific case studies in your category, we share them on a call - we'd rather show you what we ran for a project like yours than recite numbers in the abstract.",
+  },
+  {
+    question: "How much does it cost?",
+    answer:
+      "Wallchain Select is sold per campaign, not as a subscription. Pricing depends on three things: the number of creators we source, the size of the creator payout pool, and the campaign duration. Minimum campaign budget is $5,000 plus a processing fee, which covers creator payments, our work running the campaign, and reporting. We scope a specific number for your goals on an intro call.",
   },
   {
     question: "How long does it take to launch a campaign?",
     answer:
-      "Typically 1-2 weeks from first call to first KOL posts. Most of that time is creator outreach and negotiation, which we handle.",
+      "Two weeks from contract signing is typical for a standard campaign. If you have custom requirements or a tighter timeline, book a call - we'll figure it out together.",
   },
   {
-    question: "Do you work with creators outside Crypto Twitter?",
+    question: "How much control do I have over content?",
     answer:
-      "Right now, no. Our audience graph is mapped specifically for Crypto Twitter. Other platforms are on the roadmap.",
+      "You approve the creator shortlist before outreach, and we work through the creative brief together in detail - including references and examples - until you're aligned. After the brief is approved, we don't ask you to sign off on each post: creators keep their own voice, and we handle the quality check on our side, making sure every post matches the brief.",
   },
   {
-    question: "What if my niche isn't on the list?",
+    question: "How many posts and how long does the campaign run?",
     answer:
-      "We've mapped 60+ niches. If yours isn't covered, the call is the fastest way to check. We add new niches regularly.",
-  },
-  {
-    question: "How do you charge?",
-    answer:
-      "Flat percentage of campaign budget. No hidden markup on creator fees. Pricing details on the call.",
-  },
-  {
-    question: "Can I see real campaign results before signing?",
-    answer:
-      "Yes, we'll walk you through a recent campaign on the call, with the actual numbers and creator lineup.",
-  },
-  {
-    question: "Who runs my campaign?",
-    answer:
-      "Direct contact with the founder for the first campaign. After that, dedicated campaign manager plus our optimization team.",
+      "A typical campaign runs 2-3 weeks with a minimum of 4 posts per creator across the window. For larger launches like a TGE or major product release, campaigns run longer and follow a structured cadence - for example, a pre-launch wave, a launch-day wave, and a retention wave. We scope the exact shape with you during intake based on what the campaign needs to accomplish.",
   },
 ];
 
@@ -278,101 +272,104 @@ function SiteNavigation() {
   }, []);
 
   return (
-    <div className="sticky top-4 z-50 px-4 py-4 sm:px-6 lg:px-8">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-x-0 top-0 z-[-1] h-36 bg-[linear-gradient(180deg,rgba(0,0,0,0.98)_0%,rgba(0,0,0,0.9)_32%,rgba(0,0,0,0.58)_68%,rgba(0,0,0,0)_100%)]"
-      />
-      <div className={ui.layout.container}>
-        <motion.nav
-          animate={{ opacity: 1, y: 0 }}
-          className={`relative flex items-center justify-between py-1.5 transition-[background-color,backdrop-filter,box-shadow,border-radius,padding-left,padding-right] duration-300 ease-out ${
-            scrolled
-              ? "rounded-lg bg-surface-strong/70 pl-4 pr-1.5 shadow-nav backdrop-blur-xl"
-              : "rounded-none bg-transparent px-0"
-          }`}
-          initial={{ opacity: 0, y: -6 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <a aria-label="Wallchain home" className="flex items-center" href="#hero">
-            <img
-              alt="Wallchain"
-              className="h-[28px] w-auto object-contain"
-              decoding="async"
-              src={wallchainLogoUrl}
-            />
-          </a>
-
-          <div className="hidden items-center gap-8 px-4 md:flex">
-            {navigationLinks.map((link) => (
-              <a
-                className="text-sm font-medium text-neutral-400 transition-colors hover:text-white"
-                href={link.href}
-                key={link.label}
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-1.5">
-            <a
-              className={`${ui.component.ctaBase} ${ui.component.ctaSecondary} hidden py-2.5 sm:inline-flex`}
-              href="#plan-campaign"
-            >
-              Analyze my campaign
-              <AnimatedArrowIcon className="size-4" />
+    <>
+      <div aria-hidden="true" className="h-[88px] sm:h-[96px]" />
+      <div className="fixed inset-x-0 top-0 z-50 px-4 py-4 sm:px-6 lg:px-8">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-x-0 top-0 z-[-1] h-36 bg-[linear-gradient(180deg,rgba(0,0,0,0.98)_0%,rgba(0,0,0,0.9)_32%,rgba(0,0,0,0.58)_68%,rgba(0,0,0,0)_100%)]"
+        />
+        <div className={ui.layout.container}>
+          <motion.nav
+            animate={{ opacity: 1, y: 0 }}
+            className={`relative flex items-center justify-between py-1.5 transition-[background-color,backdrop-filter,box-shadow,border-radius,padding-left,padding-right] duration-300 ease-out ${
+              scrolled
+                ? "rounded-lg bg-surface-strong/70 pl-4 pr-1.5 shadow-nav backdrop-blur-xl"
+                : "rounded-none bg-transparent px-0"
+            }`}
+            initial={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <a aria-label="Wallchain home" className="flex items-center" href="#hero">
+              <img
+                alt="Wallchain"
+                className="h-[28px] w-auto object-contain"
+                decoding="async"
+                src={wallchainLogoUrl}
+              />
             </a>
-            <a
-              className={`${ui.component.ctaBase} ${ui.component.ctaPrimary} hidden py-2.5 sm:inline-flex`}
-              href="#call"
-            >
-              Book a call
-              <AnimatedArrowIcon className="size-4" />
-            </a>
-            <button
-              aria-label="Toggle menu"
-              className="grid size-10 cursor-pointer place-items-center rounded-full bg-neutral-900 text-white md:hidden"
-              onClick={() => setOpen((value) => !value)}
-              type="button"
-            >
-              {open ? <X className="size-4" /> : <Menu className="size-4" />}
-            </button>
-          </div>
-        </motion.nav>
 
-        <AnimatePresence>
-          {open ? (
-            <motion.div
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-2 flex flex-col gap-1 rounded-lg bg-surface-strong/85 p-4 shadow-card backdrop-blur-xl md:hidden"
-              exit={{ opacity: 0, y: -8 }}
-              initial={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.25 }}
-            >
+            <div className="hidden items-center gap-8 px-4 md:flex">
               {navigationLinks.map((link) => (
                 <a
-                  className="py-2 text-sm font-medium text-neutral-200"
+                  className="text-sm font-medium text-neutral-400 transition-colors hover:text-white"
                   href={link.href}
                   key={link.label}
-                  onClick={() => setOpen(false)}
                 >
                   {link.label}
                 </a>
               ))}
+            </div>
+
+            <div className="flex items-center gap-1.5">
               <a
-                className={`${ui.component.ctaBase} ${ui.component.ctaPrimary} mt-2 w-full py-2.5`}
+                className={`${ui.component.ctaBase} ${ui.component.ctaSecondary} hidden py-2.5 sm:inline-flex`}
+                href="#plan-campaign"
+              >
+                Analyze my campaign
+                <AnimatedArrowIcon className="size-4" />
+              </a>
+              <a
+                className={`${ui.component.ctaBase} ${ui.component.ctaPrimary} hidden py-2.5 sm:inline-flex`}
                 href="#call"
-                onClick={() => setOpen(false)}
               >
                 Book a call
                 <AnimatedArrowIcon className="size-4" />
               </a>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
+              <button
+                aria-label="Toggle menu"
+                className="grid size-10 cursor-pointer place-items-center rounded-full bg-neutral-900 text-white md:hidden"
+                onClick={() => setOpen((value) => !value)}
+                type="button"
+              >
+                {open ? <X className="size-4" /> : <Menu className="size-4" />}
+              </button>
+            </div>
+          </motion.nav>
+
+          <AnimatePresence>
+            {open ? (
+              <motion.div
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-2 flex flex-col gap-1 rounded-lg bg-surface-strong/85 p-4 shadow-card backdrop-blur-xl md:hidden"
+                exit={{ opacity: 0, y: -8 }}
+                initial={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.25 }}
+              >
+                {navigationLinks.map((link) => (
+                  <a
+                    className="py-2 text-sm font-medium text-neutral-200"
+                    href={link.href}
+                    key={link.label}
+                    onClick={() => setOpen(false)}
+                  >
+                    {link.label}
+                  </a>
+                ))}
+                <a
+                  className={`${ui.component.ctaBase} ${ui.component.ctaPrimary} mt-2 w-full py-2.5`}
+                  href="#call"
+                  onClick={() => setOpen(false)}
+                >
+                  Book a call
+                  <AnimatedArrowIcon className="size-4" />
+                </a>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -568,43 +565,90 @@ function Hero() {
           </ActionLink>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-center gap-5 text-neutral-400 sm:flex-row sm:gap-8">
-          <div className="flex items-center gap-4">
-            <span className="hero-meta-text">
-              Backed by
-            </span>
-            <img
-              alt="Alliance"
-              className="hero-trust-logo h-5 w-auto opacity-70"
-              decoding="async"
-              src={allianceLogoUrl}
-            />
-          </div>
-          <div className="hidden h-5 w-px bg-neutral-800 sm:block" />
-          <div className="flex items-center gap-4">
-            <span className="hero-meta-text">
-              Built by engineers from
-            </span>
-            <img
-              alt="Google, Meta, Y Combinator"
-              className="hero-trust-logo h-5 w-auto opacity-70"
-              decoding="async"
-              src={engineersLogosUrl}
-            />
-          </div>
-        </div>
+        <div className="mt-auto w-full pt-12 sm:pt-14">
+          <div className="mt-7 flex flex-col items-center gap-8 px-3 pb-4 text-neutral-400 sm:hidden">
+            <div className="flex w-full max-w-container flex-col items-center gap-2 px-6 py-3">
+              <span className="hero-meta-text hero-trust-label text-center">
+                Backed by
+              </span>
+              <img
+                alt="Alliance"
+                className="hero-trust-logo h-5 w-auto opacity-70"
+                decoding="async"
+                src={allianceLogoUrl}
+              />
+            </div>
 
-        <div className="hero-logo-zone mt-auto w-full pb-4 sm:pb-8">
-          <p className={sectionEyebrowClass}>
-            Used by teams at
-          </p>
-          <div className="hero-logo-shell mx-auto mt-5 w-full max-w-container">
-            <div className="hero-logo-track py-7">
-              {[...partnerLogos, ...partnerLogos, ...partnerLogos].map((logo, index) => (
-                <div className="hero-logo-item" key={`${logo.name}-${index}`}>
-                  <img alt={logo.name} decoding="async" src={logo.src} />
+            <div className="flex w-full max-w-container flex-col items-center gap-3">
+              <span className="hero-meta-text hero-trust-label text-center">
+                Built by engineers from
+              </span>
+              <img
+                alt="Google, Meta, Y Combinator"
+                className="hero-trust-logo h-5 w-auto opacity-70"
+                decoding="async"
+                src={engineersLogosUrl}
+              />
+            </div>
+
+            <div className="flex w-full max-w-container flex-col items-center gap-2">
+              <p className={`${sectionEyebrowClass} text-center text-neutral-400`}>
+                Used by teams at
+              </p>
+              <div className="hero-logo-zone w-full">
+                <div className="hero-logo-shell mx-auto w-full max-w-container">
+                  <div className="hero-logo-track py-2">
+                    {[...partnerLogos, ...partnerLogos, ...partnerLogos].map((logo, index) => (
+                      <div className="hero-logo-item" key={`${logo.name}-${index}`}>
+                        <img alt={logo.name} decoding="async" src={logo.src} />
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="hidden flex-col items-start justify-center gap-5 px-3 text-neutral-400 sm:flex sm:items-center sm:gap-0">
+            <div className="flex flex-col items-start justify-center gap-5 sm:flex-row sm:items-center sm:gap-8">
+              <div className="flex w-full items-center justify-start gap-4 sm:w-auto">
+                <span className="hero-meta-text hero-trust-label">
+                  Backed by
+                </span>
+                <img
+                  alt="Alliance"
+                  className="hero-trust-logo h-5 w-auto opacity-70"
+                  decoding="async"
+                  src={allianceLogoUrl}
+                />
+              </div>
+              <div className="hidden h-5 w-px bg-neutral-400/50 sm:block" />
+              <div className="flex w-full items-center justify-start gap-4 sm:w-auto">
+                <span className="hero-meta-text hero-trust-label">
+                  Built by engineers from
+                </span>
+                <img
+                  alt="Google, Meta, Y Combinator"
+                  className="hero-trust-logo h-5 w-auto opacity-70"
+                  decoding="async"
+                  src={engineersLogosUrl}
+                />
+              </div>
+            </div>
+
+            <div className="hero-logo-zone w-full pb-8">
+              <p className={sectionEyebrowClass}>
+                Used by teams at
+              </p>
+              <div className="hero-logo-shell mx-auto mt-2 w-full max-w-container">
+                <div className="hero-logo-track py-2 sm:py-7">
+                  {[...partnerLogos, ...partnerLogos, ...partnerLogos].map((logo, index) => (
+                    <div className="hero-logo-item" key={`${logo.name}-${index}`}>
+                      <img alt={logo.name} decoding="async" src={logo.src} />
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -740,7 +784,7 @@ function NicheFollowers() {
       <div className="mt-8">
         <article className="text-white">
           <div className="grid gap-8 lg:gap-10">
-            <div className="relative overflow-hidden py-6 sm:py-8 lg:py-8">
+            <div className="relative overflow-hidden py-0 sm:py-8 lg:py-8">
               <div className="grid items-center gap-5 lg:mx-auto lg:min-h-[390px] lg:max-w-[930px] lg:grid-cols-[minmax(340px,0.88fr)_minmax(260px,0.52fr)] lg:gap-2 xl:max-w-[980px] xl:grid-cols-[minmax(380px,0.92fr)_minmax(280px,0.54fr)]">
                 <AudienceDiagram compact />
                 <NicheMetricCopy compact />
@@ -776,17 +820,41 @@ function AudienceDiagram({ compact = false }: { compact?: boolean }) {
 
 function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
   return (
-    <div className={compact ? "mx-auto w-full max-w-[320px] lg:mx-0 lg:-ml-8" : ""}>
-      <div className="grid gap-7 sm:gap-9">
-        <div>
-          <div className="flex items-center gap-2.5">
+    <div className={compact ? "w-full lg:mx-0 lg:-ml-8 lg:max-w-[320px]" : ""}>
+      <div
+        className={
+          compact
+            ? "grid grid-cols-2 gap-x-1 gap-y-7 sm:gap-9 lg:grid-cols-1"
+            : "grid gap-7 sm:gap-9"
+        }
+      >
+        <div className={compact ? "text-center" : ""}>
+          <div
+            className={
+              compact
+                ? "flex flex-col items-center gap-2 lg:flex-row lg:items-center lg:gap-2.5"
+                : "flex items-center gap-2.5"
+            }
+          >
             <span className="size-3.5 rounded-full border border-white/30 bg-white/[0.03]" />
-            <p className={sectionEyebrowClass}>
-              This is what you see
+            <p
+              className={`${sectionEyebrowClass} ${
+                compact ? "max-w-none text-[0.92rem] leading-[1.06]" : ""
+              }`}
+            >
+              {compact ? (
+                <>
+                  This is what
+                  <br />
+                  you see
+                </>
+              ) : (
+                "This is what you see"
+              )}
             </p>
           </div>
           <p
-            className="mt-3 text-4xl font-medium leading-none tracking-tight text-white sm:text-5xl"
+            className="mt-2 text-[3.35rem] font-medium leading-none tracking-tight text-white sm:text-5xl"
             style={{ fontFamily: titleFontFamily }}
           >
             120K
@@ -795,15 +863,33 @@ function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
             followers
           </p>
         </div>
-        <div>
-          <div className="flex items-center gap-2.5">
+        <div className={compact ? "text-center" : ""}>
+          <div
+            className={
+              compact
+                ? "flex flex-col items-center gap-2 lg:flex-row lg:items-center lg:gap-2.5"
+                : "flex items-center gap-2.5"
+            }
+          >
             <span className="size-3.5 rounded-full border border-accent/80 bg-accent/20 shadow-[0_0_22px_rgba(247,209,51,0.24)]" />
-            <p className={`${sectionEyebrowClass} text-accent/75`}>
-              This is what matters
+            <p
+              className={`${sectionEyebrowClass} text-accent/75 ${
+                compact ? "max-w-none text-[0.92rem] leading-[1.06]" : ""
+              }`}
+            >
+              {compact ? (
+                <>
+                  This is what
+                  <br />
+                  matters
+                </>
+              ) : (
+                "This is what matters"
+              )}
             </p>
           </div>
           <p
-            className="mt-3 text-5xl font-medium leading-none tracking-tight text-accent sm:text-6xl"
+            className="mt-2 text-[3.35rem] font-medium leading-none tracking-tight text-accent sm:text-6xl"
             style={{ fontFamily: titleFontFamily }}
           >
             584
@@ -821,7 +907,7 @@ function NicheDiscoveryCard({ className = "" }: { className?: string }) {
   return (
     <div className={`py-6 text-white lg:py-7 ${className}`}>
       <div className="grid gap-5 lg:grid-cols-[minmax(170px,0.56fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-7">
-        <h3 className="max-w-[11ch] px-0 text-xl font-medium leading-tight tracking-tight text-white/92 sm:text-2xl">
+        <h3 className="w-full max-w-none px-0 text-xl font-medium leading-tight tracking-tight text-white/92 sm:text-2xl lg:max-w-[11ch]">
           How we know who is actually in your niche:
         </h3>
         <SignalInsightRow
@@ -840,7 +926,7 @@ function NicheDiscoveryCard({ className = "" }: { className?: string }) {
       <p className="mt-6 flex items-center justify-center gap-2.5 pt-5 text-center text-body font-normal text-text-secondary">
         <BadgeCheck className="size-3.5 shrink-0 text-accent" />
         <span>
-          We mapped 3.3M Crypto Twitter accounts, apply additional filtering
+          We mapped 56M Crypto Twitter accounts, apply additional filtering
           based on X score, ML prediction models, & more, so you don&apos;t
           have to.
         </span>
@@ -866,14 +952,14 @@ function SignalInsightRow({
         {label}
       </p>
       <div className="grid gap-2.5">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-2.5">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-x-3 gap-y-2.5 sm:flex sm:flex-wrap">
           <SignalRow variant={variant} />
           <ArrowRight
             aria-hidden="true"
-            className="size-4 shrink-0 text-neutral-500"
+            className="size-4 shrink-0 self-center text-neutral-500"
           />
           <p
-            className={`max-w-[16ch] flex-none text-base font-medium leading-snug sm:text-[1.05rem] lg:max-w-[15ch] ${
+            className={`max-w-none text-base font-medium leading-snug sm:max-w-[16ch] sm:flex-none sm:text-[1.05rem] lg:max-w-[15ch] ${
             tone === "strong" ? "text-success" : "text-red-200"
             }`}
           >
@@ -891,17 +977,17 @@ function SignalRow({
   variant: "random" | "buyer";
 }) {
   return (
-    <div className="inline-flex min-w-0 max-w-full items-center gap-1.5 text-base font-medium leading-none text-white sm:text-[1.05rem]">
-      <PolymarketBadge />
+    <div className="inline-flex min-w-0 max-w-full flex-col items-start gap-1.5 text-base font-medium leading-none text-white sm:flex-row sm:items-center sm:text-[1.05rem]">
+      <div className="inline-flex items-center gap-1.5">
+        <PolymarketBadge />
+        {variant === "buyer" ? <KalshiBadge /> : null}
+      </div>
       {variant === "buyer" ? (
-        <>
-          <KalshiBadge />
-          <span className="min-w-0 max-w-[8.5ch] leading-snug">
-            Polymarket+
-            <br />
-            Kalshi
-          </span>
-        </>
+        <span className="min-w-0 max-w-[8.5ch] leading-snug">
+          Polymarket+
+          <br />
+          Kalshi
+        </span>
       ) : (
         <span className="min-w-0 leading-snug">Polymarket</span>
       )}
@@ -930,7 +1016,7 @@ function PolymarketBadge() {
 
 function KalshiBadge() {
   return (
-    <span className="-ml-1.5 grid size-9 shrink-0 place-items-center overflow-hidden rounded-full bg-[#18d98c]">
+    <span className="grid size-9 shrink-0 place-items-center overflow-hidden rounded-full bg-[#18d98c] sm:-ml-1.5">
       <span className="text-[7px] font-semibold tracking-[-0.01em] text-neutral-950">
         Kalshi
       </span>
@@ -952,7 +1038,7 @@ function CreatorNetwork() {
       position: "previous" as const,
       profile: creatorDemoProfiles.previous,
       orderClass:
-        "order-2 lg:absolute lg:left-[3%] lg:top-10 lg:z-0 lg:w-[350px] lg:-rotate-[4deg]",
+        "hidden lg:absolute lg:left-[3%] lg:top-10 lg:z-0 lg:block lg:w-[350px] lg:-rotate-[4deg]",
     },
     {
       niche: selectedNiche,
@@ -966,7 +1052,7 @@ function CreatorNetwork() {
       position: "next" as const,
       profile: creatorDemoProfiles.next,
       orderClass:
-        "order-3 lg:absolute lg:right-[3%] lg:top-10 lg:z-0 lg:w-[350px] lg:rotate-[4deg]",
+        "hidden lg:absolute lg:right-[3%] lg:top-10 lg:z-0 lg:block lg:w-[350px] lg:rotate-[4deg]",
     },
   ];
 
@@ -1586,6 +1672,79 @@ function ElasticSlider({
   );
 }
 
+function StandardApproachCard({
+  agencyCreators,
+  agencyPosts,
+  agencyRelevant,
+  agencyWaste,
+  avatars,
+  className = "",
+}: {
+  agencyCreators: number;
+  agencyPosts: number;
+  agencyRelevant: number;
+  agencyWaste: number;
+  avatars: string[];
+  className?: string;
+}) {
+  return (
+    <section className={`min-w-0 gap-3 rounded-card bg-transparent py-2.5 xl:gap-y-0 ${className}`}>
+      <div className="flex h-full min-w-0 flex-col px-5">
+        <h3 className="text-2xl font-medium">Standard approach</h3>
+        <div className="mt-5 grid flex-1 grid-cols-2 gap-x-4 gap-y-3 pb-3 sm:grid-cols-[0.72fr_0.72fr_1fr_1fr] sm:gap-y-0">
+          <CalculatorMetric label="Creators" value={<AnimatedNumber fontSize={28} value={agencyCreators} />} />
+          <CalculatorMetric label="Posts" value={<AnimatedNumber fontSize={28} value={agencyPosts} />} />
+          <CalculatorMetric
+            label="Estimated relevant audience"
+            tone="primary"
+            value={
+              <AnimatedNumber
+                fontSize={28}
+                prefix="~"
+                suffix="K"
+                value={Math.max(1, agencyRelevant)}
+              />
+            }
+          />
+          <CalculatorMetric
+            label="Wasted budget"
+            tone="warning"
+            value={<AnimatedNumber fontSize={28} prefix="$" value={agencyWaste} />}
+          />
+        </div>
+      </div>
+      <div className="mx-5 flex h-full min-w-0 items-center justify-between gap-3.5 border-t border-neutral-800/80 py-1 leading-none text-sm text-neutral-400">
+        <span>Frequency control</span>
+        <b className="font-medium text-red-200">not controlled</b>
+      </div>
+      <div className="mx-5 flex h-full min-w-0 items-center justify-between gap-3.5 border-t border-neutral-800/80 py-1 leading-none text-sm text-neutral-400">
+        <span>Overlap</span>
+        <b className="font-medium text-red-200">not measured</b>
+      </div>
+      <div className="mx-5 flex h-full min-w-0 flex-col border-t border-neutral-800/80 py-2.5">
+        <div className="flex items-start justify-between gap-3.5">
+          <p className="text-sm font-medium text-white">Uncontrolled frequency</p>
+          <p className="text-sm font-medium text-red-200">Random Distribution</p>
+        </div>
+        <div className="mt-2">
+          <FrequencyChart values={staticStandardFrequency} />
+        </div>
+        <p className="mt-1 font-mono text-xs text-neutral-500">
+          Frequency happens, but it is not controlled.
+        </p>
+      </div>
+      <div className="flex h-full min-w-0 flex-col justify-center px-5 pt-2 pb-0">
+        <p className="whitespace-nowrap text-sm font-medium text-neutral-300">
+          Selected creators ({agencyCreators})
+        </p>
+        <div className="mt-2">
+          <AvatarStack avatars={avatars} total={agencyCreators} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CampaignCalculator() {
   const [budget, setBudget] = useState(5);
   const [frequency, setFrequency] = useState(5);
@@ -1636,12 +1795,12 @@ function CampaignCalculator() {
       }
       titleNoWrap
     >
-      <div className="signal-gray-panel mt-8 max-w-full overflow-hidden p-3.5 xl:pr-0">
+      <div className="signal-gray-panel mt-8 max-w-full overflow-hidden p-0 sm:p-3.5 xl:pr-0">
         <div className="grid min-w-0 gap-3.5 xl:grid-cols-[0.52fr_2fr] xl:items-stretch">
-          <aside className="min-w-0 rounded-2xl bg-transparent px-5 py-2.5 xl:grid xl:grid-rows-[96px_auto]">
+          <aside className="min-w-0 rounded-2xl bg-transparent px-5 py-4 xl:grid xl:grid-rows-[auto_1fr] xl:gap-y-4 xl:py-2.5">
             <div>
               <h3 className="text-2xl font-medium">Campaign inputs</h3>
-              <p className="mt-3 font-mono text-xs text-neutral-500">
+              <p className="mt-2 font-mono text-xs text-neutral-500">
                 Play with controls below
               </p>
             </div>
@@ -1696,75 +1855,15 @@ function CampaignCalculator() {
             </div>
           </aside>
 
-          <button
-            aria-expanded={standardOpen}
-            className="flex min-h-12 items-center justify-between rounded-2xl bg-neutral-900 px-4 text-left text-sm font-medium text-white xl:hidden"
-            onClick={() => setStandardOpen((value) => !value)}
-            type="button"
-          >
-            Compare to standard approach {standardOpen ? "↑" : "↓"}
-          </button>
-
           <div className="grid min-w-0 gap-3.5 xl:border-l xl:border-neutral-800/80 xl:pl-3.5 xl:grid-cols-2 xl:items-stretch xl:[grid-template-rows:minmax(112px,auto)_32px_32px_minmax(148px,auto)_auto]">
-            <section
-              className={`min-w-0 gap-3 rounded-card bg-transparent py-2.5 xl:row-span-5 xl:gap-y-0 xl:[grid-template-rows:subgrid] ${
-                standardOpen ? "grid" : "hidden xl:grid"
-              }`}
-            >
-              <div className="flex h-full min-w-0 flex-col px-5">
-                <h3 className="text-2xl font-medium">Standard approach</h3>
-                <div className="mt-5 grid flex-1 grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-[0.72fr_0.72fr_1fr_1fr] sm:gap-y-0">
-                  <CalculatorMetric label="Creators" value={<AnimatedNumber fontSize={28} value={agencyCreators} />} />
-                  <CalculatorMetric label="Posts" value={<AnimatedNumber fontSize={28} value={agencyPosts} />} />
-                  <CalculatorMetric
-                    label="Estimated relevant audience"
-                    tone="primary"
-                    value={
-                      <AnimatedNumber
-                        fontSize={28}
-                        prefix="~"
-                        suffix="K"
-                        value={Math.max(1, agencyRelevant)}
-                      />
-                    }
-                  />
-                  <CalculatorMetric
-                    label="Wasted budget"
-                    tone="warning"
-                    value={<AnimatedNumber fontSize={28} prefix="$" value={agencyWaste} />}
-                  />
-                </div>
-              </div>
-              <div className="mx-5 flex h-full min-w-0 items-center justify-between gap-3.5 border-t border-neutral-800/80 py-1 leading-none text-sm text-neutral-400">
-                <span>Frequency control</span>
-                <b className="font-medium text-red-200">not controlled</b>
-              </div>
-              <div className="mx-5 flex h-full min-w-0 items-center justify-between gap-3.5 border-t border-neutral-800/80 py-1 leading-none text-sm text-neutral-400">
-                <span>Overlap</span>
-                <b className="font-medium text-red-200">not measured</b>
-              </div>
-              <div className="mx-5 flex h-full min-w-0 flex-col border-t border-neutral-800/80 py-2.5">
-                <div className="flex items-start justify-between gap-3.5">
-                  <p className="text-sm font-medium text-white">Uncontrolled frequency</p>
-                  <p className="text-sm font-medium text-red-200">Random Distribution</p>
-                </div>
-                <div className="mt-2">
-                  <FrequencyChart values={staticStandardFrequency} />
-                </div>
-                <p className="mt-1 font-mono text-xs text-neutral-500">
-                  Frequency happens, but it is not controlled.
-                </p>
-              </div>
-              <div className="flex h-full min-w-0 flex-col justify-center px-5 pt-2 pb-0">
-                <p className="whitespace-nowrap text-sm font-medium text-neutral-300">
-                  Selected creators ({agencyCreators})
-                </p>
-                <div className="mt-2">
-                  <AvatarStack avatars={avatarDecks.standard} total={agencyCreators} />
-                </div>
-              </div>
-            </section>
-
+            <StandardApproachCard
+              agencyCreators={agencyCreators}
+              agencyPosts={agencyPosts}
+              agencyRelevant={agencyRelevant}
+              agencyWaste={agencyWaste}
+              avatars={avatarDecks.standard}
+              className="hidden xl:row-span-5 xl:grid xl:[grid-template-rows:subgrid]"
+            />
             <BorderGlow
               animated
               backgroundColor="#221f16"
@@ -1778,9 +1877,9 @@ function CampaignCalculator() {
               glowIntensity={0.9}
               glowRadius={28}
             >
-              <div className="flex h-full min-w-0 flex-col px-5 xl:pt-3.5">
+              <div className="flex h-full min-w-0 flex-col px-5 pt-5 xl:pt-3.5">
                 <h3 className="text-2xl font-medium">Wallchain Select</h3>
-                <div className="mt-5 grid flex-1 grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-[0.72fr_0.72fr_1fr_1fr] sm:gap-y-0">
+                <div className="mt-5 grid flex-1 grid-cols-2 gap-x-4 gap-y-3 pb-0 sm:grid-cols-[0.72fr_0.72fr_1fr_1fr] sm:gap-y-0 xl:pb-3">
                   <CalculatorMetric label="Optimized creators" value={<AnimatedNumber fontSize={28} value={selectCreators} />} />
                   <CalculatorMetric label="Posts" value={<AnimatedNumber fontSize={28} value={selectPosts} />} />
                   <CalculatorMetric
@@ -1819,7 +1918,7 @@ function CampaignCalculator() {
                   Frequency is planned around your target.
                 </p>
               </div>
-              <div className="flex h-full min-w-0 flex-col justify-center px-5 pt-2 pb-0">
+              <div className="flex h-full min-w-0 flex-col justify-center px-5 pt-2 pb-5 xl:pb-0">
                 <p className="whitespace-nowrap text-sm font-medium text-neutral-300">
                   Selected creators ({selectCreators})
                 </p>
@@ -1829,6 +1928,24 @@ function CampaignCalculator() {
               </div>
             </BorderGlow>
           </div>
+
+          <button
+            aria-expanded={standardOpen}
+            className="flex min-h-12 items-center justify-between rounded-2xl border border-[#f7d133]/25 bg-[#f7d133]/12 px-4 text-left text-sm font-medium text-[#e8cd57] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] xl:hidden"
+            onClick={() => setStandardOpen((value) => !value)}
+            type="button"
+          >
+            Compare to standard approach {standardOpen ? "↑" : "↓"}
+          </button>
+
+          <StandardApproachCard
+            agencyCreators={agencyCreators}
+            agencyPosts={agencyPosts}
+            agencyRelevant={agencyRelevant}
+            agencyWaste={agencyWaste}
+            avatars={avatarDecks.standard}
+            className={`${standardOpen ? "grid" : "hidden"} xl:hidden`}
+          />
         </div>
       </div>
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-center">
@@ -1874,9 +1991,8 @@ function ProofBand() {
       fg: "#102114",
     },
     {
-      value: 3.3,
+      value: 56,
       suffix: "M",
-      decimals: 1,
       label: "mapped crypto accounts",
       bg: "#111827",
       fg: "#f8fafc",
@@ -1885,8 +2001,9 @@ function ProofBand() {
 
   return (
     <Stats10
-      ctaHref="#call"
+      ctaHref="https://x.com/shaundadevens/status/2049237613220163912"
       ctaLabel="View report"
+      ctaTarget="_blank"
       ctaTitle="Full creator campaign report for Prediction Markets"
       eyebrow="Numbers from real campaigns"
       id="proof"
@@ -1965,7 +2082,6 @@ export function App() {
       <CampaignCalculator />
       <BridgeCTA />
       <ProofBand />
-      <SocialProof11 />
       <Contact1 />
       <CTA3 />
       <div id="faq">

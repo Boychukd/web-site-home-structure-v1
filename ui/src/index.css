@@ -281,6 +281,10 @@
   text-transform: uppercase;
 }
 
+.hero-trust-label {
+  text-align: left;
+}
+
 .hero-trust-logo {
   display: block;
   transform: translateY(-1px);
@@ -356,6 +360,10 @@
 }
 
 .hero-logo-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
   clip-path: ellipse(max(59vw, 900px) 300px at 50% -18px);
 }
 
