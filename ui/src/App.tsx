@@ -141,7 +141,7 @@ const footerLinkGroups = [
 ];
 
 const heroBullets = [
-  "56M crypto accounts mapped",
+  "56M accounts mapped",
   "150K KOLs scored",
   "60+ niches analyzed",
 ];
@@ -314,9 +314,9 @@ function SiteNavigation() {
             <div className="flex items-center gap-1.5">
               <a
                 className={`${ui.component.ctaBase} ${ui.component.ctaSecondary} hidden py-2.5 sm:inline-flex`}
-                href="#plan-campaign"
+                href="https://app.wallchain.xyz/"
               >
-                Analyze my campaign
+                Launch App
                 <AnimatedArrowIcon className="size-4" />
               </a>
               <a
@@ -358,10 +358,10 @@ function SiteNavigation() {
                 ))}
                 <a
                   className={`${ui.component.ctaBase} ${ui.component.ctaPrimary} mt-2 w-full py-2.5`}
-                  href="#call"
+                  href="https://app.wallchain.xyz/"
                   onClick={() => setOpen(false)}
                 >
-                  Book a call
+                  Launch App
                   <AnimatedArrowIcon className="size-4" />
                 </a>
               </motion.div>
@@ -559,9 +559,9 @@ function Hero() {
         </p>
 
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <ActionLink href="#plan-campaign">Analyze my campaign</ActionLink>
-          <ActionLink href="#call" variant="secondary">
-            Book a call
+          <ActionLink href="#call">Book a call</ActionLink>
+          <ActionLink href="#plan-campaign" variant="secondary">
+            Analyze my campaign
           </ActionLink>
         </div>
 
@@ -926,7 +926,7 @@ function NicheDiscoveryCard({ className = "" }: { className?: string }) {
       <p className="mt-6 flex items-center justify-center gap-2.5 pt-5 text-center text-body font-normal text-text-secondary">
         <BadgeCheck className="size-3.5 shrink-0 text-accent" />
         <span>
-          We mapped 56M Crypto Twitter accounts, apply additional filtering
+          We mapped 56M Twitter accounts, apply additional filtering
           based on X score, ML prediction models, & more, so you don&apos;t
           have to.
         </span>
@@ -1949,9 +1949,9 @@ function CampaignCalculator() {
         </div>
       </div>
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-center">
-        <ActionLink href="#plan-campaign">Analyze my campaign</ActionLink>
-        <ActionLink href="#call" variant="secondary">
-          Book a call
+        <ActionLink href="#call">Book a call</ActionLink>
+        <ActionLink href="#plan-campaign" variant="secondary">
+          Analyze my campaign
         </ActionLink>
         <p className={sectionEyebrowClass}>
           15-minute call. No slides. Just your campaign data.
