@@ -3,23 +3,23 @@ import { cn } from "@/lib/utils";
 export function AnimatedArrowIcon({ className }: { className?: string }) {
   return (
     <span aria-hidden="true" className={cn("stripe-arrow-icon", className)}>
-      <svg fill="none" viewBox="0 0 18 16">
+      <svg fill="none" viewBox="0 0 10 10">
         <path
           className="stripe-arrow-icon__shaft"
-          d="M2 8H8.5"
+          d="M0 5H7"
           pathLength={1}
           stroke="currentColor"
           strokeLinecap="round"
           strokeLinejoin="round"
-          strokeWidth="1.7"
+          strokeWidth="2"
         />
         <path
           className="stripe-arrow-icon__head"
-          d="M6 4.5L10 8L6 11.5"
+          d="M3 1L7 5L3 9"
           stroke="currentColor"
           strokeLinecap="round"
           strokeLinejoin="round"
-          strokeWidth="1.7"
+          strokeWidth="2"
         />
       </svg>
     </span>

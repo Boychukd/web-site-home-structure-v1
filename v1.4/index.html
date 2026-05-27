@@ -662,7 +662,7 @@
       '          <div class="v11-mini-metric"><span>Optimized creators</span><strong data-select-creators>9</strong></div>',
       '          <div class="v11-mini-metric"><span>Posts</span><strong data-select-posts>36</strong></div>',
       '          <div class="v11-mini-metric v11-mini-metric--full v11-mini-metric--primary"><span>Relevant audience</span><strong data-select-reach>37K</strong></div>',
-      '          <div class="v11-mini-metric v11-mini-metric--full v11-mini-metric--good"><span>Working budget</span><strong data-select-working>$43,700</strong><span class="v11-mini-metric__note">BUDGET HITTING YOUR NICHE</span></div>',
+      '          <div class="v11-mini-metric v11-mini-metric--full v11-mini-metric--good"><span>100% working budget</span><strong data-select-working>$5K</strong><span class="v11-mini-metric__note">FULL BUDGET HITTING YOUR NICHE</span></div>',
       '        </div>',
       '        <ul class="v11-unavailable v11-available"><li><span>Frequency control</span><b data-select-frequency-control>controlled</b></li><li><span>Overlap</span><b data-select-overlap>12% controlled</b></li></ul>',
       '        <div class="v11-frequency-card">',
@@ -879,7 +879,6 @@
         var b = Number(budget.value);
         var f = Number(frequency.value);
         var standardRate = 0.12;
-        var selectRate = 0.85;
         var agencyCreators = Math.max(4, Math.round(6 + (b - 5) * 0.45));
         var agencyPosts = agencyCreators * 4;
         var agencyRelevant = Math.max(1, Math.round((agencyPosts * 3900 * standardRate) / 1000));
@@ -889,7 +888,6 @@
         var selectPosts = selectCreators * 4;
         var selectReachFactor = 0.19 * (1 + (4 - f) * 0.06 + budgetLift * 0.015);
         var reach = Math.max(1, Math.round((selectPosts * 3900 * selectReachFactor) / 1000));
-        var selectWorking = Math.round(b * 1000 * selectRate);
         var labels = creatorPool;
         var mutedPalette = ['#f04b4b', '#18bdb5', '#ff8c35', '#646ef7', '#ea4fa3', '#39b24e', '#f3c51b', '#2f57ff'];
         var vividPalette = ['#f54848', '#10b7b1', '#ff8040', '#e842a0', '#3ba64c', '#2b55ff', '#5f63f5', '#f3c51b', '#17c46d', '#ff5ca6'];
@@ -907,7 +905,7 @@
         setText('[data-select-creators]', String(selectCreators));
         setText('[data-select-posts]', String(selectPosts));
         setText('[data-select-reach]', formatCompactK(reach));
-        setText('[data-select-working]', formatMoney(selectWorking));
+        setText('[data-select-working]', '$' + b + 'K');
         setText('[data-select-overlap]', stage.overlap + '% controlled');
         setText('[data-select-frequency-control]', stage.label);
         setText('[data-select-avatar-title]', 'Selected creators (' + selectCreators + ')');

@@ -71,6 +71,62 @@ function AnimatedNumber({
   );
 }
 
+type CreatorRange = {
+  min: number;
+  max: number;
+};
+
+function creatorRangeFromEstimate(value: number): CreatorRange {
+  const rounded = Math.max(1, Math.round(value));
+  const spread = rounded < 8 ? 2 : rounded < 14 ? 4 : 5;
+  const min = Math.max(1, rounded - Math.floor(spread / 2));
+  const max = min + spread;
+
+  return { min, max };
+}
+
+function formatRange(range: CreatorRange) {
+  return `${range.min}-${range.max}`;
+}
+
+function multiplyRange(range: CreatorRange, multiplier: number): CreatorRange {
+  return {
+    min: range.min * multiplier,
+    max: range.max * multiplier,
+  };
+}
+
+function RangeMetricValue({
+  color = "currentColor",
+  fontSize = 28,
+  prefix = "",
+  range,
+  suffix = "",
+}: {
+  color?: string;
+  fontSize?: number;
+  prefix?: string;
+  range: CreatorRange;
+  suffix?: string;
+}) {
+  return (
+    <span
+      className="inline-flex items-baseline whitespace-nowrap"
+      style={{
+        color,
+        fontFamily: titleFontFamily,
+        fontSize,
+        fontWeight: 500,
+        lineHeight: 1,
+      }}
+    >
+      {prefix}
+      {formatRange(range)}
+      {suffix}
+    </span>
+  );
+}
+
 const wallchainLogoUrl = new URL("./assets/wallchain-logo.svg", import.meta.url).href;
 const allianceLogoUrl = new URL("./assets/alliance.svg", import.meta.url).href;
 const engineersLogosUrl = new URL("./assets/engineers-logos.svg", import.meta.url).href;
@@ -559,13 +615,13 @@ function Hero() {
         </p>
 
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <ActionLink href="#call">Book a call</ActionLink>
+          <ActionLink href="#call">Plan My Campaign</ActionLink>
           <ActionLink href="#plan-campaign" variant="secondary">
-            Analyze my campaign
+            See Budget Scenarios
           </ActionLink>
         </div>
 
-        <div className="mt-auto w-full pt-12 sm:pt-14">
+        <div className="mt-auto w-full pt-12 sm:pt-0">
           <div className="mt-7 flex flex-col items-center gap-8 px-3 pb-4 text-neutral-400 sm:hidden">
             <div className="flex w-full max-w-container flex-col items-center gap-2 px-6 py-3">
               <span className="hero-meta-text hero-trust-label text-center">
@@ -597,7 +653,7 @@ function Hero() {
               </p>
               <div className="hero-logo-zone w-full">
                 <div className="hero-logo-shell mx-auto w-full max-w-container">
-                  <div className="hero-logo-track py-2">
+                  <div className="hero-logo-track">
                     {[...partnerLogos, ...partnerLogos, ...partnerLogos].map((logo, index) => (
                       <div className="hero-logo-item" key={`${logo.name}-${index}`}>
                         <img alt={logo.name} decoding="async" src={logo.src} />
@@ -636,12 +692,12 @@ function Hero() {
               </div>
             </div>
 
-            <div className="hero-logo-zone w-full pb-8">
-              <p className={sectionEyebrowClass}>
-                Used by teams at
-              </p>
-              <div className="hero-logo-shell mx-auto mt-2 w-full max-w-container">
-                <div className="hero-logo-track py-2 sm:py-7">
+            <p className={`${sectionEyebrowClass} mt-8 mb-1`}>
+              Used by teams at
+            </p>
+            <div className="hero-logo-zone mt-3 w-full">
+              <div className="hero-logo-shell mx-auto w-full max-w-container">
+                <div className="hero-logo-track">
                   {[...partnerLogos, ...partnerLogos, ...partnerLogos].map((logo, index) => (
                     <div className="hero-logo-item" key={`${logo.name}-${index}`}>
                       <img alt={logo.name} decoding="async" src={logo.src} />
@@ -687,6 +743,11 @@ function Pain() {
               We measure overlap and frequency in addition to impressions.
               Standard KOL campaigns can't do that.
             </p>
+            <div className="mt-8 flex">
+              <ActionLink href="#audit" variant="secondary">
+                Audit my last campaign
+              </ActionLink>
+            </div>
           </div>
 
           <SignalPanel
@@ -812,7 +873,7 @@ function AudienceDiagram({ compact = false }: { compact?: boolean }) {
         aria-hidden="true"
       >
         <span className="absolute inset-[2%] rounded-full border border-white/[0.22] bg-surface-page shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]" />
-        <span className="absolute bottom-[17%] left-1/2 size-[31%] -translate-x-1/2 rounded-full border border-accent/80 bg-accent/10 shadow-[0_0_62px_rgba(247,209,51,0.18),inset_0_1px_0_rgba(255,255,255,0.12)]" />
+        <span className="absolute bottom-[26%] left-[58%] size-[12.5%] -translate-x-1/2 rounded-full border border-accent/80 bg-accent/20 shadow-[0_0_52px_rgba(247,209,51,0.22),inset_0_1px_0_rgba(255,255,255,0.16)]" />
       </div>
     </div>
   );
@@ -828,7 +889,7 @@ function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
             : "grid gap-7 sm:gap-9"
         }
       >
-        <div className={compact ? "text-center" : ""}>
+        <div className={compact ? "text-center lg:text-left" : ""}>
           <div
             className={
               compact
@@ -863,7 +924,7 @@ function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
             followers
           </p>
         </div>
-        <div className={compact ? "text-center" : ""}>
+        <div className={compact ? "text-center lg:text-left" : ""}>
           <div
             className={
               compact
@@ -889,10 +950,10 @@ function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
             </p>
           </div>
           <p
-            className="mt-2 text-[3.35rem] font-medium leading-none tracking-tight text-accent sm:text-6xl"
+            className="mt-2 text-[3.35rem] font-medium leading-none tracking-tight text-accent sm:text-5xl"
             style={{ fontFamily: titleFontFamily }}
           >
-            584
+            1750
           </p>
           <p className="mt-1.5 text-sm font-medium leading-none text-neutral-300">
             niche followers
@@ -931,6 +992,11 @@ function NicheDiscoveryCard({ className = "" }: { className?: string }) {
           have to.
         </span>
       </p>
+      <div className="mt-6 flex justify-center">
+        <ActionLink href="#plan-campaign" variant="secondary">
+          See what actually matters
+        </ActionLink>
+      </div>
     </div>
   );
 }
@@ -1170,6 +1236,12 @@ function CreatorNetwork() {
               value={creatorValues[card.niche]}
             />
           ))}
+        </div>
+
+        <div className="-mt-2 flex justify-center">
+          <ActionLink href="#call" variant="secondary">
+            Find Better Creator Fit
+          </ActionLink>
         </div>
 
       </div>
@@ -1432,7 +1504,7 @@ function AvatarStack({
 }: {
   accent?: boolean;
   avatars: string[];
-  total: number;
+  total: number | CreatorRange;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [containerWidth, setContainerWidth] = useState(0);
@@ -1455,15 +1527,27 @@ function AvatarStack({
   const avatarSize = 32;
   const avatarGap = 6;
   const slotWidth = avatarSize + avatarGap;
+  const isRange = typeof total !== "number";
+  const totalMin = isRange ? total.min : total;
+  const totalMax = isRange ? total.max : total;
+  const rangeBadgeLabel = isRange ? `${formatRange(total)} total` : "";
+  const rangeBadgeWidth = 78;
+  const overflowBadgeWidth = avatarSize;
+  const badgeWidth = isRange ? rangeBadgeWidth : overflowBadgeWidth;
   const capacity =
     containerWidth > 0
       ? Math.max(1, Math.floor((containerWidth + avatarGap) / slotWidth))
-      : Math.min(12, total);
-  const visible = total > capacity ? Math.max(0, capacity - 1) : Math.min(capacity, total);
+      : Math.min(12, totalMax);
+  const rangeBadgeSlots = isRange ? Math.ceil((badgeWidth + avatarGap) / slotWidth) : 1;
+  const needsBadge = isRange || totalMax > capacity;
+  const visibleCapacity = needsBadge
+    ? Math.max(0, capacity - rangeBadgeSlots)
+    : capacity;
+  const visible = Math.min(visibleCapacity, totalMax);
   const items = avatars.slice(0, visible);
 
   return (
-    <div className="flex flex-nowrap items-center gap-1.5 overflow-hidden" ref={containerRef}>
+    <div className="flex min-w-0 flex-nowrap items-center gap-1.5 overflow-hidden" ref={containerRef}>
       {items.map((avatar, index) => {
         if (!accent) {
           return (
@@ -1491,7 +1575,17 @@ function AvatarStack({
           </span>
         );
       })}
-      {total > visible ? (
+      {isRange ? (
+        <span
+          className={`grid h-8 shrink-0 place-items-center rounded-full px-2.5 text-[11px] font-semibold leading-none ${
+            accent
+              ? "bg-accent/10 text-accent"
+              : "bg-neutral-300 text-neutral-500"
+          }`}
+        >
+          {rangeBadgeLabel}
+        </span>
+      ) : totalMin > visible ? (
         <span
           className={`grid size-8 place-items-center rounded-full text-[11px] font-semibold ${
             accent
@@ -1499,7 +1593,7 @@ function AvatarStack({
               : "bg-neutral-300 text-neutral-500"
           }`}
         >
-          +{total - visible}
+          +{totalMin - visible}
         </span>
       ) : null}
     </div>
@@ -1673,15 +1767,15 @@ function ElasticSlider({
 }
 
 function StandardApproachCard({
-  agencyCreators,
-  agencyPosts,
+  agencyCreatorRange,
+  agencyPostRange,
   agencyRelevant,
   agencyWaste,
   avatars,
   className = "",
 }: {
-  agencyCreators: number;
-  agencyPosts: number;
+  agencyCreatorRange: CreatorRange;
+  agencyPostRange: CreatorRange;
   agencyRelevant: number;
   agencyWaste: number;
   avatars: string[];
@@ -1692,8 +1786,8 @@ function StandardApproachCard({
       <div className="flex h-full min-w-0 flex-col px-5">
         <h3 className="text-2xl font-medium">Standard approach</h3>
         <div className="mt-5 grid flex-1 grid-cols-2 gap-x-4 gap-y-3 pb-3 sm:grid-cols-[0.72fr_0.72fr_1fr_1fr] sm:gap-y-0">
-          <CalculatorMetric label="Creators" value={<AnimatedNumber fontSize={28} value={agencyCreators} />} />
-          <CalculatorMetric label="Posts" value={<AnimatedNumber fontSize={28} value={agencyPosts} />} />
+          <CalculatorMetric label="Creators" value={<RangeMetricValue range={agencyCreatorRange} />} />
+          <CalculatorMetric label="Posts" value={<RangeMetricValue range={agencyPostRange} />} />
           <CalculatorMetric
             label="Estimated relevant audience"
             tone="primary"
@@ -1718,7 +1812,7 @@ function StandardApproachCard({
         <b className="font-medium text-red-200">not controlled</b>
       </div>
       <div className="mx-5 flex h-full min-w-0 items-center justify-between gap-3.5 border-t border-neutral-800/80 py-1 leading-none text-sm text-neutral-400">
-        <span>Overlap</span>
+        <span>Creators overlap</span>
         <b className="font-medium text-red-200">not measured</b>
       </div>
       <div className="mx-5 flex h-full min-w-0 flex-col border-t border-neutral-800/80 py-2.5">
@@ -1735,10 +1829,10 @@ function StandardApproachCard({
       </div>
       <div className="flex h-full min-w-0 flex-col justify-center px-5 pt-2 pb-0">
         <p className="whitespace-nowrap text-sm font-medium text-neutral-300">
-          Selected creators ({agencyCreators})
+          Selected creators ({formatRange(agencyCreatorRange)})
         </p>
         <div className="mt-2">
-          <AvatarStack avatars={avatars} total={agencyCreators} />
+          <AvatarStack avatars={avatars} total={agencyCreatorRange} />
         </div>
       </div>
     </section>
@@ -1755,9 +1849,10 @@ function CampaignCalculator() {
   }));
 
   const standardRate = 0.12;
-  const selectRate = 0.85;
   const agencyCreators = Math.max(4, Math.round(6 + (budget - 5) * 0.45));
+  const agencyCreatorRange = creatorRangeFromEstimate(agencyCreators);
   const agencyPosts = agencyCreators * 4;
+  const agencyPostRange = multiplyRange(agencyCreatorRange, 4);
   const agencyRelevant = Math.max(1, Math.round((agencyPosts * 3900 * standardRate) / 1000));
   const agencyWaste = Math.round(budget * 1000 * (1 - standardRate));
   const budgetLift = Math.max(0, budget - 5);
@@ -1766,10 +1861,11 @@ function CampaignCalculator() {
     8,
     18,
   );
+  const selectCreatorRange = creatorRangeFromEstimate(selectCreators);
   const selectPosts = selectCreators * 4;
+  const selectPostRange = multiplyRange(selectCreatorRange, 4);
   const selectReachFactor = 0.19 * (1 + (4 - frequency) * 0.06 + budgetLift * 0.015);
   const reach = Math.max(1, Math.round((selectPosts * 3900 * selectReachFactor) / 1000));
-  const selectWorking = Math.round(budget * 1000 * selectRate);
   const controlledFrequency = getControlledFrequency(frequency);
   const stage = getFrequencyStage(frequency);
 
@@ -1857,8 +1953,8 @@ function CampaignCalculator() {
 
           <div className="grid min-w-0 gap-3.5 xl:border-l xl:border-neutral-800/80 xl:pl-3.5 xl:grid-cols-2 xl:items-stretch xl:[grid-template-rows:minmax(112px,auto)_32px_32px_minmax(148px,auto)_auto]">
             <StandardApproachCard
-              agencyCreators={agencyCreators}
-              agencyPosts={agencyPosts}
+              agencyCreatorRange={agencyCreatorRange}
+              agencyPostRange={agencyPostRange}
               agencyRelevant={agencyRelevant}
               agencyWaste={agencyWaste}
               avatars={avatarDecks.standard}
@@ -1880,17 +1976,17 @@ function CampaignCalculator() {
               <div className="flex h-full min-w-0 flex-col px-5 pt-5 xl:pt-3.5">
                 <h3 className="text-2xl font-medium">Wallchain Select</h3>
                 <div className="mt-5 grid flex-1 grid-cols-2 gap-x-4 gap-y-3 pb-0 sm:grid-cols-[0.72fr_0.72fr_1fr_1fr] sm:gap-y-0 xl:pb-3">
-                  <CalculatorMetric label="Optimized creators" value={<AnimatedNumber fontSize={28} value={selectCreators} />} />
-                  <CalculatorMetric label="Posts" value={<AnimatedNumber fontSize={28} value={selectPosts} />} />
+                  <CalculatorMetric label="Optimized creators" value={<RangeMetricValue range={selectCreatorRange} />} />
+                  <CalculatorMetric label="Posts" value={<RangeMetricValue range={selectPostRange} />} />
                   <CalculatorMetric
                     label="Relevant audience"
                     tone="primary"
                     value={<AnimatedNumber fontSize={28} suffix="K" value={Math.max(1, reach)} />}
                   />
                   <CalculatorMetric
-                    label="Working budget"
+                    label="100% working budget"
                     tone="good"
-                    value={<AnimatedNumber fontSize={28} prefix="$" value={selectWorking} />}
+                    value={<AnimatedNumber fontSize={28} prefix="$" suffix="K" value={budget} />}
                   />
                 </div>
               </div>
@@ -1899,7 +1995,7 @@ function CampaignCalculator() {
                 <b className="min-w-0 text-right font-medium leading-tight text-accent">{stage.label}</b>
               </div>
               <div className="mx-5 flex h-full min-w-0 items-center justify-between gap-3.5 border-t border-accent/15 py-1 leading-none text-sm text-neutral-300">
-                <span>Overlap</span>
+                <span>Creators overlap</span>
                 <b className="min-w-0 text-right font-medium leading-tight text-accent">{stage.overlap}% controlled</b>
               </div>
               <div className="mx-5 flex h-full min-w-0 flex-col border-t border-accent/15 py-2.5">
@@ -1920,10 +2016,10 @@ function CampaignCalculator() {
               </div>
               <div className="flex h-full min-w-0 flex-col justify-center px-5 pt-2 pb-5 xl:pb-0">
                 <p className="whitespace-nowrap text-sm font-medium text-neutral-300">
-                  Selected creators ({selectCreators})
+                  Selected creators ({formatRange(selectCreatorRange)})
                 </p>
                 <div className="mt-2">
-                  <AvatarStack accent avatars={avatarDecks.select} total={selectCreators} />
+                  <AvatarStack accent avatars={avatarDecks.select} total={selectCreatorRange} />
                 </div>
               </div>
             </BorderGlow>
@@ -1939,8 +2035,8 @@ function CampaignCalculator() {
           </button>
 
           <StandardApproachCard
-            agencyCreators={agencyCreators}
-            agencyPosts={agencyPosts}
+            agencyCreatorRange={agencyCreatorRange}
+            agencyPostRange={agencyPostRange}
             agencyRelevant={agencyRelevant}
             agencyWaste={agencyWaste}
             avatars={avatarDecks.standard}
@@ -1949,10 +2045,7 @@ function CampaignCalculator() {
         </div>
       </div>
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-center">
-        <ActionLink href="#call">Book a call</ActionLink>
-        <ActionLink href="#plan-campaign" variant="secondary">
-          Analyze my campaign
-        </ActionLink>
+        <ActionLink href="#call">Build My Campaign</ActionLink>
         <p className={sectionEyebrowClass}>
           15-minute call. No slides. Just your campaign data.
         </p>

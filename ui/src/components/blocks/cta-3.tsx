@@ -8,7 +8,7 @@ import { ui } from "@/lib/ui-system";
 
 const links = [
   {
-    label: "Read our research",
+    label: "See How Optimization Works",
     href: "#prediction-markets-research",
   },
   {

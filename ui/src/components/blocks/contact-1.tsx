@@ -19,7 +19,7 @@ const cards = [
     icon: Sparkles,
     pillText: "Planning your first one?",
     description: "Start with a clean plan and build from the calculator.",
-    buttonText: "Plan my first campaign",
+    buttonText: "Launch My First Campaign",
     href: "#call",
     featured: true,
   },

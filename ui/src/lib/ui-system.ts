@@ -26,7 +26,7 @@ export const ui = {
     panel: "signal-gray-panel rounded-card p-card",
     card: "rounded-card border border-border bg-surface text-text-primary shadow-card",
     ctaBase:
-      "stripe-arrow-cta inline-flex min-h-11 items-center justify-center gap-2 rounded-cta px-5 text-sm font-medium transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+      "stripe-arrow-cta inline-flex min-h-11 items-center justify-center gap-2 rounded-cta px-5 text-sm font-semibold transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background",
     ctaPrimary: "yellow-cta",
     ctaSecondary: "outline-cta",
     labelPill:

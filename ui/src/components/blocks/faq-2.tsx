@@ -61,9 +61,9 @@ export function FAQ2({
                 key={faq.question}
                 transition={{ delay: 0.1 + index * 0.05, duration: 0.5 }}
               >
-                <div className="flex items-start gap-3">
+                <div className="grid grid-cols-[minmax(0,1fr)_1.75rem] items-start gap-3">
                   <motion.button
-                    className="group max-w-[85%] flex-1 cursor-pointer text-left sm:max-w-[75%]"
+                    className="group min-w-0 cursor-pointer text-left"
                     onClick={() => toggleFAQ(index)}
                     type="button"
                     whileHover={{ scale: 1.02 }}
@@ -94,7 +94,7 @@ export function FAQ2({
                         ? `Close ${faq.question}`
                         : `Open ${faq.question}`
                     }
-                    className={`mt-3 flex size-7 shrink-0 items-center justify-center rounded-full transition-colors duration-200 ${
+                    className={`mt-3 flex size-7 items-center justify-center rounded-full transition-colors duration-200 ${
                       openIndex === index
                         ? "bg-accent/10"
                         : "signal-gray-panel hover:bg-neutral-700"
@@ -124,12 +124,12 @@ export function FAQ2({
                     >
                       <motion.div
                         animate={{ scale: 1, y: 0 }}
-                        className="ml-auto mt-4 max-w-[85%] self-end sm:max-w-[75%]"
+                        className="mt-4 grid grid-cols-[minmax(0,1fr)_1.75rem] gap-3"
                         exit={{ scale: 0.5, y: -10 }}
                         initial={{ scale: 0.2, y: -10 }}
                         transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
                       >
-                        <div className="rounded-card bg-accent px-4 py-3 sm:px-5 sm:py-3.5">
+                        <div className="min-w-0 rounded-card bg-accent px-4 py-3 sm:px-5 sm:py-3.5">
                           <p className="text-sm leading-relaxed text-neutral-950 sm:text-base">
                             {faq.answer}
                           </p>
