@@ -21,6 +21,7 @@ import { ui } from "@/lib/ui-system";
 
 const titleFontFamily =
   '"Bai Jamjuree", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+const tgContactUrl = "https://t.me/surapyk";
 
 function AnimatedNumber({
   value,
@@ -138,9 +139,9 @@ const twitterAvatarUrls = Object.entries(twitterAvatarModules)
   .sort(([leftPath], [rightPath]) => leftPath.localeCompare(rightPath))
   .map(([, src]) => src);
 const demoAvatarUrls = {
-  active: new URL("./assets/twitter-avatars/Dimaweb3girl.jpg", import.meta.url).href,
-  next: new URL("./assets/twitter-avatars/web3femme.jpg", import.meta.url).href,
-  previous: new URL("./assets/twitter-avatars/InspiredByWill_.jpg", import.meta.url).href,
+  active: new URL("./assets/creator-demo-avatars/nova-loop.jpg", import.meta.url).href,
+  next: new URL("./assets/creator-demo-avatars/flux-rye.jpg", import.meta.url).href,
+  previous: new URL("./assets/creator-demo-avatars/sol-mango.jpg", import.meta.url).href,
 };
 
 const partnerLogos = [
@@ -189,8 +190,8 @@ const footerLinkGroups = [
   {
     title: "Company",
     links: [
-      { label: "Book a call", href: "#call" },
-      { label: "Contact", href: "#call" },
+      { label: "Book a call", href: tgContactUrl },
+      { label: "Contact", href: tgContactUrl },
       { label: "FAQ", href: "#faq" },
     ],
   },
@@ -235,26 +236,26 @@ const creatorValues: Record<string, number> = {
 const creatorDemoProfiles = {
   previous: {
     avatar: demoAvatarUrls.previous,
-    bio: "Market maps, perp notes, and oddly specific threads.",
-    displayName: "Mina Roe",
+    bio: "Market sketches, prediction threads, and launch-day notes.",
+    displayName: "Sol Mango",
     followersLabel: "120K",
-    handle: "@mina_demo",
+    handle: "@sol_mango_lab",
     totalFollowers: 120,
   },
   active: {
     avatar: demoAvatarUrls.active,
-    bio: "Crypto markets, launch notes, and onchain audience reads.",
-    displayName: "Juno K.",
+    bio: "Crypto explainers, onchain takes, and audience snapshots.",
+    displayName: "Nova Loop",
     followersLabel: "120K",
-    handle: "@juno_demo",
+    handle: "@nova_loop_x",
     totalFollowers: 120,
   },
   next: {
     avatar: demoAvatarUrls.next,
-    bio: "L2 gossip, mint windows, and charts worth saving.",
-    displayName: "Oren Vale",
+    bio: "L2 notes, trading memes, and charts worth saving.",
+    displayName: "Flux Rye",
     followersLabel: "120K",
-    handle: "@oren_demo",
+    handle: "@fluxrye",
     totalFollowers: 120,
   },
 };
@@ -301,6 +302,8 @@ function ActionLink({
   href: string;
   variant?: "primary" | "secondary";
 }) {
+  const isExternal = href.startsWith("http");
+
   return (
     <a
       className={`${ui.component.ctaBase} hover:scale-[1.02] ${
@@ -309,6 +312,8 @@ function ActionLink({
           : ui.component.ctaSecondary
       }`}
       href={href}
+      rel={isExternal ? "noreferrer" : undefined}
+      target={isExternal ? "_blank" : undefined}
     >
       {children}
       <AnimatedArrowIcon className="size-4" />
@@ -377,7 +382,9 @@ function SiteNavigation() {
               </a>
               <a
                 className={`${ui.component.ctaBase} ${ui.component.ctaPrimary} hidden py-2.5 sm:inline-flex`}
-                href="#call"
+                href={tgContactUrl}
+                rel="noreferrer"
+                target="_blank"
               >
                 Book a call
                 <AnimatedArrowIcon className="size-4" />
@@ -615,7 +622,7 @@ function Hero() {
         </p>
 
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <ActionLink href="#call">Plan My Campaign</ActionLink>
+          <ActionLink href={tgContactUrl}>Plan My Campaign</ActionLink>
           <ActionLink href="#plan-campaign" variant="secondary">
             See Budget Scenarios
           </ActionLink>
@@ -744,7 +751,7 @@ function Pain() {
               Standard KOL campaigns can't do that.
             </p>
             <div className="mt-8 flex">
-              <ActionLink href="#audit" variant="secondary">
+              <ActionLink href={tgContactUrl} variant="secondary">
                 Audit my last campaign
               </ActionLink>
             </div>
@@ -993,7 +1000,7 @@ function NicheDiscoveryCard({ className = "" }: { className?: string }) {
         </span>
       </p>
       <div className="mt-6 flex justify-center">
-        <ActionLink href="#plan-campaign" variant="secondary">
+        <ActionLink href={tgContactUrl} variant="secondary">
           See what actually matters
         </ActionLink>
       </div>
@@ -1239,7 +1246,7 @@ function CreatorNetwork() {
         </div>
 
         <div className="-mt-2 flex justify-center">
-          <ActionLink href="#call" variant="secondary">
+          <ActionLink href={tgContactUrl} variant="secondary">
             Find Better Creator Fit
           </ActionLink>
         </div>
@@ -1281,7 +1288,7 @@ function CreatorProfileCard({
       className={`signal-gray-panel-frame min-w-0 overflow-hidden text-left transition duration-300 ${
         active
           ? "bg-surface shadow-card"
-          : "bg-neutral-950/72 opacity-42 grayscale lg:scale-[0.9]"
+          : "bg-neutral-950/72 opacity-42 lg:scale-[0.9]"
       } ${className}`}
       style={
         {
@@ -2089,7 +2096,7 @@ function CampaignCalculator() {
         </div>
       </div>
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-center">
-        <ActionLink href="#call">Build My Campaign</ActionLink>
+        <ActionLink href={tgContactUrl}>Build My Campaign</ActionLink>
         <p className={sectionEyebrowClass}>
           15-minute call. No slides. Just your campaign data.
         </p>
@@ -2190,6 +2197,8 @@ function Footer() {
                       <a
                         className="text-sm text-neutral-300 transition-colors duration-200 hover:text-white"
                         href={link.href}
+                        rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+                        target={link.href.startsWith("http") ? "_blank" : undefined}
                       >
                         {link.label}
                       </a>

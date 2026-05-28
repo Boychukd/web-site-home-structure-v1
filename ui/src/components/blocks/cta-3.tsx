@@ -6,10 +6,14 @@ import { AnimatedArrowIcon } from "@/components/AnimatedArrowIcon";
 import { sectionEyebrowClass, sectionSubtitleClass, sectionTitleClass } from "@/lib/section-typography";
 import { ui } from "@/lib/ui-system";
 
+const tgContactUrl = "https://t.me/surapyk";
+
 const links = [
   {
     label: "See How Optimization Works",
-    href: "#prediction-markets-research",
+    href: tgContactUrl,
+    target: "_blank",
+    rel: "noreferrer",
   },
   {
     label: "Follow on X",

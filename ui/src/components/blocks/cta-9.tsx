@@ -7,6 +7,8 @@ import { SignalPanel } from "@/components/ui/SignalPanel";
 import { sectionEyebrowClass, sectionSubtitleClass, sectionTitleClass } from "@/lib/section-typography";
 import { ui } from "@/lib/ui-system";
 
+const tgContactUrl = "https://t.me/surapyk";
+
 export default function Cta9() {
   return (
     <section className={`${ui.layout.sectionCompact} relative z-[1] flex w-full items-center justify-center overflow-visible`}>
@@ -56,7 +58,9 @@ export default function Cta9() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 className={`${ui.component.ctaBase} ${ui.component.ctaPrimary} mt-6 px-6 hover:scale-[1.02]`}
-                href="#call"
+                href={tgContactUrl}
+                rel="noreferrer"
+                target="_blank"
               >
                 Set this up for me
                 <AnimatedArrowIcon className="size-4" />
