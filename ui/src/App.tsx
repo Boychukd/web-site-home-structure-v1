@@ -605,7 +605,7 @@ function Hero() {
         </div>
 
         <h1 className="mt-10 max-w-5xl text-hero-title font-medium tracking-normal">
-          Get <span className="text-accent">3-6x more relevant reach</span>
+          <span className="text-accent">3-6x more relevant reach</span>
           <br className="hidden sm:block" /> for half the cost.
         </h1>
 
@@ -1400,18 +1400,26 @@ function CreatorProfileCard({
   );
 }
 
-const frequencyStages = [
-  "Max reach",
-  "Reach",
-  "Reach / Balanced",
-  "Balanced",
-  "Balanced / Frequency",
-  "Frequency",
-  "High frequency",
-  "Max frequency",
+const distributionStages = [
+  "Broad niche coverage",
+  "Expanded distribution",
+  "Balanced distribution",
+  "Focused exposure",
+  "High audience presence",
 ];
 
-const frequencyLabels = ["1×", "2×", "3×", "4×", "5×", "6×", "7×", "8×", "9×", "10×+"];
+const exposureLabels = [
+  "Reach",
+  "Wide",
+  "Span",
+  "Blend",
+  "Bal",
+  "Focus",
+  "Dense",
+  "Hold",
+  "Deep",
+  "Peak",
+];
 const staticStandardFrequency = [88, 58, 36, 22, 31, 55, 20, 47, 18, 42];
 
 function clampNumber(value: number, min: number, max: number) {
@@ -1429,12 +1437,16 @@ function shuffleArray<T>(items: T[]) {
   return nextItems;
 }
 
-function getFrequencyStage(frequencyValue: number) {
-  const index = clampNumber(Math.round(frequencyValue) - 1, 0, frequencyStages.length - 1);
+function mapDistributionToFrequency(distributionValue: number) {
+  return 1 + ((distributionValue - 1) / 4) * 7;
+}
+
+function getDistributionStage(distributionValue: number) {
+  const index = clampNumber(Math.round(distributionValue) - 1, 0, distributionStages.length - 1);
 
   return {
-    label: frequencyStages[index],
-    overlap: clampNumber(8 + index * 1.7, 8, 21),
+    label: distributionStages[index],
+    overlap: clampNumber(8 + index * 3.25, 8, 21),
   };
 }
 
@@ -1450,7 +1462,7 @@ function getControlledFrequency(frequencyValue: number) {
   );
   const spread =
     frequencyValue <= 2 ? 1.9 : frequencyValue <= 4 ? 2.5 : frequencyValue <= 6 ? 3.05 : 3.5;
-  const values = frequencyLabels.map((_, index) => {
+  const values = exposureLabels.map((_, index) => {
     const distance = index - peakIndex;
     let height = 12 + 78 * Math.exp(-(distance * distance) / spread);
     if (frequencyValue <= 2 && index > peakIndex) height -= (index - peakIndex) * 4.2;
@@ -1459,6 +1471,27 @@ function getControlledFrequency(frequencyValue: number) {
   });
 
   return { peakIndex, values };
+}
+
+function getDistributionLabelOpacity(
+  distributionValue: number,
+  label: "reach" | "balanced" | "presence",
+) {
+  const position = (distributionValue - 1) / 4;
+
+  if (label === "balanced") {
+    return clampNumber(1 - Math.abs(position - 0.5) * 0.9, 0.55, 1);
+  }
+
+  if (label === "reach") {
+    return position <= 0.5
+      ? 1 - position * 0.9
+      : 0.55 - (position - 0.5) * 0.5;
+  }
+
+  return position <= 0.5
+    ? 0.3 + position * 0.5
+    : 0.55 + (position - 0.5) * 0.9;
 }
 
 function FrequencyChart({
@@ -1472,7 +1505,7 @@ function FrequencyChart({
 }) {
   return (
     <div className="grid h-28 grid-cols-10 items-end gap-1 border-b border-neutral-700 pb-1">
-      {frequencyLabels.map((label, index) => {
+      {exposureLabels.map((label, index) => {
         const barTone = !controlled
           ? "bg-neutral-600"
           : index === peakIndex
@@ -1808,8 +1841,8 @@ function StandardApproachCard({
         </div>
       </div>
       <div className="mx-5 flex h-full min-w-0 items-center justify-between gap-3.5 border-t border-neutral-800/80 py-1 leading-none text-sm text-neutral-400">
-        <span>Frequency control</span>
-        <b className="font-medium text-red-200">not controlled</b>
+        <span>Campaign distribution</span>
+        <b className="font-medium text-red-200">not optimized</b>
       </div>
       <div className="mx-5 flex h-full min-w-0 items-center justify-between gap-3.5 border-t border-neutral-800/80 py-1 leading-none text-sm text-neutral-400">
         <span>Creators overlap</span>
@@ -1817,14 +1850,14 @@ function StandardApproachCard({
       </div>
       <div className="mx-5 flex h-full min-w-0 flex-col border-t border-neutral-800/80 py-2.5">
         <div className="flex items-start justify-between gap-3.5">
-          <p className="text-sm font-medium text-white">Uncontrolled frequency</p>
+          <p className="text-sm font-medium text-white">Audience distribution</p>
           <p className="text-sm font-medium text-red-200">Random Distribution</p>
         </div>
         <div className="mt-2">
           <FrequencyChart values={staticStandardFrequency} />
         </div>
         <p className="mt-1 font-mono text-xs text-neutral-500">
-          Frequency happens, but it is not controlled.
+          Audience exposure happens randomly across creators.
         </p>
       </div>
       <div className="flex h-full min-w-0 flex-col justify-center px-5 pt-2 pb-0">
@@ -1841,7 +1874,7 @@ function StandardApproachCard({
 
 function CampaignCalculator() {
   const [budget, setBudget] = useState(5);
-  const [frequency, setFrequency] = useState(5);
+  const [distribution, setDistribution] = useState(3);
   const [standardOpen, setStandardOpen] = useState(false);
   const [avatarDecks, setAvatarDecks] = useState(() => ({
     standard: shuffleArray(twitterAvatarUrls),
@@ -1856,6 +1889,7 @@ function CampaignCalculator() {
   const agencyRelevant = Math.max(1, Math.round((agencyPosts * 3900 * standardRate) / 1000));
   const agencyWaste = Math.round(budget * 1000 * (1 - standardRate));
   const budgetLift = Math.max(0, budget - 5);
+  const frequency = mapDistributionToFrequency(distribution);
   const selectCreators = clampNumber(
     Math.round(11 + (5 - frequency) * 0.55 + budgetLift * 0.7),
     8,
@@ -1867,7 +1901,7 @@ function CampaignCalculator() {
   const selectReachFactor = 0.19 * (1 + (4 - frequency) * 0.06 + budgetLift * 0.015);
   const reach = Math.max(1, Math.round((selectPosts * 3900 * selectReachFactor) / 1000));
   const controlledFrequency = getControlledFrequency(frequency);
-  const stage = getFrequencyStage(frequency);
+  const stage = getDistributionStage(distribution);
 
   useEffect(() => {
     setAvatarDecks({
@@ -1917,31 +1951,41 @@ function CampaignCalculator() {
               </label>
               <label className="block">
                 <span className="flex items-baseline justify-between gap-4 text-sm text-neutral-400">
-                  Audience frequency
-                  <strong className="text-lg font-medium text-white">{frequency}×</strong>
+                  Campaign distribution
                 </span>
                 <ElasticSlider
-                  aria-label="Audience frequency"
+                  aria-label="Campaign distribution"
                   labels={
-                    <span className="grid grid-cols-3 items-start font-mono text-label uppercase leading-tight tracking-label text-neutral-600">
-                      <span className="text-left">
+                    <span className="grid grid-cols-3 items-start font-mono text-label uppercase leading-tight tracking-label text-white">
+                      <span
+                        className="text-left transition-opacity duration-150 ease-out"
+                        style={{ opacity: getDistributionLabelOpacity(distribution, "reach") }}
+                      >
                         Max
                         <br />
                         reach
                       </span>
-                      <span>Balanced</span>
-                      <span className="text-right">
+                      <span
+                        className="transition-opacity duration-150 ease-out"
+                        style={{ opacity: getDistributionLabelOpacity(distribution, "balanced") }}
+                      >
+                        Balanced
+                      </span>
+                      <span
+                        className="text-right transition-opacity duration-150 ease-out"
+                        style={{ opacity: getDistributionLabelOpacity(distribution, "presence") }}
+                      >
                         Max
                         <br />
-                        frequency
+                        presence
                       </span>
                     </span>
                   }
-                  maxValue={8}
-                  onChange={setFrequency}
+                  maxValue={5}
+                  onChange={setDistribution}
                   startingValue={1}
                   stepSize={1}
-                  value={frequency}
+                  value={distribution}
                 />
               </label>
               <p className="mt-5 text-sm leading-6 text-neutral-300">
@@ -1991,7 +2035,7 @@ function CampaignCalculator() {
                 </div>
               </div>
               <div className="mx-5 flex h-full min-w-0 items-center justify-between gap-3.5 border-t border-accent/15 py-1 leading-none text-sm text-neutral-300">
-                <span>Frequency control</span>
+                <span>Campaign distribution</span>
                 <b className="min-w-0 text-right font-medium leading-tight text-accent">{stage.label}</b>
               </div>
               <div className="mx-5 flex h-full min-w-0 items-center justify-between gap-3.5 border-t border-accent/15 py-1 leading-none text-sm text-neutral-300">
@@ -2000,7 +2044,7 @@ function CampaignCalculator() {
               </div>
               <div className="mx-5 flex h-full min-w-0 flex-col border-t border-accent/15 py-2.5">
                 <div className="flex min-w-0 items-start justify-between gap-3.5">
-                  <p className="text-sm font-medium text-white">Controlled frequency</p>
+                  <p className="text-sm font-medium text-white">Audience distribution</p>
                   <p className="min-w-0 text-right text-sm font-medium leading-tight text-accent">Target Distribution</p>
                 </div>
                 <div className="mt-2">
@@ -2011,7 +2055,7 @@ function CampaignCalculator() {
                   />
                 </div>
                 <p className="mt-1 font-mono text-xs text-neutral-500">
-                  Frequency is planned around your target.
+                  Audience exposure is shaped around your niche.
                 </p>
               </div>
               <div className="flex h-full min-w-0 flex-col justify-center px-5 pt-2 pb-5 xl:pb-0">
