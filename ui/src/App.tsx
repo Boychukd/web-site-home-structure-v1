@@ -386,7 +386,7 @@ function SiteNavigation() {
                 rel="noreferrer"
                 target="_blank"
               >
-                Book a call
+                Let&apos;s Talk
                 <AnimatedArrowIcon className="size-4" />
               </a>
               <button
@@ -578,26 +578,6 @@ function Section({
   );
 }
 
-function DataTile({
-  children,
-  tone = "dark",
-}: {
-  children: React.ReactNode;
-  tone?: "dark" | "accent";
-}) {
-  return (
-    <div
-      className={`linear-panel rounded-card p-card ${
-        tone === "accent"
-          ? "text-accent"
-          : "text-white"
-      }`}
-    >
-      {children}
-    </div>
-  );
-}
-
 function Hero() {
   return (
     <section className="relative overflow-hidden bg-surface-page px-4 pb-16 pt-10 text-text-primary sm:px-6 lg:px-8" id="hero">
@@ -628,7 +608,7 @@ function Hero() {
           </ActionLink>
         </div>
 
-        <div className="mt-auto w-full pt-12 sm:pt-0">
+        <div className="mt-auto w-full pt-12 sm:pt-0 lg:-translate-y-5">
           <div className="mt-7 flex flex-col items-center gap-8 px-3 pb-4 text-neutral-400 sm:hidden">
             <div className="flex w-full max-w-container flex-col items-center gap-2 px-6 py-3">
               <span className="hero-meta-text hero-trust-label text-center">
@@ -849,10 +829,10 @@ function NicheFollowers() {
       id="niche-followers"
       title="Most teams don't know which part of their impressions actually mattered."
     >
-      <div className="mt-8">
+      <div className="mt-7 lg:mt-6">
         <article className="text-white">
-          <div className="grid gap-8 lg:gap-10">
-            <div className="relative overflow-hidden py-0 sm:py-8 lg:py-8">
+          <div className="grid gap-7 lg:gap-7">
+            <div className="relative overflow-hidden py-0 sm:py-8 lg:py-5">
               <div className="grid items-center gap-5 lg:mx-auto lg:min-h-[390px] lg:max-w-[930px] lg:grid-cols-[minmax(340px,0.88fr)_minmax(260px,0.52fr)] lg:gap-2 xl:max-w-[980px] xl:grid-cols-[minmax(380px,0.92fr)_minmax(280px,0.54fr)]">
                 <AudienceDiagram compact />
                 <NicheMetricCopy compact />
@@ -2145,10 +2125,6 @@ function ProofBand() {
 
   return (
     <Stats10
-      ctaHref="https://x.com/shaundadevens/status/2049237613220163912"
-      ctaLabel="View report"
-      ctaTarget="_blank"
-      ctaTitle="Full creator campaign report for Prediction Markets"
       eyebrow="Numbers from real campaigns"
       id="proof"
       stats={stats}

@@ -26,7 +26,7 @@ export default function Cta9() {
             className="relative rounded-panel"
             innerClassName="rounded-[calc(1.75rem-1px)] bg-surface-muted/90 p-card-lg shadow-panel sm:p-12 lg:p-14"
           >
-            <div className="relative z-10 mx-auto flex max-w-[760px] flex-col items-center text-center">
+            <div className="relative z-10 mx-auto flex max-w-[920px] flex-col items-center text-center">
               <motion.p
                 className={`mb-3 ${sectionEyebrowClass}`}
                 initial={{ opacity: 0, y: 16 }}
@@ -47,10 +47,10 @@ export default function Cta9() {
                 </div>
               </div>
 
-              <h2 className={`${sectionTitleClass} text-white md:whitespace-nowrap`}>
+              <h2 className={`${sectionTitleClass} max-w-[760px] text-white md:whitespace-nowrap`}>
                 $6.9M already paid to creators
               </h2>
-              <p className={`mx-auto mt-4 max-w-readable ${sectionSubtitleClass}`}>
+              <p className={`mx-auto mt-4 max-w-[860px] ${sectionSubtitleClass}`}>
                 Across dozens of campaigns, we&apos;ve turned budgets into right
                 creator lineups. Let&apos;s do the same for your one.
               </p>

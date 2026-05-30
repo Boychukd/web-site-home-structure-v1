@@ -6,20 +6,21 @@ export function AnimatedArrowIcon({ className }: { className?: string }) {
       <svg fill="none" viewBox="0 0 10 10">
         <path
           className="stripe-arrow-icon__shaft"
-          d="M0 5H7"
-          pathLength={1}
+          d="M0 5h7"
           stroke="currentColor"
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth="2"
+          vectorEffect="non-scaling-stroke"
         />
         <path
           className="stripe-arrow-icon__head"
-          d="M3 1L7 5L3 9"
+          d="M1 1l4 4-4 4"
           stroke="currentColor"
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth="2"
+          vectorEffect="non-scaling-stroke"
         />
       </svg>
     </span>

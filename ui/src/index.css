@@ -135,7 +135,6 @@
 }
 
 .stripe-arrow-icon__head {
-  transform: translateX(calc(var(--stripe-arrow-hover-offset) * -1));
   transition: transform var(--stripe-arrow-transition);
 }
 
@@ -144,7 +143,7 @@
 }
 
 .stripe-arrow-cta:is(:hover, :focus-visible, :focus-within) .stripe-arrow-icon__head {
-  transform: translateX(0);
+  transform: translateX(var(--stripe-arrow-hover-offset));
 }
 
 .linear-panel {
