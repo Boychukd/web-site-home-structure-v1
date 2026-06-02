@@ -190,8 +190,7 @@ const footerLinkGroups = [
   {
     title: "Company",
     links: [
-      { label: "Book a call", href: tgContactUrl },
-      { label: "Contact", href: tgContactUrl },
+      { label: "Let's Talk", href: tgContactUrl },
       { label: "FAQ", href: "#faq" },
     ],
   },
@@ -580,18 +579,18 @@ function Section({
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden bg-surface-page px-4 pb-16 pt-10 text-text-primary sm:px-6 lg:px-8" id="hero">
+    <section className="relative overflow-hidden bg-surface-page px-4 pb-16 pt-6 text-text-primary sm:px-6 sm:pt-8 lg:px-8" id="hero">
       <div className="hero-aurora" />
       <div className="hero-dome" />
 
-      <div className={`${ui.layout.container} relative z-10 flex min-h-[760px] flex-col items-center justify-start pt-10 text-center sm:min-h-[820px] sm:pt-14 lg:min-h-[850px] lg:pt-16`}>
+      <div className={`${ui.layout.container} relative z-10 flex min-h-[720px] flex-col items-center justify-start pt-6 text-center sm:min-h-[800px] sm:pt-10 lg:min-h-[850px] lg:pt-14`}>
         <div className="hero-stat-row hero-meta-text text-text-secondary">
           {heroBullets.map((bullet) => (
             <span key={bullet}>{bullet}</span>
           ))}
         </div>
 
-        <h1 className="mt-10 max-w-5xl text-hero-title font-medium tracking-normal">
+        <h1 className="mt-8 max-w-5xl text-hero-title font-medium tracking-normal sm:mt-9">
           <span className="text-accent">3-6x more relevant reach</span>
           <br className="hidden sm:block" /> for half the cost.
         </h1>
@@ -652,8 +651,8 @@ function Hero() {
             </div>
           </div>
 
-          <div className="hidden flex-col items-start justify-center gap-5 px-3 text-neutral-400 sm:flex sm:items-center sm:gap-0">
-            <div className="flex flex-col items-start justify-center gap-5 sm:flex-row sm:items-center sm:gap-8">
+          <div className="hidden flex-col items-start justify-center gap-5 px-3 text-neutral-400 sm:flex sm:items-center sm:gap-0 lg:-translate-y-10">
+            <div className="flex flex-col items-start justify-center gap-5 sm:flex-row sm:items-center sm:gap-8 lg:translate-y-[12px]">
               <div className="flex w-full items-center justify-start gap-4 sm:w-auto">
                 <span className="hero-meta-text hero-trust-label">
                   Backed by
@@ -679,17 +678,19 @@ function Hero() {
               </div>
             </div>
 
-            <p className={`${sectionEyebrowClass} mt-8 mb-1`}>
-              Used by teams at
-            </p>
-            <div className="hero-logo-zone mt-3 w-full">
-              <div className="hero-logo-shell mx-auto w-full max-w-container">
-                <div className="hero-logo-track">
-                  {[...partnerLogos, ...partnerLogos, ...partnerLogos].map((logo, index) => (
-                    <div className="hero-logo-item" key={`${logo.name}-${index}`}>
-                      <img alt={logo.name} decoding="async" src={logo.src} />
-                    </div>
-                  ))}
+            <div className="lg:translate-y-10">
+              <p className={`${sectionEyebrowClass} mt-8 mb-1`}>
+                Used by teams at
+              </p>
+              <div className="hero-logo-zone mt-3 w-full">
+                <div className="hero-logo-shell mx-auto w-full max-w-container">
+                  <div className="hero-logo-track">
+                    {[...partnerLogos, ...partnerLogos, ...partnerLogos].map((logo, index) => (
+                      <div className="hero-logo-item" key={`${logo.name}-${index}`}>
+                        <img alt={logo.name} decoding="async" src={logo.src} />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -706,9 +707,9 @@ function Pain() {
     ["02", "impressions", "240K"],
   ];
   const missedSignals = [
-    ["03", "audience_overlap", "61% audience overlap"],
-    ["04", "off_niche", "72% outside target niche"],
-    ["05", "frequency_dist", "random frequency distribution"],
+    ["03", "overlap_score", "61% audience overlap"],
+    ["04", "niche_match", "28% niche alignment"],
+    ["05", "distribution", "random audience distribution"],
   ];
 
   return (
@@ -887,14 +888,14 @@ function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
             <span className="size-3.5 rounded-full border border-white/30 bg-white/[0.03]" />
             <p
               className={`${sectionEyebrowClass} ${
-                compact ? "max-w-none text-[0.92rem] leading-[1.06]" : ""
+                compact ? "max-w-none text-[0.92rem] leading-[1.06] lg:whitespace-nowrap" : ""
               }`}
             >
               {compact ? (
                 <>
                   This is what
-                  <br />
-                  you see
+                  <br className="lg:hidden" />
+                  <span className="lg:ml-1">you see</span>
                 </>
               ) : (
                 "This is what you see"
@@ -922,14 +923,14 @@ function NicheMetricCopy({ compact = false }: { compact?: boolean }) {
             <span className="size-3.5 rounded-full border border-accent/80 bg-accent/20 shadow-[0_0_22px_rgba(247,209,51,0.24)]" />
             <p
               className={`${sectionEyebrowClass} text-accent/75 ${
-                compact ? "max-w-none text-[0.92rem] leading-[1.06]" : ""
+                compact ? "max-w-none text-[0.92rem] leading-[1.06] lg:whitespace-nowrap" : ""
               }`}
             >
               {compact ? (
                 <>
                   This is what
-                  <br />
-                  matters
+                  <br className="lg:hidden" />
+                  <span className="lg:ml-1">matters</span>
                 </>
               ) : (
                 "This is what matters"
@@ -971,7 +972,7 @@ function NicheDiscoveryCard({ className = "" }: { className?: string }) {
           variant="buyer"
         />
       </div>
-      <p className="mt-6 flex items-center justify-center gap-2.5 pt-5 text-center text-body font-normal text-text-secondary">
+      <p className="mt-6 flex w-full flex-col items-center justify-center gap-2 pt-5 text-center text-body font-normal text-text-secondary sm:flex-row sm:gap-2.5">
         <BadgeCheck className="size-3.5 shrink-0 text-accent" />
         <span>
           We mapped 56M Twitter accounts, apply additional filtering
@@ -1491,28 +1492,49 @@ function FrequencyChart({
   values: number[];
 }) {
   return (
-    <div className="grid h-28 grid-cols-10 items-end gap-1 border-b border-neutral-700 pb-1">
-      {exposureLabels.map((label, index) => {
-        const barTone = !controlled
-          ? "bg-neutral-600"
-          : index === peakIndex
-            ? "bg-accent"
-            : index < peakIndex
-              ? "bg-sky-400/35"
-              : "bg-red-300/35";
+    <div className="border-b border-neutral-700 pb-1">
+      <div className="grid h-[5.75rem] grid-cols-10 items-end gap-1.5 sm:h-28 sm:gap-1">
+        {exposureLabels.map((label, index) => {
+          const barTone = !controlled
+            ? "bg-neutral-600"
+            : index === peakIndex
+              ? "bg-accent"
+              : index < peakIndex
+                ? "bg-sky-400/35"
+                : "bg-red-300/35";
 
-        return (
-          <span className="grid h-full grid-rows-[1fr_auto] items-end gap-1" key={label}>
-            <i
-              className={`block min-h-2 rounded-t-sm ${barTone}`}
-              style={{ height: `${clampNumber(values[index], 8, 92)}%` }}
-            />
-            <b className="text-center font-mono text-label font-semibold text-neutral-500">
-              {label}
-            </b>
-          </span>
-        );
-      })}
+          return (
+            <span className="flex h-full min-w-0 items-end" key={label}>
+              <i
+                className={`block min-h-2 w-full rounded-t-sm ${barTone}`}
+                style={{ height: `${clampNumber(values[index], 8, 92)}%` }}
+              />
+            </span>
+          );
+        })}
+      </div>
+      <div className="mt-1 grid grid-cols-3 items-start font-mono text-xs leading-tight text-neutral-500 sm:hidden">
+        <span className="whitespace-nowrap text-left max-[340px]:whitespace-normal">
+          Max
+          <span className="max-[340px]:hidden"> </span>
+          <br className="hidden max-[340px]:block" />
+          reach
+        </span>
+        <span className="text-center">Balanced</span>
+        <span className="whitespace-nowrap text-right max-[340px]:whitespace-normal">
+          Max
+          <span className="max-[340px]:hidden"> </span>
+          <br className="hidden max-[340px]:block" />
+          presence
+        </span>
+      </div>
+      <div className="mt-1 hidden grid-cols-10 sm:grid">
+        {exposureLabels.map((label) => (
+          <b className="text-center font-mono text-label font-semibold text-neutral-500" key={label}>
+            {label}
+          </b>
+        ))}
+      </div>
     </div>
   );
 }
@@ -2058,7 +2080,7 @@ function CampaignCalculator() {
 
           <button
             aria-expanded={standardOpen}
-            className="flex min-h-12 items-center justify-between rounded-2xl border border-[#f7d133]/25 bg-[#f7d133]/12 px-4 text-left text-sm font-medium text-[#e8cd57] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] xl:hidden"
+            className="flex min-h-12 items-center justify-center rounded-[20px] border-0 bg-[#f7d133]/12 px-4 text-center text-sm font-medium text-[#e8cd57] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] xl:hidden"
             onClick={() => setStandardOpen((value) => !value)}
             type="button"
           >
@@ -2103,7 +2125,7 @@ function ProofBand() {
       value: 2,
       suffix: "x",
       decimals: 0,
-      label: "cheaper per niche audience reader",
+      label: "lower cost per niche audience",
       bg: "#f7d133",
       fg: "#1a1400",
     },
@@ -2161,7 +2183,7 @@ function Footer() {
           </p>
           </div>
 
-          <div className="grid gap-8 sm:grid-cols-2 sm:gap-12">
+          <div className="grid grid-cols-2 gap-8 sm:gap-12">
             {footerLinkGroups.map((group) => (
               <div key={group.title}>
                 <h3 className={sectionEyebrowClass}>
