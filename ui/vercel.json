@@ -19,6 +19,16 @@
       "source": "/terms/",
       "destination": "https://wallchain.notion.site/Terms-of-Service-143eecaa498a811b8470f2583ad6bb17",
       "permanent": true
+    },
+    {
+      "source": "/tos",
+      "destination": "https://wallchain.notion.site/Terms-of-Service-143eecaa498a811b8470f2583ad6bb17",
+      "permanent": true
+    },
+    {
+      "source": "/tos/",
+      "destination": "https://wallchain.notion.site/Terms-of-Service-143eecaa498a811b8470f2583ad6bb17",
+      "permanent": true
     }
   ]
 }
