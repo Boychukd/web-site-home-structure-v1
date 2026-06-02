@@ -1,0 +1,24 @@
+{
+  "redirects": [
+    {
+      "source": "/privacy",
+      "destination": "https://wallchain.notion.site/Privacy-Policy-143eecaa498a81ff95d1cf3b9bcb6ffc",
+      "permanent": true
+    },
+    {
+      "source": "/privacy/",
+      "destination": "https://wallchain.notion.site/Privacy-Policy-143eecaa498a81ff95d1cf3b9bcb6ffc",
+      "permanent": true
+    },
+    {
+      "source": "/terms",
+      "destination": "https://wallchain.notion.site/Terms-of-Service-143eecaa498a811b8470f2583ad6bb17",
+      "permanent": true
+    },
+    {
+      "source": "/terms/",
+      "destination": "https://wallchain.notion.site/Terms-of-Service-143eecaa498a811b8470f2583ad6bb17",
+      "permanent": true
+    }
+  ]
+}
