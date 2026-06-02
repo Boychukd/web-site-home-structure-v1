@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wallchain.xyz/sitemap.xml

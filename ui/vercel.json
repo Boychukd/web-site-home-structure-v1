@@ -1,6 +1,17 @@
 {
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.wallchain.xyz"
+        }
+      ],
+      "destination": "https://wallchain.xyz/:path*",
+      "permanent": true
+    },
+    {
       "source": "/privacy",
       "destination": "https://wallchain.notion.site/Privacy-Policy-143eecaa498a81ff95d1cf3b9bcb6ffc",
       "permanent": true
