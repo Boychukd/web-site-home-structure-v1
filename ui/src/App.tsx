@@ -72,43 +72,14 @@ function AnimatedNumber({
   );
 }
 
-type CreatorRange = {
-  min: number;
-  max: number;
-};
-
-function creatorRangeFromEstimate(value: number): CreatorRange {
-  const rounded = Math.max(1, Math.round(value));
-  const spread = rounded < 8 ? 2 : rounded < 14 ? 4 : 5;
-  const min = Math.max(1, rounded - Math.floor(spread / 2));
-  const max = min + spread;
-
-  return { min, max };
-}
-
-function formatRange(range: CreatorRange) {
-  return `${range.min}-${range.max}`;
-}
-
-function multiplyRange(range: CreatorRange, multiplier: number): CreatorRange {
-  return {
-    min: range.min * multiplier,
-    max: range.max * multiplier,
-  };
-}
-
-function RangeMetricValue({
+function MetricTextValue({
   color = "currentColor",
   fontSize = 28,
-  prefix = "",
-  range,
-  suffix = "",
+  value,
 }: {
   color?: string;
   fontSize?: number;
-  prefix?: string;
-  range: CreatorRange;
-  suffix?: string;
+  value: string;
 }) {
   return (
     <span
@@ -121,11 +92,19 @@ function RangeMetricValue({
         lineHeight: 1,
       }}
     >
-      {prefix}
-      {formatRange(range)}
-      {suffix}
+      {value}
     </span>
   );
+}
+
+function formatCompactMoneyK(value: number) {
+  const amount = Math.max(0, value / 1000);
+  const formatted =
+    amount >= 100 || Number.isInteger(amount)
+      ? Math.round(amount).toLocaleString("en-US")
+      : amount.toFixed(1);
+
+  return `$${formatted}K`;
 }
 
 const wallchainLogoUrl = new URL("./assets/wallchain-logo.svg", import.meta.url).href;
@@ -273,7 +252,7 @@ const faqs = [
   {
     question: "How much does it cost?",
     answer:
-      "Wallchain Select is sold per campaign, not as a subscription. Pricing depends on three things: the number of creators we source, the size of the creator payout pool, and the campaign duration. Minimum campaign budget is $5,000 plus a processing fee, which covers creator payments, our work running the campaign, and reporting. We scope a specific number for your goals on an intro call.",
+      "Wallchain Select is sold per campaign, not as a subscription. Pricing depends on three things: the number of creators we source, the size of the creator payout pool, and the campaign duration. Minimum campaign budget is $16,000 plus a processing fee, which covers creator payments, our work running the campaign, and reporting. We scope a specific number for your goals on an intro call.",
   },
   {
     question: "How long does it take to launch a campaign?",
@@ -1546,7 +1525,7 @@ function AvatarStack({
 }: {
   accent?: boolean;
   avatars: string[];
-  total: number | CreatorRange;
+  total: number;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [containerWidth, setContainerWidth] = useState(0);
@@ -1569,23 +1548,18 @@ function AvatarStack({
   const avatarSize = 32;
   const avatarGap = 6;
   const slotWidth = avatarSize + avatarGap;
-  const isRange = typeof total !== "number";
-  const totalMin = isRange ? total.min : total;
-  const totalMax = isRange ? total.max : total;
-  const rangeBadgeLabel = isRange ? `${formatRange(total)} total` : "";
-  const rangeBadgeWidth = 78;
+  const totalCount = Math.max(1, Math.round(total));
   const overflowBadgeWidth = avatarSize;
-  const badgeWidth = isRange ? rangeBadgeWidth : overflowBadgeWidth;
   const capacity =
     containerWidth > 0
       ? Math.max(1, Math.floor((containerWidth + avatarGap) / slotWidth))
-      : Math.min(12, totalMax);
-  const rangeBadgeSlots = isRange ? Math.ceil((badgeWidth + avatarGap) / slotWidth) : 1;
-  const needsBadge = isRange || totalMax > capacity;
+      : Math.min(12, totalCount);
+  const badgeSlots = Math.ceil((overflowBadgeWidth + avatarGap) / slotWidth);
+  const needsBadge = totalCount > capacity;
   const visibleCapacity = needsBadge
-    ? Math.max(0, capacity - rangeBadgeSlots)
+    ? Math.max(0, capacity - badgeSlots)
     : capacity;
-  const visible = Math.min(visibleCapacity, totalMax);
+  const visible = Math.min(visibleCapacity, totalCount);
   const items = avatars.slice(0, visible);
 
   return (
@@ -1617,17 +1591,7 @@ function AvatarStack({
           </span>
         );
       })}
-      {isRange ? (
-        <span
-          className={`grid h-8 shrink-0 place-items-center rounded-full px-2.5 text-[11px] font-semibold leading-none ${
-            accent
-              ? "bg-accent/10 text-accent"
-              : "bg-neutral-300 text-neutral-500"
-          }`}
-        >
-          {rangeBadgeLabel}
-        </span>
-      ) : totalMin > visible ? (
+      {totalCount > visible ? (
         <span
           className={`grid size-8 place-items-center rounded-full text-[11px] font-semibold ${
             accent
@@ -1635,7 +1599,7 @@ function AvatarStack({
               : "bg-neutral-300 text-neutral-500"
           }`}
         >
-          +{totalMin - visible}
+          +{totalCount - visible}
         </span>
       ) : null}
     </div>
@@ -1809,15 +1773,15 @@ function ElasticSlider({
 }
 
 function StandardApproachCard({
-  agencyCreatorRange,
-  agencyPostRange,
+  agencyCreators,
+  agencyPosts,
   agencyRelevant,
   agencyWaste,
   avatars,
   className = "",
 }: {
-  agencyCreatorRange: CreatorRange;
-  agencyPostRange: CreatorRange;
+  agencyCreators: number;
+  agencyPosts: number;
   agencyRelevant: number;
   agencyWaste: number;
   avatars: string[];
@@ -1828,8 +1792,8 @@ function StandardApproachCard({
       <div className="flex h-full min-w-0 flex-col px-5">
         <h3 className="text-2xl font-medium">Standard approach</h3>
         <div className="mt-5 grid flex-1 grid-cols-2 gap-x-4 gap-y-3 pb-3 sm:grid-cols-[0.72fr_0.72fr_1fr_1fr] sm:gap-y-0">
-          <CalculatorMetric label="Creators" value={<RangeMetricValue range={agencyCreatorRange} />} />
-          <CalculatorMetric label="Posts" value={<RangeMetricValue range={agencyPostRange} />} />
+          <CalculatorMetric label="Creators" value={<AnimatedNumber fontSize={28} value={agencyCreators} />} />
+          <CalculatorMetric label="Posts" value={<AnimatedNumber fontSize={28} value={agencyPosts} />} />
           <CalculatorMetric
             label="Estimated relevant audience"
             tone="primary"
@@ -1845,7 +1809,7 @@ function StandardApproachCard({
           <CalculatorMetric
             label="Wasted budget"
             tone="warning"
-            value={<AnimatedNumber fontSize={28} prefix="$" value={agencyWaste} />}
+            value={<MetricTextValue value={formatCompactMoneyK(agencyWaste)} />}
           />
         </div>
       </div>
@@ -1871,10 +1835,10 @@ function StandardApproachCard({
       </div>
       <div className="flex h-full min-w-0 flex-col justify-center px-5 pt-2 pb-0">
         <p className="whitespace-nowrap text-sm font-medium text-neutral-300">
-          Selected creators ({formatRange(agencyCreatorRange)})
+          Selected creators ({agencyCreators.toLocaleString("en-US")})
         </p>
         <div className="mt-2">
-          <AvatarStack avatars={avatars} total={agencyCreatorRange} />
+          <AvatarStack avatars={avatars} total={agencyCreators} />
         </div>
       </div>
     </section>
@@ -1882,7 +1846,7 @@ function StandardApproachCard({
 }
 
 function CampaignCalculator() {
-  const [budget, setBudget] = useState(5);
+  const [budget, setBudget] = useState(20);
   const [distribution, setDistribution] = useState(3);
   const [standardOpen, setStandardOpen] = useState(false);
   const [avatarDecks, setAvatarDecks] = useState(() => ({
@@ -1890,25 +1854,19 @@ function CampaignCalculator() {
     select: shuffleArray(twitterAvatarUrls),
   }));
 
-  const standardRate = 0.12;
-  const agencyCreators = Math.max(4, Math.round(6 + (budget - 5) * 0.45));
-  const agencyCreatorRange = creatorRangeFromEstimate(agencyCreators);
-  const agencyPosts = agencyCreators * 4;
-  const agencyPostRange = multiplyRange(agencyCreatorRange, 4);
-  const agencyRelevant = Math.max(1, Math.round((agencyPosts * 3900 * standardRate) / 1000));
-  const agencyWaste = Math.round(budget * 1000 * (1 - standardRate));
-  const budgetLift = Math.max(0, budget - 5);
+  const budgetScale = budget / 20;
   const frequency = mapDistributionToFrequency(distribution);
-  const selectCreators = clampNumber(
-    Math.round(11 + (5 - frequency) * 0.55 + budgetLift * 0.7),
-    8,
-    18,
-  );
-  const selectCreatorRange = creatorRangeFromEstimate(selectCreators);
+  const reachBias = (4.5 - frequency) / 3.5;
+  const reachCurve = Math.pow(budgetScale, 0.72);
+  const standardRate = 0.12;
+  const agencyCreators = Math.max(24, Math.round(24 * budgetScale));
+  const agencyPosts = agencyCreators * 4;
+  const agencyRelevantRate = standardRate / Math.pow(budgetScale, 0.18);
+  const agencyRelevant = Math.max(1, Math.round((agencyPosts * 3900 * agencyRelevantRate) / 1000));
+  const agencyWaste = Math.round(budget * 1000 * (1 - standardRate));
+  const selectCreators = Math.max(1, Math.round(48 * budgetScale * (1 + reachBias * 0.12)));
   const selectPosts = selectCreators * 4;
-  const selectPostRange = multiplyRange(selectCreatorRange, 4);
-  const selectReachFactor = 0.19 * (1 + (4 - frequency) * 0.06 + budgetLift * 0.015);
-  const reach = Math.max(1, Math.round((selectPosts * 3900 * selectReachFactor) / 1000));
+  const reach = Math.max(1, Math.round(150 * reachCurve * (1 + reachBias * 0.16)));
   const controlledFrequency = getControlledFrequency(frequency);
   const stage = getDistributionStage(distribution);
 
@@ -1951,10 +1909,10 @@ function CampaignCalculator() {
                 </span>
                 <ElasticSlider
                   aria-label="Budget"
-                  maxValue={50}
+                  maxValue={200}
                   onChange={setBudget}
-                  startingValue={5}
-                  stepSize={1}
+                  startingValue={20}
+                  stepSize={5}
                   value={budget}
                 />
               </label>
@@ -2006,8 +1964,8 @@ function CampaignCalculator() {
 
           <div className="grid min-w-0 gap-3.5 xl:border-l xl:border-neutral-800/80 xl:pl-3.5 xl:grid-cols-2 xl:items-stretch xl:[grid-template-rows:minmax(112px,auto)_32px_32px_minmax(148px,auto)_auto]">
             <StandardApproachCard
-              agencyCreatorRange={agencyCreatorRange}
-              agencyPostRange={agencyPostRange}
+              agencyCreators={agencyCreators}
+              agencyPosts={agencyPosts}
               agencyRelevant={agencyRelevant}
               agencyWaste={agencyWaste}
               avatars={avatarDecks.standard}
@@ -2029,8 +1987,8 @@ function CampaignCalculator() {
               <div className="flex h-full min-w-0 flex-col px-5 pt-5 xl:pt-3.5">
                 <h3 className="text-2xl font-medium">Wallchain Select</h3>
                 <div className="mt-5 grid flex-1 grid-cols-2 gap-x-4 gap-y-3 pb-0 sm:grid-cols-[0.72fr_0.72fr_1fr_1fr] sm:gap-y-0 xl:pb-3">
-                  <CalculatorMetric label="Optimized creators" value={<RangeMetricValue range={selectCreatorRange} />} />
-                  <CalculatorMetric label="Posts" value={<RangeMetricValue range={selectPostRange} />} />
+                  <CalculatorMetric label="Optimized creators" value={<AnimatedNumber fontSize={28} value={selectCreators} />} />
+                  <CalculatorMetric label="Posts" value={<AnimatedNumber fontSize={28} value={selectPosts} />} />
                   <CalculatorMetric
                     label="Relevant audience"
                     tone="primary"
@@ -2069,10 +2027,10 @@ function CampaignCalculator() {
               </div>
               <div className="flex h-full min-w-0 flex-col justify-center px-5 pt-2 pb-5 xl:pb-0">
                 <p className="whitespace-nowrap text-sm font-medium text-neutral-300">
-                  Selected creators ({formatRange(selectCreatorRange)})
+                  Selected creators ({selectCreators.toLocaleString("en-US")})
                 </p>
                 <div className="mt-2">
-                  <AvatarStack accent avatars={avatarDecks.select} total={selectCreatorRange} />
+                  <AvatarStack accent avatars={avatarDecks.select} total={selectCreators} />
                 </div>
               </div>
             </BorderGlow>
@@ -2088,8 +2046,8 @@ function CampaignCalculator() {
           </button>
 
           <StandardApproachCard
-            agencyCreatorRange={agencyCreatorRange}
-            agencyPostRange={agencyPostRange}
+            agencyCreators={agencyCreators}
+            agencyPosts={agencyPosts}
             agencyRelevant={agencyRelevant}
             agencyWaste={agencyWaste}
             avatars={avatarDecks.standard}
