@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type { ReactNode } from "react";
 import { Minus, Plus } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { sectionEyebrowClass, sectionTitleClass } from "@/lib/section-typography";
@@ -8,7 +9,7 @@ import { ui } from "@/lib/ui-system";
 
 type FAQItem = {
   question: string;
-  answer: string;
+  answer: ReactNode;
 };
 
 type FAQ2Props = {
@@ -17,12 +18,9 @@ type FAQ2Props = {
   faqs: FAQItem[];
 };
 
-export function FAQ2({
-  eyebrow = "FAQ",
-  title = "Common questions before booking",
-  faqs,
-}: FAQ2Props) {
+export function FAQ2({ eyebrow, title, faqs }: FAQ2Props) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const hasHeader = Boolean(eyebrow || title);
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -32,25 +30,30 @@ export function FAQ2({
     <section className={`${ui.layout.sectionAlt} flex w-full items-start`}>
       <div className={ui.layout.container}>
         <div className="grid grid-cols-1 gap-10 lg:gap-12">
-          <div className={ui.layout.header}>
-            <motion.p
-              animate={{ opacity: 1, y: 0 }}
-              className={sectionEyebrowClass}
-              initial={{ opacity: 0, y: 14 }}
-              transition={{ duration: 0.45 }}
-            >
-              {eyebrow}
-            </motion.p>
-            <motion.h1
-              animate={{ opacity: 1, y: 0 }}
-              className={`${sectionTitleClass} text-white lg:whitespace-nowrap`}
-              initial={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0.5 }}
-            >
-              {title}
-            </motion.h1>
-
-          </div>
+          {hasHeader ? (
+            <div className={ui.layout.header}>
+              {eyebrow ? (
+                <motion.p
+                  animate={{ opacity: 1, y: 0 }}
+                  className={sectionEyebrowClass}
+                  initial={{ opacity: 0, y: 14 }}
+                  transition={{ duration: 0.45 }}
+                >
+                  {eyebrow}
+                </motion.p>
+              ) : null}
+              {title ? (
+                <motion.h1
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`${sectionTitleClass} text-white lg:whitespace-nowrap`}
+                  initial={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {title}
+                </motion.h1>
+              ) : null}
+            </div>
+          ) : null}
 
           <div className="mx-auto flex w-full max-w-readable flex-col gap-5">
             {faqs.map((faq, index) => (
@@ -130,9 +133,9 @@ export function FAQ2({
                         transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
                       >
                         <div className="min-w-0 rounded-card bg-accent px-4 py-3 sm:px-5 sm:py-3.5">
-                          <p className="text-sm leading-relaxed text-neutral-950 sm:text-base">
+                          <div className="text-sm leading-relaxed text-neutral-950 sm:text-base">
                             {faq.answer}
-                          </p>
+                          </div>
                         </div>
                       </motion.div>
                     </motion.div>

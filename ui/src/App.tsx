@@ -177,7 +177,7 @@ const footerLinkGroups = [
 
 const heroBullets = [
   "56M accounts mapped",
-  "150K KOLs scored",
+  "1M creators scored",
   "60+ niches analyzed",
 ];
 
@@ -241,8 +241,15 @@ const creatorDemoProfiles = {
 const faqs = [
   {
     question: "What are the main benefits?",
-    answer:
-      "We pick the creators who actually reach your target audience, and we run the campaign for you. That saves you the ops work of sourcing, contracting, and reporting. More importantly, it puts your spend on creators whose audiences can be defined as your targeted ones.",
+    answer: (
+      <ol className="list-decimal space-y-2 pl-5">
+        <li>Every dollar goes to real reach. No bots. No fake impressions. No inflated engagement.</li>
+        <li>We target people already into products like yours - so you stop paying to reach an audience that doesn't care.</li>
+        <li>Over 10,000 creators apply to every campaign - and they check out your project to apply.</li>
+        <li>Wallchain cross-marketing - X Spaces and livestreams put you in front of the community.</li>
+        <li>The best CPM on the market. The campaign is designed to get creators with the most efficient CPM and relevant audience.</li>
+      </ol>
+    ),
   },
   {
     question: "What results have you already achieved?",
@@ -252,7 +259,7 @@ const faqs = [
   {
     question: "How much does it cost?",
     answer:
-      "Wallchain Select is sold per campaign, not as a subscription. Pricing depends on three things: the number of creators we source, the size of the creator payout pool, and the campaign duration. Minimum campaign budget is $16,000 plus a processing fee, which covers creator payments, our work running the campaign, and reporting. We scope a specific number for your goals on an intro call.",
+      "Campaign budget is $16,000 to $500,000. It includes creator payments, operations, campaign management, campaign setup, running algorithm, fetching data, infrastructure load and cross-marketing.",
   },
   {
     question: "How long does it take to launch a campaign?",
@@ -355,7 +362,7 @@ function SiteNavigation() {
                 className={`${ui.component.ctaBase} ${ui.component.ctaSecondary} hidden py-2.5 sm:inline-flex`}
                 href="https://app.wallchain.xyz/"
               >
-                Launch App
+                For Creators
                 <AnimatedArrowIcon className="size-4" />
               </a>
               <a
@@ -364,7 +371,7 @@ function SiteNavigation() {
                 rel="noreferrer"
                 target="_blank"
               >
-                Let&apos;s Talk
+                Get Proposal
                 <AnimatedArrowIcon className="size-4" />
               </a>
               <button
@@ -402,7 +409,7 @@ function SiteNavigation() {
                   href="https://app.wallchain.xyz/"
                   onClick={() => setOpen(false)}
                 >
-                  Launch App
+                  For Creators
                   <AnimatedArrowIcon className="size-4" />
                 </a>
               </motion.div>
@@ -570,13 +577,13 @@ function Hero() {
         </div>
 
         <h1 className="mt-8 max-w-5xl text-hero-title font-medium tracking-normal sm:mt-9">
-          <span className="text-accent">3-6x more relevant reach</span>
-          <br className="hidden sm:block" /> for half the cost.
+          <span className="text-accent">Run creator campaigns</span>
+          <br className="hidden sm:block" /> with the precision of paid ads
         </h1>
 
         <p className="mt-6 max-w-readable text-body-lg leading-body text-text-secondary sm:text-xl">
-          Standard KOL campaigns reach broad audiences. Wallchain targets your niche
-          - and controls overlap and frequency.
+          Target people already into products like yours. No bots. No fake impressions. No
+          inflated engagement.
         </p>
 
         <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -614,7 +621,7 @@ function Hero() {
 
             <div className="flex w-full max-w-container flex-col items-center gap-2">
               <p className={`${sectionEyebrowClass} text-center text-neutral-400`}>
-                Used by teams at
+                Trusted by
               </p>
               <div className="hero-logo-zone w-full">
                 <div className="hero-logo-shell mx-auto w-full max-w-container">
@@ -659,7 +666,7 @@ function Hero() {
 
             <div className="lg:translate-y-10">
               <p className={`${sectionEyebrowClass} mt-8 mb-1`}>
-                Used by teams at
+                Trusted by
               </p>
               <div className="hero-logo-zone mt-3 w-full">
                 <div className="hero-logo-shell mx-auto w-full max-w-container">
@@ -2108,7 +2115,7 @@ function ProofBand() {
       eyebrow="Numbers from real campaigns"
       id="proof"
       stats={stats}
-      title="Optimization changes what the same budget can buy."
+      title="Same budget - more positive outcomes"
     />
   );
 }
@@ -2123,7 +2130,7 @@ function Footer() {
       </div>
       <div className="px-4 py-10 sm:px-6 lg:px-8">
         <div className={`${ui.layout.container} grid gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start`}>
-          <div className="flex max-w-md flex-col lg:min-h-[108px] lg:justify-between">
+          <div className="flex max-w-md flex-col lg:self-stretch lg:justify-between">
           <a
             aria-label="Wallchain home"
             className="inline-flex items-center transition-opacity duration-200 hover:opacity-100"
@@ -2137,7 +2144,8 @@ function Footer() {
             />
           </a>
           <p className="mt-4 text-sm leading-6 text-neutral-400 lg:mt-0">
-            © {year} Wallchain. Precision creator campaigns for crypto teams.
+            <span className="block">© {year} Wallchain.</span>
+            <span className="block">Run creator campaigns with the precision of paid ads.</span>
           </p>
           </div>
 
