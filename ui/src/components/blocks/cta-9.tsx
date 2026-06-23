@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { ArrowRight, Layers } from "lucide-react";
 import { AnimatedArrowIcon } from "@/components/AnimatedArrowIcon";
 import { SignalPanel } from "@/components/ui/SignalPanel";
+import { trackCtaClick } from "@/lib/clarity";
 import { sectionEyebrowClass, sectionSubtitleClass, sectionTitleClass } from "@/lib/section-typography";
 import { ui } from "@/lib/ui-system";
 
@@ -59,6 +60,13 @@ export default function Cta9() {
                 whileTap={{ scale: 0.97 }}
                 className={`${ui.component.ctaBase} ${ui.component.ctaPrimary} mt-6 px-6 hover:scale-[1.02]`}
                 href={tgContactUrl}
+                onClick={() =>
+                  trackCtaClick({
+                    block: "bridge_cta",
+                    eventName: "cta_bridge_set_this_up_for_me",
+                    label: "set_this_up_for_me",
+                  })
+                }
                 rel="noreferrer"
                 target="_blank"
               >

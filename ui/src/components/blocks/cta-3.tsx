@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { Network, Search, Users } from "lucide-react";
 import { AnimatedArrowIcon } from "@/components/AnimatedArrowIcon";
+import { trackCtaClick } from "@/lib/clarity";
 import { sectionEyebrowClass, sectionSubtitleClass, sectionTitleClass } from "@/lib/section-typography";
 import { ui } from "@/lib/ui-system";
 
@@ -11,13 +12,19 @@ const tgContactUrl = "https://t.me/surapyk";
 const links = [
   {
     label: "See How Optimization Works",
+    eventName: "cta_final_see_how_optimization_works",
     href: tgContactUrl,
+    intent: "contact" as const,
+    trackingLabel: "see_how_optimization_works",
     target: "_blank",
     rel: "noreferrer",
   },
   {
-    label: "Follow on X",
+    label: "Follow Wallchain",
+    eventName: "cta_final_follow_wallchain",
     href: "https://x.com/wallchain",
+    intent: "social" as const,
+    trackingLabel: "follow_wallchain",
     target: "_blank",
     rel: "noreferrer",
   },
@@ -174,7 +181,7 @@ export function CTA3() {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             Wallchain runs creator{" "}
-            <span className="text-accent">marketing on data.</span>
+            <span className="text-accent">marketing on proven signals.</span>
           </motion.h1>
 
           <motion.p
@@ -183,9 +190,8 @@ export function CTA3() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
-            We map every Crypto Twitter account and use proprietary ML to pick
-            creators whose audience matches your brand. Then we run the
-            campaign end-to-end — no ops on your side.
+            Creator Selection, Execution, Content Delivery, Quality assurance -
+            all automated by Wallchain.
           </motion.p>
 
           <motion.div
@@ -199,6 +205,14 @@ export function CTA3() {
                 className={`${ui.component.ctaBase} bg-surface-muted px-6 py-3 text-white hover:scale-[1.02] hover:bg-accent/10 hover:text-accent`}
                 href={link.href}
                 key={link.label}
+                onClick={() =>
+                  trackCtaClick({
+                    block: "final_cta",
+                    eventName: link.eventName,
+                    intent: link.intent,
+                    label: link.trackingLabel,
+                  })
+                }
                 rel={link.rel}
                 target={link.target}
               >

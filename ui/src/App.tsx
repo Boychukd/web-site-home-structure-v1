@@ -17,6 +17,7 @@ import {
   sectionSubtitleClass,
   sectionTitleClass,
 } from "@/lib/section-typography";
+import { trackCtaClick } from "@/lib/clarity";
 import { ui } from "@/lib/ui-system";
 
 const titleFontFamily =
@@ -110,11 +111,11 @@ function formatCompactMoneyK(value: number) {
 const wallchainLogoUrl = new URL("./assets/wallchain-logo.svg", import.meta.url).href;
 const allianceLogoUrl = new URL("./assets/alliance.svg", import.meta.url).href;
 const engineersLogosUrl = new URL("./assets/engineers-logos.svg", import.meta.url).href;
-const twitterAvatarModules = import.meta.glob("./assets/twitter-avatars/*.{jpg,jpeg,png,webp,avif}", {
+const creatorAvatarModules = import.meta.glob("./assets/creator-avatars/*.{jpg,jpeg,png,webp,avif}", {
   eager: true,
   import: "default",
 }) as Record<string, string>;
-const twitterAvatarUrls = Object.entries(twitterAvatarModules)
+const creatorAvatarUrls = Object.entries(creatorAvatarModules)
   .sort(([leftPath], [rightPath]) => leftPath.localeCompare(rightPath))
   .map(([, src]) => src);
 const demoAvatarUrls = {
@@ -153,7 +154,6 @@ const partnerLogos = [
 const navigationLinks = [
   { label: "How it works", href: "#niche-followers" },
   { label: "Campaign planner", href: "#plan-campaign" },
-  { label: "Results", href: "#proof" },
   { label: "FAQ", href: "#faq" },
 ];
 
@@ -163,7 +163,6 @@ const footerLinkGroups = [
     links: [
       { label: "How it works", href: "#niche-followers" },
       { label: "Campaign planner", href: "#plan-campaign" },
-      { label: "Results", href: "#proof" },
     ],
   },
   {
@@ -173,12 +172,6 @@ const footerLinkGroups = [
       { label: "FAQ", href: "#faq" },
     ],
   },
-];
-
-const heroBullets = [
-  "56M accounts mapped",
-  "1M creators scored",
-  "60+ niches analyzed",
 ];
 
 const niches = [
@@ -246,7 +239,7 @@ const faqs = [
         <li>Every dollar goes to real reach. No bots. No fake impressions. No inflated engagement.</li>
         <li>We target people already into products like yours - so you stop paying to reach an audience that doesn't care.</li>
         <li>Over 10,000 creators apply to every campaign - and they check out your project to apply.</li>
-        <li>Wallchain cross-marketing - X Spaces and livestreams put you in front of the community.</li>
+        <li>Wallchain cross-marketing - community AMAs and livestreams put you in front of the right audience.</li>
         <li>The best CPM on the market. The campaign is designed to get creators with the most efficient CPM and relevant audience.</li>
       </ol>
     ),
@@ -281,10 +274,12 @@ const faqs = [
 function ActionLink({
   children,
   href,
+  tracking,
   variant = "primary",
 }: {
   children: React.ReactNode;
   href: string;
+  tracking: Parameters<typeof trackCtaClick>[0];
   variant?: "primary" | "secondary";
 }) {
   const isExternal = href.startsWith("http");
@@ -297,6 +292,7 @@ function ActionLink({
           : ui.component.ctaSecondary
       }`}
       href={href}
+      onClick={() => trackCtaClick(tracking)}
       rel={isExternal ? "noreferrer" : undefined}
       target={isExternal ? "_blank" : undefined}
     >
@@ -319,7 +315,7 @@ function SiteNavigation() {
 
   return (
     <>
-      <div aria-hidden="true" className="h-[88px] sm:h-[96px]" />
+      <div aria-hidden="true" className="h-[80px] sm:h-[96px]" />
       <div className="fixed inset-x-0 top-0 z-50 px-4 py-4 sm:px-6 lg:px-8">
         <div
           aria-hidden="true"
@@ -361,6 +357,14 @@ function SiteNavigation() {
               <a
                 className={`${ui.component.ctaBase} ${ui.component.ctaSecondary} hidden py-2.5 sm:inline-flex`}
                 href="https://app.wallchain.xyz/"
+                onClick={() =>
+                  trackCtaClick({
+                    block: "nav",
+                    eventName: "cta_nav_for_creators",
+                    intent: "creator_app",
+                    label: "for_creators",
+                  })
+                }
               >
                 For Creators
                 <AnimatedArrowIcon className="size-4" />
@@ -368,6 +372,13 @@ function SiteNavigation() {
               <a
                 className={`${ui.component.ctaBase} ${ui.component.ctaPrimary} hidden py-2.5 sm:inline-flex`}
                 href={tgContactUrl}
+                onClick={() =>
+                  trackCtaClick({
+                    block: "nav",
+                    eventName: "cta_nav_get_proposal",
+                    label: "get_proposal",
+                  })
+                }
                 rel="noreferrer"
                 target="_blank"
               >
@@ -407,7 +418,15 @@ function SiteNavigation() {
                 <a
                   className={`${ui.component.ctaBase} ${ui.component.ctaPrimary} mt-2 w-full py-2.5`}
                   href="https://app.wallchain.xyz/"
-                  onClick={() => setOpen(false)}
+                  onClick={() => {
+                    trackCtaClick({
+                      block: "mobile_nav",
+                      eventName: "cta_mobile_nav_for_creators",
+                      intent: "creator_app",
+                      label: "for_creators",
+                    });
+                    setOpen(false);
+                  }}
                 >
                   For Creators
                   <AnimatedArrowIcon className="size-4" />
@@ -565,37 +584,49 @@ function Section({
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden bg-surface-page px-4 pb-16 pt-6 text-text-primary sm:px-6 sm:pt-8 lg:px-8" id="hero">
+    <section className="relative overflow-hidden bg-surface-page px-4 pb-6 pt-2 text-text-primary sm:px-6 sm:pb-8 sm:pt-4 lg:px-8 lg:pb-10" id="hero">
       <div className="hero-aurora" />
       <div className="hero-dome" />
 
-      <div className={`${ui.layout.container} relative z-10 flex min-h-[720px] flex-col items-center justify-start pt-6 text-center sm:min-h-[800px] sm:pt-10 lg:min-h-[850px] lg:pt-14`}>
-        <div className="hero-stat-row hero-meta-text text-text-secondary">
-          {heroBullets.map((bullet) => (
-            <span key={bullet}>{bullet}</span>
-          ))}
-        </div>
-
-        <h1 className="mt-8 max-w-5xl text-hero-title font-medium tracking-normal sm:mt-9">
+      <div className={`${ui.layout.container} hero-content relative z-10 flex min-h-[calc(100svh-120px)] flex-col items-center justify-start text-center sm:min-h-[calc(100svh-140px)] lg:min-h-[calc(100svh-152px)]`}>
+        <h1 className="max-w-5xl text-[2.25rem] font-medium leading-[1.04] tracking-normal min-[390px]:text-hero-title">
           <span className="text-accent">Run creator campaigns</span>
           <br className="hidden sm:block" /> with the precision of paid ads
         </h1>
 
-        <p className="mt-6 max-w-readable text-body-lg leading-body text-text-secondary sm:text-xl">
+        <p className="mt-4 max-w-readable text-[0.9375rem] leading-[1.5] text-text-secondary sm:mt-6 sm:text-xl sm:leading-body">
           Target people already into products like yours. No bots. No fake impressions. No
           inflated engagement.
         </p>
 
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <ActionLink href={tgContactUrl}>Plan My Campaign</ActionLink>
-          <ActionLink href="#plan-campaign" variant="secondary">
+        <div className="mt-5 flex flex-wrap justify-center gap-2 sm:mt-8 sm:gap-3">
+          <ActionLink
+            href={tgContactUrl}
+            tracking={{
+              block: "hero",
+              eventName: "cta_hero_plan_my_campaign",
+              label: "plan_my_campaign",
+            }}
+          >
+            Plan My Campaign
+          </ActionLink>
+          <ActionLink
+            href="#plan-campaign"
+            tracking={{
+              block: "hero",
+              eventName: "cta_hero_see_budget_scenarios",
+              intent: "planner",
+              label: "see_budget_scenarios",
+            }}
+            variant="secondary"
+          >
             See Budget Scenarios
           </ActionLink>
         </div>
 
-        <div className="mt-auto w-full pt-12 sm:pt-0 lg:-translate-y-5">
-          <div className="mt-7 flex flex-col items-center gap-8 px-3 pb-4 text-neutral-400 sm:hidden">
-            <div className="flex w-full max-w-container flex-col items-center gap-2 px-6 py-3">
+        <div className="mt-auto w-full pt-3 sm:pt-0 lg:-translate-y-4">
+          <div className="mt-2 flex flex-col items-center gap-3 px-3 pb-2 text-neutral-400 sm:hidden">
+            <div className="flex w-full max-w-container flex-col items-center gap-1.5 px-6 py-1">
               <span className="hero-meta-text hero-trust-label text-center">
                 Backed by
               </span>
@@ -607,7 +638,7 @@ function Hero() {
               />
             </div>
 
-            <div className="flex w-full max-w-container flex-col items-center gap-3">
+            <div className="flex w-full max-w-container flex-col items-center gap-1.5">
               <span className="hero-meta-text hero-trust-label text-center">
                 Built by engineers from
               </span>
@@ -619,7 +650,7 @@ function Hero() {
               />
             </div>
 
-            <div className="flex w-full max-w-container flex-col items-center gap-2">
+            <div className="flex w-full max-w-container flex-col items-center gap-1.5">
               <p className={`${sectionEyebrowClass} text-center text-neutral-400`}>
                 Trusted by
               </p>
@@ -637,8 +668,8 @@ function Hero() {
             </div>
           </div>
 
-          <div className="hidden flex-col items-start justify-center gap-5 px-3 text-neutral-400 sm:flex sm:items-center sm:gap-0 lg:-translate-y-10">
-            <div className="flex flex-col items-start justify-center gap-5 sm:flex-row sm:items-center sm:gap-8 lg:translate-y-[12px]">
+          <div className="hidden flex-col items-start justify-center gap-5 px-3 text-neutral-400 sm:flex sm:items-center sm:gap-0 lg:-translate-y-8">
+            <div className="flex flex-col items-start justify-center gap-5 sm:flex-row sm:items-center sm:gap-8 lg:translate-y-[10px]">
               <div className="flex w-full items-center justify-start gap-4 sm:w-auto">
                 <span className="hero-meta-text hero-trust-label">
                   Backed by
@@ -664,8 +695,8 @@ function Hero() {
               </div>
             </div>
 
-            <div className="lg:translate-y-10">
-              <p className={`${sectionEyebrowClass} mt-8 mb-1`}>
+            <div className="lg:translate-y-8">
+              <p className={`${sectionEyebrowClass} mt-6 mb-1`}>
                 Trusted by
               </p>
               <div className="hero-logo-zone mt-3 w-full">
@@ -718,7 +749,15 @@ function Pain() {
               Standard KOL campaigns can't do that.
             </p>
             <div className="mt-8 flex">
-              <ActionLink href={tgContactUrl} variant="secondary">
+              <ActionLink
+                href={tgContactUrl}
+                tracking={{
+                  block: "pain",
+                  eventName: "cta_pain_audit_my_last_campaign",
+                  label: "audit_my_last_campaign",
+                }}
+                variant="secondary"
+              >
                 Audit my last campaign
               </ActionLink>
             </div>
@@ -961,13 +1000,20 @@ function NicheDiscoveryCard({ className = "" }: { className?: string }) {
       <p className="mt-6 flex w-full flex-col items-center justify-center gap-2 pt-5 text-center text-body font-normal text-text-secondary sm:flex-row sm:gap-2.5">
         <BadgeCheck className="size-3.5 shrink-0 text-accent" />
         <span>
-          We mapped 56M Twitter accounts, apply additional filtering
-          based on X score, ML prediction models, & more, so you don&apos;t
-          have to.
+          We target people already into products like yours - so you stop
+          paying to reach an audience that doesn&apos;t care.
         </span>
       </p>
       <div className="mt-6 flex justify-center">
-        <ActionLink href={tgContactUrl} variant="secondary">
+        <ActionLink
+          href={tgContactUrl}
+          tracking={{
+            block: "niche_discovery",
+            eventName: "cta_niche_discovery_see_what_matters",
+            label: "see_what_actually_matters",
+          }}
+          variant="secondary"
+        >
           See what actually matters
         </ActionLink>
       </div>
@@ -1213,7 +1259,15 @@ function CreatorNetwork() {
         </div>
 
         <div className="-mt-2 flex justify-center">
-          <ActionLink href={tgContactUrl} variant="secondary">
+          <ActionLink
+            href={tgContactUrl}
+            tracking={{
+              block: "creator_network",
+              eventName: "cta_creator_network_find_better_creator_fit",
+              label: "find_better_creator_fit",
+            }}
+            variant="secondary"
+          >
             Find Better Creator Fit
           </ActionLink>
         </div>
@@ -1857,8 +1911,8 @@ function CampaignCalculator() {
   const [distribution, setDistribution] = useState(3);
   const [standardOpen, setStandardOpen] = useState(false);
   const [avatarDecks, setAvatarDecks] = useState(() => ({
-    standard: shuffleArray(twitterAvatarUrls),
-    select: shuffleArray(twitterAvatarUrls),
+    standard: shuffleArray(creatorAvatarUrls),
+    select: shuffleArray(creatorAvatarUrls),
   }));
 
   const budgetScale = budget / 20;
@@ -1879,8 +1933,8 @@ function CampaignCalculator() {
 
   useEffect(() => {
     setAvatarDecks({
-      standard: shuffleArray(twitterAvatarUrls),
-      select: shuffleArray(twitterAvatarUrls),
+      standard: shuffleArray(creatorAvatarUrls),
+      select: shuffleArray(creatorAvatarUrls),
     });
   }, [budget]);
 
@@ -1893,8 +1947,8 @@ function CampaignCalculator() {
       id="plan-campaign"
       title={
         <>
-          <span className="text-accent">Plan your campaign</span> with real
-          audience data
+          <span className="text-accent">Plan your campaign</span> with smart
+          signals
         </>
       }
       titleNoWrap
@@ -2063,9 +2117,18 @@ function CampaignCalculator() {
         </div>
       </div>
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-center">
-        <ActionLink href={tgContactUrl}>Build My Campaign</ActionLink>
+        <ActionLink
+          href={tgContactUrl}
+          tracking={{
+            block: "campaign_planner",
+            eventName: "cta_campaign_planner_build_my_campaign",
+            label: "build_my_campaign",
+          }}
+        >
+          Build My Campaign
+        </ActionLink>
         <p className={sectionEyebrowClass}>
-          15-minute call. No slides. Just your campaign data.
+          15-minute call. No slides. Just benefits for your campaign.
         </p>
       </div>
     </Section>
@@ -2097,14 +2160,14 @@ function ProofBand() {
     {
       value: 60,
       suffix: "+",
-      label: "mapped niches",
+      label: "active niche segments",
       bg: "#dfe9df",
       fg: "#102114",
     },
     {
       value: 56,
       suffix: "M",
-      label: "mapped crypto accounts",
+      label: "audience signals analyzed",
       bg: "#111827",
       fg: "#f8fafc",
     },
@@ -2191,7 +2254,6 @@ export function App() {
       <CreatorNetwork />
       <CampaignCalculator />
       <BridgeCTA />
-      <ProofBand />
       <Contact1 />
       <CTA3 />
       <div id="faq">

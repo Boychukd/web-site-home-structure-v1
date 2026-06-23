@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { ChartNoAxesCombined, Sparkles } from "lucide-react";
 import { AnimatedArrowIcon } from "@/components/AnimatedArrowIcon";
+import { trackCtaClick } from "@/lib/clarity";
 import { sectionEyebrowClass, sectionSubtitleClass, sectionTitleClass } from "@/lib/section-typography";
 import { ui } from "@/lib/ui-system";
 
@@ -14,7 +15,9 @@ const cards = [
     pillText: "Ran a campaign before?",
     description: "Audit your last campaign and see where reach leaked.",
     buttonText: "Analyze my last campaign",
+    eventName: "cta_contact_analyze_last_campaign",
     href: tgContactUrl,
+    label: "analyze_my_last_campaign",
     featured: false,
   },
   {
@@ -22,7 +25,9 @@ const cards = [
     pillText: "Planning your first one?",
     description: "Start with a clean plan and build from the calculator.",
     buttonText: "Launch My First Campaign",
+    eventName: "cta_contact_launch_first_campaign",
     href: tgContactUrl,
+    label: "launch_my_first_campaign",
     featured: true,
   },
 ];
@@ -68,6 +73,13 @@ export function Contact1() {
               href={card.href}
               initial={{ opacity: 0, y: 20 }}
               key={card.pillText}
+              onClick={() =>
+                trackCtaClick({
+                  block: "contact_cards",
+                  eventName: card.eventName,
+                  label: card.label,
+                })
+              }
               rel="noreferrer"
               target="_blank"
               transition={{ duration: 0.4, delay: index * 0.1 }}
