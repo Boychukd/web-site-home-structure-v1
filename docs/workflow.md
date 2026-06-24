@@ -1,8 +1,24 @@
 # Workflow
 
+## Current live-site workflow
+
+The active website lives in `ui/`.
+
+Use this flow for all new blocks, copy changes, and design iterations:
+
+1. Create a separate branch for the change.
+2. Make edits only in `ui/` unless the task explicitly targets docs or deployment configuration.
+3. Push the branch and use the Vercel Preview Deployment URL for founder/team review.
+4. Apply feedback on the same branch so the preview link keeps updating.
+5. After approval, merge the branch into `main` or promote the approved preview deployment to production.
+
+Do not push unfinished website changes directly to `main`.
+
 ## 1. Wireframe work
 
-Use the `v1.x` versions when we are testing:
+The `v1.x` versions are archived historical wireframes. They can be read for context, but should not be edited during normal site work.
+
+Use archived wireframes only when explicitly revisiting:
 
 - structure
 - message
@@ -12,7 +28,9 @@ Use the `v1.x` versions when we are testing:
 
 ## 2. UI work
 
-Use `v1.1-ui` and `ui/` when we are turning approved wireframe ideas into a cleaner build.
+Use `ui/` when turning approved ideas into the live implementation.
+
+`v1.1-ui` is also historical and should stay untouched unless explicitly requested.
 
 UI work should:
 
@@ -35,4 +53,4 @@ Before handing off to developers:
 - one thread or task per intent
 - one version line per stage
 - wireframe and UI edits should not be mixed unless the task explicitly says so
-
+- archived wireframes should not receive copy/content fixes meant for the live site

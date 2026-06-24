@@ -851,7 +851,7 @@ function AuditTerminalRow({
 function NicheFollowers() {
   return (
     <Section
-      eyebrow="Follower count don’t predict conversion"
+      eyebrow="Follower count doesn’t predict conversion"
       id="niche-followers"
       title="Most teams don't know which part of their impressions actually mattered."
     >
