@@ -9,8 +9,8 @@ import { AnimatedArrowIcon } from "@/components/AnimatedArrowIcon";
 import { CTA3 } from "@/components/blocks/cta-3";
 import { Contact1 } from "@/components/blocks/contact-1";
 import { FAQ2 } from "@/components/blocks/faq-2";
+import { Features1 } from "@/components/blocks/features-1";
 import CTA9 from "@/components/blocks/cta-9";
-import Stats10 from "@/components/blocks/stats-10";
 import { SignalPanel } from "@/components/ui/SignalPanel";
 import {
   sectionEyebrowClass,
@@ -2139,50 +2139,6 @@ function BridgeCTA() {
   return <div id="run-your-numbers"><CTA9 /></div>;
 }
 
-function ProofBand() {
-  const stats = [
-    {
-      value: 3.7,
-      suffix: "x",
-      decimals: 1,
-      label: "more relevant audience",
-      bg: "#101513",
-      fg: "#fbfaf2",
-    },
-    {
-      value: 2,
-      suffix: "x",
-      decimals: 0,
-      label: "lower cost per niche audience",
-      bg: "#f7d133",
-      fg: "#1a1400",
-    },
-    {
-      value: 60,
-      suffix: "+",
-      label: "active niche segments",
-      bg: "#dfe9df",
-      fg: "#102114",
-    },
-    {
-      value: 56,
-      suffix: "M",
-      label: "audience signals analyzed",
-      bg: "#111827",
-      fg: "#f8fafc",
-    },
-  ];
-
-  return (
-    <Stats10
-      eyebrow="Numbers from real campaigns"
-      id="proof"
-      stats={stats}
-      title="Same budget - more positive outcomes"
-    />
-  );
-}
-
 function Footer() {
   const year = new Date().getFullYear();
 
@@ -2252,6 +2208,7 @@ export function App() {
       <Pain />
       <NicheFollowers />
       <CreatorNetwork />
+      <Features1 />
       <CampaignCalculator />
       <BridgeCTA />
       <Contact1 />
