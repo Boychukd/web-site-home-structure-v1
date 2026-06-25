@@ -16,45 +16,50 @@ type CampaignObjective = {
   description: string;
   Icon: ObjectiveIcon;
   id: string;
-  signal: string;
   title: string;
 };
 
 const campaignObjectives: CampaignObjective[] = [
   {
-    description: "Maximize unique niche reach",
+    description:
+      "Maximize unique niche reach with low overlap and broad coverage.",
     Icon: AwarenessIcon,
     id: "awareness",
-    signal: "Low overlap • Broad coverage",
     title: "Brand awareness",
   },
   {
-    description: "Reach people most likely to try your product",
+    description:
+      "Reach high-intent audiences with controlled campaign frequency.",
     Icon: AcquisitionIcon,
     id: "user-acquisition",
-    signal: "High intent audiences • Controlled frequency",
     title: "New users, depositors or volume",
   },
   {
-    description: "Concentrate attention during launch window",
+    description:
+      "Concentrate attention during launch through trusted creators and layered exposure.",
     Icon: TgeIcon,
     id: "tge",
-    signal: "Trust creators • Layered exposure",
     title: "TGE",
   },
   {
-    description: "Find users who already care about the category",
+    description:
+      "Find users who already care about your category through niche-first creator selection.",
     Icon: FeatureLaunchIcon,
     id: "feature-launch",
-    signal: "Niche-first creator selection",
-    title: "Product & Feature Launch",
+    title: "Product & feature launch",
   },
   {
-    description: "Target specific regions without wasting global reach",
+    description: "Target specific regions with a country-level creator mix.",
     Icon: GeoCampaignIcon,
     id: "geo-campaign",
-    signal: "Country-level creator mix",
     title: "Geo-targeted campaigns",
+  },
+  {
+    description:
+      "Acquire users from similar projects and adjacent communities.",
+    Icon: CompetitiveAcquisitionIcon,
+    id: "competitive-user-acquisition",
+    title: "Competitive user acquisition",
   },
 ];
 
@@ -106,14 +111,11 @@ export function Features1() {
                 >
                   <Icon aria-hidden="true" className="size-5" />
                 </span>
-                <h3 className="mt-4 min-w-0 text-card-title font-medium leading-tight text-text-primary">
+                <h3 className="mt-4 min-w-0 text-[1.5rem] font-medium leading-[1.2] text-text-primary">
                   {objective.title}
                 </h3>
-                <p className="mt-4 max-w-[34ch] text-body leading-body text-text-secondary">
+                <p className="mt-1 max-w-[34ch] text-body leading-body text-text-secondary">
                   {objective.description}
-                </p>
-                <p className="mt-2 max-w-[34ch] text-caption leading-body text-text-muted">
-                  {objective.signal}
                 </p>
               </motion.article>
             );
@@ -247,6 +249,33 @@ function GeoCampaignIcon(props: SVGProps<SVGSVGElement>) {
       <circle cx="12" cy="11" fill="currentColor" r="1.65" />
       <path
         d="M4.2 6.4h3.2M16.6 6.4h3.2M4.2 15.8h3.1M16.7 15.8h3.1"
+        opacity="0.42"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  );
+}
+
+function CompetitiveAcquisitionIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg fill="none" viewBox="0 0 24 24" {...props}>
+      <path
+        d="M7.5 7.9h5.1v5.1"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+      <path
+        d="m7.7 13 4.9-4.9"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="1.8"
+      />
+      <path
+        d="M14.9 6.4h2.8a1.9 1.9 0 0 1 1.9 1.9v8.4a1.9 1.9 0 0 1-1.9 1.9H9.3a1.9 1.9 0 0 1-1.9-1.9v-2.8"
         opacity="0.42"
         stroke="currentColor"
         strokeLinecap="round"
