@@ -28,4 +28,4 @@ Use the wireframes only as historical reference. Use `ui/` for the live website,
 ## Working rule
 
 Wireframe files are archived and should stay untouched unless the task explicitly asks to revisit them.
-All current website changes should happen in `ui/`, then be reviewed through a preview deployment before production.
+All current website changes should happen in `ui/` on a separate branch. Iterate locally first; create a preview deployment only when the branch is ready for review, then update production only after approval.

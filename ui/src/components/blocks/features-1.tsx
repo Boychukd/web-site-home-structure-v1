@@ -15,6 +15,7 @@ type ObjectiveIcon = ComponentType<SVGProps<SVGSVGElement>>;
 type CampaignObjective = {
   description: string;
   Icon: ObjectiveIcon;
+  id: string;
   signal: string;
   title: string;
 };
@@ -23,32 +24,37 @@ const campaignObjectives: CampaignObjective[] = [
   {
     description: "Maximize unique niche reach",
     Icon: AwarenessIcon,
+    id: "awareness",
     signal: "Low overlap • Broad coverage",
-    title: "Awareness",
+    title: "Brand awareness",
   },
   {
     description: "Reach people most likely to try your product",
     Icon: AcquisitionIcon,
+    id: "user-acquisition",
     signal: "High intent audiences • Controlled frequency",
-    title: "User Acquisition",
+    title: "New users, depositors or volume",
   },
   {
     description: "Concentrate attention during launch window",
     Icon: TgeIcon,
+    id: "tge",
     signal: "Trust creators • Layered exposure",
     title: "TGE",
   },
   {
     description: "Find users who already care about the category",
     Icon: FeatureLaunchIcon,
+    id: "feature-launch",
     signal: "Niche-first creator selection",
-    title: "Feature Launch",
+    title: "Product & Feature Launch",
   },
   {
     description: "Target specific regions without wasting global reach",
     Icon: GeoCampaignIcon,
+    id: "geo-campaign",
     signal: "Country-level creator mix",
-    title: "Geo Campaign",
+    title: "Geo-targeted campaigns",
   },
 ];
 
@@ -72,8 +78,7 @@ export function Features1() {
             creator mixes
           </h2>
           <p className={`${sectionSubtitleClass} max-w-readable`}>
-            Choose the objective first. The right creator mix depends on what the
-            campaign needs to achieve.
+            We start from your goal, then build the creator set around it:
           </p>
         </motion.div>
 
@@ -84,7 +89,7 @@ export function Features1() {
             return (
               <motion.article
                 className="min-w-0"
-                data-testid={`objective-feature-${objective.title.toLowerCase().replace(/\s+/g, "-")}`}
+                data-testid={`objective-feature-${objective.id}`}
                 initial={{ opacity: 0, y: 18 }}
                 key={objective.title}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
